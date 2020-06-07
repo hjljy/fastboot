@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * @author yichaofan
  * @date 2020/6/4 18:24
- * @apiNote //TODO
+ * @apiNote
  */
 @ApiModel(value = "demo")
 @Data

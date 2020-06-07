@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.common.exception;
 
-import cn.hjljy.fastboot.common.response.ResultCode;
+import cn.hjljy.fastboot.common.result.ResultCode;
 
 /**
  * @author yichaofan
