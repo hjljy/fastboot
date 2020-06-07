@@ -22,8 +22,8 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @Value("${prod}")
-    private Boolean prod;
+    @Value("${spring.profiles.active}")
+    private String prod;
 
     @ExceptionHandler(value = Exception.class)
     public ResultInfo errorHandler(HttpServletRequest request, Exception ex) {
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
         for (String s : parameterMap.keySet()) {
             parameterData.append(parameterMap.get(s).toString());
         }
-        if (!prod) {
+        if (!prod.equals("prod")) {
             resultInfo.setData(errorData);
         }
         logger.error("请求参数信息：{}",parameterData);

@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
-@ConditionalOnProperty(name = "prod", havingValue = "false")
+@ConditionalOnProperty(name = "spring.profiles.active", havingValue = "dev")
 public class Swagger2Configuration {
 
     @Bean
