@@ -9,7 +9,6 @@ import org.springframework.core.Ordered;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,6 @@ public class CorsFilterConfiguration {
 
     @Bean
     public FilterRegistrationBean corsFilter() {
-        System.out.println(123456);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
