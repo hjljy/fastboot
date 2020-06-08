@@ -32,15 +32,6 @@ spring:
         enabled: true
         url-pattern: "/"
         exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
-  # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
-#  spring.datasource.druid.web-stat-filter.enabled= #是否启用StatFilter默认值false
-#  spring.datasource.druid.web-stat-filter.url-pattern=
-#  spring.datasource.druid.web-stat-filter.exclusions=
-#  spring.datasource.druid.web-stat-filter.session-stat-enable=
-#  spring.datasource.druid.web-stat-filter.session-stat-max-count=
-#  spring.datasource.druid.web-stat-filter.principal-session-name=
-#  spring.datasource.druid.web-stat-filter.principal-cookie-name=
-#  spring.datasource.druid.web-stat-filter.profile-enable=
       stat-view-servlet:
         enabled: true
         url-pattern: "/druid/*"
@@ -50,11 +41,4 @@ spring:
         allow: ""  # 白名单 表示所有
         deny: 192.168.1.12 # 黑名单
 
-#  # StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
-#  spring.datasource.druid.stat-view-servlet.enabled= #是否启用StatViewServlet（监控页面）默认值为false（考虑到安全问题默认并未启动，如需启用建议设置密码或白名单以保障安全）
-#  spring.datasource.druid.stat-view-servlet.url-pattern=
-#  spring.datasource.druid.stat-view-servlet.reset-enable=
-#  spring.datasource.druid.stat-view-servlet.login-username=
-#  spring.datasource.druid.stat-view-servlet.login-password=
-#  spring.datasource.druid.stat-view-servlet.allow=
-#  spring.datasource.druid.stat-view-servlet.deny=
+
