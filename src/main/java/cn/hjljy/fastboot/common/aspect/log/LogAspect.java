@@ -20,6 +20,7 @@ import springfox.documentation.spring.web.json.Json;
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
+    //切点是Log这个注解
     @Pointcut("@annotation(cn.hjljy.fastboot.common.aspect.log.Log)")
     public void serviceLog() {
     }
@@ -41,6 +42,11 @@ public class LogAspect {
         }
     }
 
+    /**
+     * 获取切面点请求参数信息
+     * @param point 切点
+     * @return String
+     */
     private String handlerParameter(ProceedingJoinPoint point) {
         StringBuilder stringBuilder = new StringBuilder();
         MethodSignature methodSignature = (MethodSignature) point.getSignature();

@@ -3,8 +3,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.jdbc.Driver
-      username: admin
-      password: root1234
+      username: root
+      password: root
       url: jdbc:mysql://127.0.0.1:3306/springboot?autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=utf8&useSSL=false
       # 连接池的配置信息
       # 初始化大小，最小，最大

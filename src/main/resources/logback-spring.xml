@@ -101,7 +101,7 @@
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
-                [%-5level] %red([%date{yyyy-MM-dd HH:mm:ss}]) %green([%logger{10}]) [%line] - %msg%n
+                %green([%-5level]) %red([%date{yyyy-MM-dd HH:mm:ss}]) %yellow([%logger{10}]) [%line] - %msg%n
             </pattern>
             <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>

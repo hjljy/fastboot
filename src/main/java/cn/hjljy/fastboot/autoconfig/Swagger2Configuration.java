@@ -1,6 +1,5 @@
 package cn.hjljy.fastboot.autoconfig;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,6 +50,7 @@ public class Swagger2Configuration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
+                //TODO 设置controller层所在位置
                 .apis(RequestHandlerSelectors.basePackage("cn.hjljy.fastboot.controller"))
                 .paths(PathSelectors.any())
                 .build()

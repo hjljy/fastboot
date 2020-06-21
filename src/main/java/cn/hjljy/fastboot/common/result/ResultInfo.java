@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.common.result;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -28,7 +29,6 @@ public class ResultInfo {
     public ResultInfo(Object data) {
         this.code = ResultCode.SUCCESS.getCode();
         this.msg = ResultCode.SUCCESS.getMsg();
-
         this.data = data;
     }
 
