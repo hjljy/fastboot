@@ -1,7 +1,6 @@
 package cn.hjljy.fastboot;
 
 
-
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -32,13 +31,11 @@ public class CodeGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("海加尔金鹰（www.hjljy.cn）");
         gc.setOpen(false);
         //设置实体类后缀
         gc.setEntityName("%sPo");
-
         //实体属性 Swagger2 注解
         gc.setSwagger2(true);
         gc.setBaseColumnList(true);
@@ -50,25 +47,34 @@ public class CodeGenerator {
         dsc.setUrl("jdbc:mysql://localhost:3306/springboot?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("root");
+        dsc.setPassword("123456");
         mpg.setDataSource(dsc);
 
         // 包配置
         PackageConfig pc = new PackageConfig();
         String scanner = scanner("请输入整体业务包名");
+        String modelName= StringUtils.isBlank(scanner)?"":"."+scanner;
+        //moduleName是整体分模块  个人习惯
+        pc.setModuleName(null);
         pc.setParent("cn.hjljy.fastboot");
-        pc.setMapper("mapper."+scanner);
-        pc.setService("service."+scanner);
-        pc.setServiceImpl("service."+scanner+".impl");
-        pc.setEntity("model.entity."+scanner);
-        pc.setController("controller."+scanner);
+        pc.setMapper("mapper" + modelName);
+        pc.setService("service" + modelName);
+        pc.setServiceImpl("service" + modelName + ".impl");
+        pc.setEntity("pojo.po" + modelName);
+        pc.setController("controller" + modelName);
         mpg.setPackageInfo(pc);
 
-        String dtoPath =pc.getParent()+".model.dto."+scanner;
 
-//         如果模板引擎是 velocity
+        String dtoPath = pc.getParent() + ".pojo.dto" + modelName;
+        // 配置模板
+        TemplateConfig templateConfig = new TemplateConfig();
+        // 不输出默认的XML 默认生成的xml在mapper层里面
+        templateConfig.setXml(null);
+        mpg.setTemplate(templateConfig);
+
+        //配置自定义输出的文件   xml和dto
+        //模板引擎是 velocity
         String xmlTemplatePath = "/templates/mapper.xml.vm";
-
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出
@@ -76,22 +82,19 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/resources/mapper/"+scanner
+                return projectPath + "/src/main/resources/mapper/" + scanner
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
 
-        String dtoTemplatePath = "/entity.java.vm";
-
-
+        String dtoTemplatePath = "/dto.java.vm";
         // 自定义配置会被优先输出
         focList.add(new FileOutConfig(dtoTemplatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
-
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/java/cn/hjljy/fastboot/model/dto/"+scanner
-                        + "/" +tableInfo.getEntityName()+"Dto" + StringPool.DOT_JAVA;
+                return projectPath + "/src/main/java/cn/hjljy/fastboot/pojo/dto/" + scanner
+                        + "/" + tableInfo.getEntityName() +"Dto"+ StringPool.DOT_JAVA;
             }
         });
 
@@ -107,12 +110,6 @@ public class CodeGenerator {
         };
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
-
-        // 配置模板
-        TemplateConfig templateConfig = new TemplateConfig();
-        templateConfig.setXml(null);
-        mpg.setTemplate(templateConfig);
-
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
@@ -121,6 +118,8 @@ public class CodeGenerator {
         strategy.setRestControllerStyle(true);
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
+        //设置逻辑删除字段
+        strategy.setLogicDeleteFieldName("status");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new VelocityTemplateEngine());
         mpg.execute();
