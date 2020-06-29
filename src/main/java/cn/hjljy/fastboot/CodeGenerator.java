@@ -53,19 +53,19 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         String scanner = scanner("请输入整体业务包名");
-        String modelName= StringUtils.isBlank(scanner)?"":"."+scanner;
-        //moduleName是整体分模块  个人习惯
-        pc.setModuleName(null);
+        String modelName = StringUtils.isBlank(scanner) ? null : scanner;
+        //moduleName是整体分模块
+        pc.setModuleName(modelName);
         pc.setParent("cn.hjljy.fastboot");
-        pc.setMapper("mapper" + modelName);
-        pc.setService("service" + modelName);
-        pc.setServiceImpl("service" + modelName + ".impl");
-        pc.setEntity("pojo.po" + modelName);
-        pc.setController("controller" + modelName);
+        pc.setMapper("mapper");
+        pc.setService("service");
+        pc.setServiceImpl("service.impl");
+        pc.setEntity("pojo.po");
+        pc.setController("controller");
         mpg.setPackageInfo(pc);
 
 
-        String dtoPath = pc.getParent() + ".pojo.dto" + modelName;
+        String dtoPath = pc.getParent() + ".pojo.dto";
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         // 不输出默认的XML 默认生成的xml在mapper层里面
@@ -93,8 +93,8 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/java/cn/hjljy/fastboot/pojo/dto/" + scanner
-                        + "/" + tableInfo.getEntityName() +"Dto"+ StringPool.DOT_JAVA;
+                return projectPath + "/src/main/java/cn/hjljy/fastboot/" + scanner + "/pojo/dto/" +
+                        tableInfo.getEntityName() + "Dto" + StringPool.DOT_JAVA;
             }
         });
 

@@ -1,8 +1,8 @@
-package cn.hjljy.fastboot.service.demo.impl;
+package cn.hjljy.fastboot.demo.service.impl;
 
-import cn.hjljy.fastboot.pojo.po.demo.DemoPo;
-import cn.hjljy.fastboot.mapper.demo.DemoMapper;
-import cn.hjljy.fastboot.service.demo.IDemoService;
+import cn.hjljy.fastboot.demo.pojo.po.DemoPo;
+import cn.hjljy.fastboot.demo.mapper.DemoMapper;
+import cn.hjljy.fastboot.demo.service.IDemoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

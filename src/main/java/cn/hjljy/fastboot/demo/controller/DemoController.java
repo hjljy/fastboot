@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.controller.demo;
+package cn.hjljy.fastboot.demo.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-06-28
  */
 @RestController
-@RequestMapping("/demo-po")
+@RequestMapping("/demo/demo-po")
 public class DemoController {
 
 }

@@ -1,6 +1,6 @@
-package cn.hjljy.fastboot.service.demo;
+package cn.hjljy.fastboot.demo.service;
 
-import cn.hjljy.fastboot.pojo.po.demo.DemoPo;
+import cn.hjljy.fastboot.demo.pojo.po.DemoPo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

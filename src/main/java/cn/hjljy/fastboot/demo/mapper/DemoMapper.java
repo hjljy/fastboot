@@ -1,6 +1,6 @@
-package cn.hjljy.fastboot.mapper.demo;
+package cn.hjljy.fastboot.demo.mapper;
 
-import cn.hjljy.fastboot.pojo.po.demo.DemoPo;
+import cn.hjljy.fastboot.demo.pojo.po.DemoPo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

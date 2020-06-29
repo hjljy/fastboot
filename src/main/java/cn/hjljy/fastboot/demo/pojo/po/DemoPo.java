@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.pojo.dto.demo;
+package cn.hjljy.fastboot.demo.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -21,8 +21,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("demo")
-@ApiModel(value="DemoPoDto对象", description="")
-public class DemoPoDto implements Serializable {
+@ApiModel(value="DemoPo对象", description="")
+public class DemoPo implements Serializable {
 
     private static final long serialVersionUID=1L;
 
