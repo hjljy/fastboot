@@ -65,9 +65,9 @@ public class TransactionConfiguration {
         //方法名规则限制，必须以下列开头才会加入事务管理当中
         source.addTransactionalMethod("add*", txAttrRequired);
         source.addTransactionalMethod("save*", txAttrRequired);
+        source.addTransactionalMethod("create*", txAttrRequired);
         source.addTransactionalMethod("insert*", txAttrRequired);
         source.addTransactionalMethod("submit*", txAttrRequired);
-        source.addTransactionalMethod("delete*", txAttrRequired);
         source.addTransactionalMethod("del*", txAttrRequired);
         source.addTransactionalMethod("remove*", txAttrRequired);
         source.addTransactionalMethod("update*", txAttrRequired);

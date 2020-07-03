@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.demo.pojo.po;
+package cn.hjljy.fastboot.pojo.demo.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
- * @since 2020-06-28
+ * @since 2020-07-03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

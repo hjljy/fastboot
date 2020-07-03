@@ -1,6 +1,6 @@
-package cn.hjljy.fastboot.demo.mapper;
+package cn.hjljy.fastboot.mapper.demo;
 
-import cn.hjljy.fastboot.demo.pojo.po.DemoPo;
+import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
- * @since 2020-06-28
+ * @since 2020-07-03
  */
 public interface DemoMapper extends BaseMapper<DemoPo> {
 
