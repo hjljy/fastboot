@@ -5,6 +5,10 @@
 通常开发新项目的时候需要重新搭建框架，然后就需要整合一大堆东西，例如：swagger,mybatis,全局切面，异常处理等等一系列的东西。
 所以可不可以直接弄一个整合好的，到时直接使用就可以了呢？
 
+# 项目分支说明
+主干：单一数据源   
+分支：DynamicDataSources 多数据源 (https://github.com/hjljy/fastboot/tree/DynamicDataSources)
+
 ## 已整合基础配置
 
 logback-spring.xml: 项目日志配置 分级别，分天记录日志
