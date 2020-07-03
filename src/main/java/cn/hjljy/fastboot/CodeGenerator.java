@@ -60,7 +60,7 @@ public class CodeGenerator {
         pc.setParent("cn.hjljy.fastboot");
         pc.setMapper("mapper"+modelName);
         pc.setService("service"+modelName);
-        pc.setServiceImpl("service."+modelName+".impl");
+        pc.setServiceImpl("service"+modelName+".impl");
         pc.setEntity("pojo"+modelName+".po");
         pc.setController("controller"+modelName);
         mpg.setPackageInfo(pc);

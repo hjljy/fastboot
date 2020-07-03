@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.service..demo.impl;
+package cn.hjljy.fastboot.service.demo.impl;
 
 import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
 import cn.hjljy.fastboot.mapper.demo.DemoMapper;
