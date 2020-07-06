@@ -4,7 +4,7 @@
     <appender name="error_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
             <pattern>
-                [%-5level] %red([%date{yyyy-MM-dd HH:mm:ss}]) %green([%logger{10}]) [%line] - %msg%n
+                [%-5level] [%date{yyyy-MM-dd HH:mm:ss}]) [%logger{10}] [%line] - %msg%n
             </pattern>
             <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>
@@ -26,7 +26,7 @@
     <appender name="warn_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
             <pattern>
-                %green[%-5level] %red([%date{yyyy-MM-dd HH:mm:ss}]) %blue([%logger{10}]) [%line] - %msg%n
+               [%-5level] [%date{yyyy-MM-dd HH:mm:ss}][%logger{10}] [%line] - %msg%n
             </pattern>
             <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>
@@ -51,7 +51,7 @@
     <appender name="info_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
             <pattern>
-                %green[%-5level] %red([%date{yyyy-MM-dd HH:mm:ss}]) %blue([%logger{10}]) [%line] - %msg%n
+               [%-5level] [%date{yyyy-MM-dd HH:mm:ss}][%logger{10}] [%line] - %msg%n
             </pattern>
             <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>
@@ -76,7 +76,7 @@
     <appender name="debug_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
             <pattern>
-                %green[%-5level] %red([%date{yyyy-MM-dd HH:mm:ss}]) %blue([%logger{10}]) [%line] - %msg%n
+               [%-5level] [%date{yyyy-MM-dd HH:mm:ss}] [%logger{10}] [%line] - %msg%n
             </pattern>
             <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>
@@ -122,10 +122,11 @@
     <springProfile name="dev">
         <root level="INFO">
             <appender-ref ref="console"/>
+            <appender-ref ref="error_file"/>
+            <appender-ref ref="warn_file"/>
+            <appender-ref ref="info_file"/>
+            <appender-ref ref="debug_file"/>
         </root>
     </springProfile>
-    <!--将本项目的代码sql日志输出到日志文件当中 -->
-    <logger name="cn.hjljy.fastboot.mapper" additivity="false" level="debug">
-        <appender-ref ref="console"/>
-    </logger>
+
 </configuration>

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 
 @Configuration
-@MapperScan("cn.hjljy.fastboot.*.mapper")
+@MapperScan("cn.hjljy.fastboot.mapper")
 @EnableTransactionManagement
 public class MybatisPlusConfiguration {
     /**
