@@ -4,8 +4,21 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml  #xml所在位置  不设置默认是在mapper类同级
   configuration:
-    mapUnderscoreToCamelCase: true  # 开启驼峰匹配  默认为true
+    # mybatis-plus支持原生配置
+    use-column-label: true
+    cache-enabled: true
+    multiple-result-sets-enabled: true
+    lazy-loading-enabled: false
+    use-generated-keys: false
+    auto-mapping-behavior: partial
+    safe-row-bounds-enabled: false
+    lazy-load-trigger-methods: equals,clone,hashCode,toString
+    aggressive-lazy-loading: true
+    local-cache-scope: session
+    jdbcTypeForNull: other
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 打印sql语句和入参数据
+    auto-mapping-unknown-column-behavior: none  # 映射未知字段处理方式  不进行任何处理
+    map-underscore-to-camel-case: true # 开启驼峰匹配  默认为true
   global-config:
     db-config:
       logic-delete-value: 1 #逻辑删除  配合@TableLogic注解
