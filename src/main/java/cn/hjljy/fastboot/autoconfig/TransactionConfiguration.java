@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
 import org.springframework.transaction.interceptor.RollbackRuleAttribute;
 import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
@@ -22,6 +23,7 @@ import java.util.List;
  * @apiNote service层全局事务管理器  通过切面的方式进行事务的处理。这个指定了具体的方法名称
  */
 @Configuration
+@EnableTransactionManagement
 public class TransactionConfiguration {
 
     /**
@@ -85,6 +87,9 @@ public class TransactionConfiguration {
         return new TransactionInterceptor(transactionManager, source);
     }
 
+    /**
+     *  设置切面
+     */
     @Bean
     public Advisor txAdviceAdvisor() {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
