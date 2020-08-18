@@ -13,7 +13,7 @@
 
 logback-spring.xml: 项目日志配置 分级别，分天记录日志
 
-CustomException: 项目自定义异常
+BusinessException: 项目自定义异常
 
 MainSiteErrorHandler: 404 500 error 页面映射处理
 

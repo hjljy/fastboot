@@ -32,8 +32,8 @@ public class GlobalExceptionHandler {
         return resultInfo;
     }
 
-    @ExceptionHandler(value = CustomException.class)
-    public ResultInfo errorHandler(HttpServletRequest request, CustomException ex) {
+    @ExceptionHandler(value = BusinessException.class)
+    public ResultInfo errorHandler(HttpServletRequest request, BusinessException ex) {
         ResultInfo resultInfo = ResultInfo.error(ex.getCode(),ex.getMessage());
         dealErrorMessage(request,ex, resultInfo);
         return resultInfo;
