@@ -39,14 +39,6 @@ public class GlobalExceptionHandler {
         return resultInfo;
     }
 
-    @ExceptionHandler(value = NullPointerException.class)
-    public ResultInfo errorHandler(HttpServletRequest request, NullPointerException ex) {
-        ResultInfo resultInfo = ResultInfo.error("服务器开了个小差");
-        resultInfo.setCode(ResultCode.NPE_EXCEPTION.getCode());
-        dealErrorMessage(request,ex, resultInfo);
-        return resultInfo;
-    }
-
     private void dealErrorMessage(HttpServletRequest request,Exception ex, ResultInfo resultInfo){
         StringWriter var1 = new StringWriter();
         PrintWriter var2 = new PrintWriter(var1);
