@@ -1,9 +1,13 @@
 package cn.hjljy.fastboot.controller.demo;
 
 
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+import cn.hjljy.fastboot.pojo.dto.DemoPoDto;
 
 /**
  * <p>
@@ -17,5 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/demo-po")
 public class DemoController {
 
+    @PostMapping
+    public String getDemo(@RequestBody DemoPoDto demoPoDto){
+        System.out.println(demoPoDto.toString());
+        return "123456";
+    }
 }
 

@@ -1,6 +1,8 @@
 package cn.hjljy.fastboot.common.aspect.log;
 
 import cn.hjljy.fastboot.common.result.ResultInfo;
+import cn.hutool.json.JSONObject;
+import com.alibaba.druid.support.json.JSONUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -42,7 +44,7 @@ public class LogAspect {
      *
      * @return void
      **/
-    @Pointcut("execution(* cn.hjljy.fastboot.*.controller..*.*(..))")
+    @Pointcut("execution(* cn.hjljy.fastboot.controller..*.*(..))")
     public void serviceLog() {
     }
 
@@ -66,7 +68,7 @@ public class LogAspect {
             long runTime = System.currentTimeMillis() - start;
             System.out.println(result.toString());
             // TODO  通常会将操作日志信息记录到数据库当中，例如mysql mongodb
-            logger.info("请求对应类:{}\r\n,请求对应方法:{}\r\n,请求操作参数:{}\r\n,执行耗时:{}", className, methodName, handlerParameter(point), runTime);
+            logger.info("\r\n请求对应类:{}\r\n请求对应方法:{}\r\n请求操作参数:{}\r\n执行耗时:{}", className, methodName, handlerParameter(point), runTime);
             return result;
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage());
@@ -83,17 +85,11 @@ public class LogAspect {
     private String handlerParameter(ProceedingJoinPoint point) {
         StringBuilder stringBuilder = new StringBuilder();
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
-        String[] parameterNames = methodSignature.getParameterNames();
-        Class[] parameterTypes = methodSignature.getParameterTypes();
         Log log = methodSignature.getMethod().getAnnotation(Log.class);
         Object[] args = point.getArgs();
-        int i = 0;
         for (Object pojo : args) {
-            stringBuilder.append("{parameterName:").append(parameterNames[i]);
-            stringBuilder.append(" parameterType:").append(parameterTypes[i]);
-            stringBuilder.append(" parameterValue:").append(pojo);
-            stringBuilder.append(" },");
-            i++;
+            JSONObject object =new JSONObject();
+            stringBuilder.append("\n{parameterValue:").append( JSONUtils.toJSONString(pojo)).append(" }");
         }
         if (log != null) {
             stringBuilder.append(" logDesc:").append(log.description());
