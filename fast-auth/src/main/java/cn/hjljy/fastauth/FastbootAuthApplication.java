@@ -1,15 +1,16 @@
-package cn.hjljy.fastboot;
+package cn.hjljy.fastauth;
 
 import cn.hjljy.fastboot.autoconfig.annotation.EnableCors;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
 
+/**
+ * @author yichaofan
+ */
 @SpringBootApplication
 @EnableCors
-public class FastbootApplication {
+public class FastbootAuthApplication {
     public static void main(String[] args) {
-        SpringApplication.run(FastbootApplication.class, args);
+        SpringApplication.run(FastbootAuthApplication.class, args);
     }
 }

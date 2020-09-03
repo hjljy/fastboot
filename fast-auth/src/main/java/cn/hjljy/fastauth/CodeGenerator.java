@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot;
+package cn.hjljy.fastauth;
 
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.naming.Name;
 import java.util.*;
 
 /**
@@ -58,7 +57,7 @@ public class CodeGenerator {
         //moduleName是整体分模块
 
         pc.setParent("cn.hjljy.fastboot");
-        pc.setMapper("mapper"+modelName);
+        pc.setMapper("mapper" +modelName);
         pc.setService("service"+modelName);
         pc.setServiceImpl("service"+modelName+".impl");
         pc.setEntity("pojo"+modelName+".po");
