@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastauth.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -51,7 +51,7 @@ public class Swagger2Configuration {
                 .apiInfo(apiInfo())
                 .select()
                 //TODO 设置controller层所在位置
-                .apis(RequestHandlerSelectors.basePackage("cn.hjljy.fastboot.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.hjljy.fastauth.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(pars);

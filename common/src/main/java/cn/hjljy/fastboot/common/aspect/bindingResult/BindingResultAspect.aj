@@ -29,7 +29,7 @@ public class BindingResultAspect {
     public Object validateParam(ProceedingJoinPoint joinPoint, BindingResult bindingResult) throws Throwable {
         Object obj;
         if (bindingResult.hasErrors()) {
-            ResultInfo error = ResultInfo.error(ResultCode.PARAMERS_EXCEPTION);
+            ResultInfo error = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
             error.setMsg(bindingResult.getAllErrors().toString());
             return error;
         } else {

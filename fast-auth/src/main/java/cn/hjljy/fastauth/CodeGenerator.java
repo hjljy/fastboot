@@ -30,7 +30,7 @@ public class CodeGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/src/main/java");
+        gc.setOutputDir(projectPath + "/fast-auth/src/main/java");
         gc.setAuthor("海加尔金鹰（www.hjljy.cn）");
         gc.setOpen(false);
         //设置实体类后缀
@@ -56,7 +56,7 @@ public class CodeGenerator {
         String modelName = StringUtils.isBlank(scanner) ? "" : "."+scanner;
         //moduleName是整体分模块
 
-        pc.setParent("cn.hjljy.fastboot");
+        pc.setParent("cn.hjljy.fastauth");
         pc.setMapper("mapper" +modelName);
         pc.setService("service"+modelName);
         pc.setServiceImpl("service"+modelName+".impl");
@@ -82,7 +82,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/resources/mapper/" + scanner
+                return projectPath + "/fast-auth/src/main/resources/mapper/" + scanner
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
@@ -93,7 +93,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/java/cn/hjljy/fastboot/pojo/"+scanner+"/dto/" +
+                return projectPath + "fast-auth/src/main/java/cn/hjljy/fastauth/pojo/"+scanner+"/dto/" +
                         tableInfo.getEntityName() + "Dto" + StringPool.DOT_JAVA;
             }
         });

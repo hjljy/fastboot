@@ -12,11 +12,7 @@ public enum ResultCode {
 
     //业务逻辑异常
     CUSTOM_EXCEPTION(10000,"请求逻辑异常"),
-    PARAMERS_EXCEPTION(10001,"请求参数异常"),
-
-    //服务端代码异常
-    SQL_EXCEPTION(90000,"SQL异常"),
-    NPE_EXCEPTION(90001,"NPE异常");
+    PARAMETERS_EXCEPTION(10001,"请求参数异常");
 
     private int code;
 

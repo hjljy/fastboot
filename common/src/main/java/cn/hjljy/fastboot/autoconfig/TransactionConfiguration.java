@@ -30,7 +30,7 @@ public class TransactionConfiguration {
      * 配置全局事务的切点为service层的所有方法  AOP切面表达式 可参考（https://blog.csdn.net/ycf921244819/article/details/106599489）
      * TODO 设置service层所在位置
      */
-    private static final String AOP_POINTCUT_EXPRESSION = "execution (* cn.hjljy.fastboot..*.service..*.*(..))";
+    private static final String AOP_POINTCUT_EXPRESSION = "execution (* cn.hjljy..*.service..*.*(..))";
 
     /**
      * 注入事务管理器
