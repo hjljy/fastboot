@@ -2,14 +2,11 @@ package cn.hjljy.fastboot.autoconfig;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.IDialect;
 import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.MySqlDialect;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
-import javassist.expr.NewArray;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author yichaofan
@@ -19,7 +16,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @MapperScan("cn.hjljy.fastboot.mapper")
-@EnableTransactionManagement
 public class MybatisPlusConfiguration {
     /**
      * mybatis-plus分页插件

@@ -21,8 +21,10 @@ public class MainSiteErrorHandler implements ErrorController {
         int status = response.getStatus();
         if (status == 404) {
             return "redirect:/404.html";
-        } else {
+        } else if (status==500){
             return "redirect:/500.html";
+        }else {
+            return null;
         }
     }
 
