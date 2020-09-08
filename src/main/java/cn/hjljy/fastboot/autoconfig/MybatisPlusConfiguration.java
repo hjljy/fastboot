@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author yichaofan
  * @apiNote mybatis-plus配置
  * @since 2020年06月29日 23:08:00
+ * TODO 需要替换mapper所在位置
  */
-
 @Configuration
 @MapperScan("cn.hjljy.fastboot.mapper")
 @EnableTransactionManagement
