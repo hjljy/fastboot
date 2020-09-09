@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
@@ -85,9 +86,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         provider.setPasswordEncoder(passwordEncoder());
         auth.authenticationProvider(provider);
     }
+
+    @Bean
+    protected UserDetailsService userDetailsService(){
+        return new UserDetailsServiceImpl();
+    }
     /**
      * 描述: 密码加密算法 BCrypt 推荐使用
-     *
      **/
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
