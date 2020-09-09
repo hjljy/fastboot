@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.autoconfig.config.FastBootConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +45,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //用于配置直接放行的请求
                 .antMatchers(allow.toArray(array)).permitAll()
+                //其余请求都需要验证
                 .anyRequest().authenticated()
                 // 授权码模式需要
                 .and().httpBasic()
@@ -56,23 +57,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      **/
     @Override
     public void configure(WebSecurity web) {
-        // 可以直接访问的数据
+        // 可以直接访问的静态数据
         web.ignoring()
                 .antMatchers("/css/**")
                 .antMatchers("/404.html")
-                .antMatchers("/index.html")
                 .antMatchers("/500.html")
                 .antMatchers("/html/**")
                 .antMatchers("/js/**");
     }
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.inMemoryAuthentication()
+    /**
+     * 描述：设置授权处理相关的具体类以及加密方式
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception  {
+        //设置一个默认的账号
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder())
                 .withUser("admin")
-                .password(passwordEncoder().encode("123456"))
-                .roles("ADMIN")
-                .authorities("System", "System:User");
+                .password(passwordEncoder().encode("fastboot")).roles("admin");
+
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         // 设置不隐藏 未找到用户异常
         provider.setHideUserNotFoundExceptions(false);
@@ -84,9 +87,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     /**
      * 描述: 密码加密算法 BCrypt 推荐使用
-     *
-     * 作者: yichaofan
-     * 日期: 18:51 2020/9/9
      *
      **/
     @Bean

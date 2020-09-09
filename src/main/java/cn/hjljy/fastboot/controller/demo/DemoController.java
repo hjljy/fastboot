@@ -19,8 +19,7 @@ import cn.hjljy.fastboot.pojo.dto.DemoPoDto;
 public class DemoController {
 
     @GetMapping
-    public String getDemo(@RequestBody DemoPoDto demoPoDto){
-        System.out.println(demoPoDto.toString());
+    public String getDemo(DemoPoDto demoPoDto){
         return "123456";
     }
 }

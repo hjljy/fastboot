@@ -54,6 +54,7 @@ public class GlobalExceptionHandler {
         if (!prod.equals("prod")) {
             resultInfo.setData(errorData);
         }
+        logger.error("请求方式：{}",request.getRequestURI());
         logger.error("请求参数信息：{}",parameterData);
         logger.error("请求错误信息：{}", errorData);
     }
