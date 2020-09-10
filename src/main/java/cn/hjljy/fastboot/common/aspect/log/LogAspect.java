@@ -86,6 +86,8 @@ public class LogAspect {
         StringBuilder stringBuilder = new StringBuilder();
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         Log log = methodSignature.getMethod().getAnnotation(Log.class);
+        String[] parameterNames = methodSignature.getParameterNames();
+        Class[] parameterTypes = methodSignature.getParameterTypes();
         Object[] args = point.getArgs();
         for (Object pojo : args) {
             JSONObject object =new JSONObject();

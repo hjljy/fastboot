@@ -2,6 +2,11 @@ package cn.hjljy.fastboot.controller.demo;
 
 
 
+import cn.hjljy.fastboot.autoconfig.security.UserInfo;
+import cn.hjljy.fastboot.common.result.ResultInfo;
+import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import cn.hjljy.fastboot.pojo.dto.DemoPoDto;
@@ -19,8 +24,15 @@ import cn.hjljy.fastboot.pojo.dto.DemoPoDto;
 public class DemoController {
 
     @GetMapping
-    public String getDemo(DemoPoDto demoPoDto){
-        return "123456";
+    public String getDemo(String name){
+        if(SecurityContextHolder.getContext() == null) {
+            return null;
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserInfo userInfo = (UserInfo) authentication.getPrincipal();
+
+//        return ResultInfo.success(userInfo);
+        return userInfo.toString();
     }
 }
 

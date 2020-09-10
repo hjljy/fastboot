@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //读取配置文件当中的数据 不在这里写死
+        //读取配置文件当中的数据 不在这里写死 方便后续如果有新的需要放行的请求，不用修改代码重启项目
         Map<String, List<String>> request = config.getRequest();
         List<String> allow = request.get("allow");
         String[] array =new String[allow.size()];
@@ -52,6 +53,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().httpBasic()
                 //禁用跨站伪造
                 .and().csrf().disable();
+        // 使用自定义的认证过滤器
+        // http.addFilterBefore(new  MyLoginFilter(authenticationManager()),UsernamePasswordAuthenticationFilter.class);
     }
     /**
      * 描述: 静态资源放行，这里的放行，是不走 Spring Security 过滤器链
