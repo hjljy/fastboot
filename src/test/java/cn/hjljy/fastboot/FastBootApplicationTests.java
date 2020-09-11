@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot;
 
+import cn.hjljy.fastboot.autoconfig.config.FastBootConfig;
 import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
 import cn.hjljy.fastboot.service.demo.IDemoService;
 import org.junit.jupiter.api.Test;
@@ -9,23 +10,19 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 @SpringBootTest
-@EnableTransactionManagement
 class FastBootApplicationTests {
 
     @Autowired
-    ThreadPoolTaskExecutor taskExecutor;
-
-
-    @Autowired
-    IDemoService demoService;
+    FastBootConfig config;
 
     @Test
-    @Transactional
-    public void setDemo() {
-        DemoPo demoPo = new DemoPo();
-        demoPo.setName("测试数据");
-        demoPo.setAge(76);
-        demoService.save(demoPo);
+    public void getAllow() {
+        Map<String, List<String>> request = config.getRequest();
+        List<String> allow = request.get("allow");
+        System.out.println(allow.toString());
     }
 }

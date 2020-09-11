@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author 海加尔金鹰
  * @apiNote 用户具体验证类
- * @since 2020/9/9 23:46
+ * @since 2020/9/11
  **/
 public class UserDetailsServiceImpl implements UserDetailsService {
     /**
@@ -39,7 +39,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<GrantedAuthority> authorities =new ArrayList<>();
         authorities.add(authority);
         UserInfo userInfo =new UserInfo(username,password,"hjljy@outlook.com",authorities);
-        System.out.println(username);
         return userInfo;
     }
 }

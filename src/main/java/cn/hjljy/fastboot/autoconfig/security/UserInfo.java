@@ -8,14 +8,16 @@ import java.util.Collection;
 
 /**
  * @author 海加尔金鹰
- * @apiNote 用户验证类
- * @since 2020/9/10 22:41
+ * @apiNote 用户信息类 主要是提供给验证框架使用，并将用户基本信息保存到这个类
+ * @since 2020/9/11
  **/
-@Data
 public class UserInfo extends User {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 描述: 可以添加自定义的用户属性
+     **/
     private String email;
 
     public UserInfo(String username, String password, Collection<? extends GrantedAuthority> authorities) {

@@ -51,6 +51,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 // 授权码模式需要
                 .and().httpBasic()
+                .and().formLogin()
                 //禁用跨站伪造
                 .and().csrf().disable();
         // 使用自定义的认证过滤器
@@ -90,6 +91,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(provider);
     }
 
+    @Override
     @Bean
     protected UserDetailsService userDetailsService(){
         return new UserDetailsServiceImpl();

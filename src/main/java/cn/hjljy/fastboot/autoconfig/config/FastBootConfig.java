@@ -16,6 +16,10 @@ import java.util.Map;
 @Configuration
 @ConfigurationProperties(prefix = "fastboot")
 public class FastBootConfig {
+    /**
+     * 描述: prefix = "fastboot" 配置表示读取配置文件当中fastboot开头的配置
+     * request 属性对应配置文件当中的request  保持同名原则
+     **/
     private Map<String, List<String>> request = new HashMap<>();
 
     public Map<String, List<String>> getRequest() {
