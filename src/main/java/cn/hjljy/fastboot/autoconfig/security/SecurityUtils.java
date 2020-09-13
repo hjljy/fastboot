@@ -1,12 +1,13 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * @author : yichaofan
@@ -16,9 +17,44 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class SecurityUtils {
 
-    public static void login(String username, String password, AuthenticationManager authenticationManager){
+    /**
+     * 描述根据账号密码进行调用security进行认证授权 主动调
+     * 用AuthenticationManager的authenticate方法实现
+     * 授权成功后将用户信息存入SecurityContext当中
+     * @param username 用户名
+     * @param password 密码
+     * @param authenticationManager 认证授权管理器,
+     * @see  AuthenticationManager
+     * @return UserInfo  用户信息
+     */
+    public static UserInfo login(String username, String password, AuthenticationManager authenticationManager) throws AuthenticationException {
+        //使用security框架自带的验证token生成器  也可以自定义。
         UsernamePasswordAuthenticationToken token =new UsernamePasswordAuthenticationToken(username,password );
         Authentication authenticate = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authenticate);
+        UserInfo userInfo = (UserInfo) authenticate.getPrincipal();
+        return userInfo;
+    }
+
+    /**
+     * 获取当前登录的所有认证信息
+     * @return
+     */
+    public static Authentication getAuthentication(){
+        SecurityContext context = SecurityContextHolder.getContext();
+        return context.getAuthentication();
+    }
+
+    /**
+     * 获取当前登录用户信息
+     * @return
+     */
+    public static UserInfo getUserInfo(){
+        Authentication authentication = getAuthentication();
+        if(authentication!=null){
+            UserInfo userInfo = (UserInfo) authentication.getPrincipal();
+            return userInfo;
+        }
+        throw new BusinessException();
     }
 }

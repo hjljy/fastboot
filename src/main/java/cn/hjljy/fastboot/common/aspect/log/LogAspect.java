@@ -3,6 +3,7 @@ package cn.hjljy.fastboot.common.aspect.log;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hutool.json.JSONObject;
 import com.alibaba.druid.support.json.JSONUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -10,10 +11,13 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.ServletWebRequest;
 import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author yichaofan
@@ -22,41 +26,19 @@ import javax.servlet.ServletRequest;
  */
 @Aspect
 @Component
+@Slf4j
 public class LogAspect {
-    private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
-
     /**
      * 描述:
      * 这里可以使用注解 @Log 如果某个方法上面有这个注解就会记录操作日志
-     * <p>
-     * 作者: yichaofan
-     * 日期: 16:56 2020/8/20
      * TODO 需要将包名换成项目包名
      **/
     @Pointcut("@annotation(cn.hjljy.fastboot.common.aspect.log.Log)")
-    public void serviceLog1() {
-    }
-
-    /**
-     * 描述:
-     * 这里就将记录controller层所有方法的请求日志
-     * <p>
-     * 作者: yichaofan
-     * 日期: 16:56 2020/8/20
-     * TODO 需要将包名换成项目包名
-     *
-     * @return void
-     **/
-    @Pointcut("execution(* cn.hjljy.fastboot.controller..*.*(..))")
     public void serviceLog() {
     }
 
     /**
      * 描述:
-     * TODO 需要选择对应的切面日志记录方式
-     * <p>
-     * 作者: yichaofan
-     * 日期: 16:59 2020/8/20
      *
      * @param point
      * @return java.lang.Object
@@ -65,14 +47,14 @@ public class LogAspect {
     public Object serviceLogAround(ProceedingJoinPoint point) throws Throwable {
         String className = point.getTarget().getClass().getName();
         String methodName = point.getSignature().getName();
-
-            long start = System.currentTimeMillis();
-            Object result = point.proceed();
-            long runTime = System.currentTimeMillis() - start;
-            System.out.println(result.toString());
-            // TODO  通常会将操作日志信息记录到数据库当中，例如mysql mongodb
-            logger.info("\r\n请求对应类:{}\r\n请求对应方法:{}\r\n请求操作参数:{}\r\n执行耗时:{}", className, methodName, handlerParameter(point), runTime);
-            return result;
+        // TODO  可以根据实际需求将操作日志信息记录到数据库当中，例如 mongodb
+        log.info("操作类名：{}\r\n操作方法：{}\r\n操作参数：{}", className,methodName,handlerParameter(point));
+        long start = System.currentTimeMillis();
+        //需要执行切面 不捕捉异常信息直接抛出
+        Object result = point.proceed();
+        long runTime = System.currentTimeMillis() - start;
+        log.info("操作用时：{}毫秒\r\n返回结果:{}",runTime,result.toString());
+        return result;
 
     }
 
@@ -83,23 +65,24 @@ public class LogAspect {
      * @return String
      */
     private String handlerParameter(ProceedingJoinPoint point) {
-        StringBuilder stringBuilder = new StringBuilder();
+        Map<String, Object> map = new HashMap<>();
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         Log log = methodSignature.getMethod().getAnnotation(Log.class);
         String[] parameterNames = methodSignature.getParameterNames();
-        methodSignature.getParameterTypes();
         Object[] args = point.getArgs();
-        for (Object pojo : args) {
-            if(pojo instanceof ServletRequest){
+        for (int i = 0; i < parameterNames.length; i++) {
+            Object params = args[i];
+            String name = parameterNames[i];
+            //如果参数是request 不记录
+            if(params instanceof ServletRequest){
                 continue;
             }
-            JSONObject object =new JSONObject();
-            stringBuilder.append("\n{parameterValue:").append( JSONUtils.toJSONString(pojo)).append(" }");
+            map.put(name,params);
         }
         if (log != null) {
-            stringBuilder.append(" logDesc:").append(log.description());
-            stringBuilder.append(" logType:").append(log.type());
+            map.put("logDesc",log.description());
+            map.put("logType",log.type());
         }
-        return stringBuilder.toString();
+        return map.toString();
     }
 }
