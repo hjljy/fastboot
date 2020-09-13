@@ -2,9 +2,12 @@ package cn.hjljy.fastboot.common.exception;
 
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.common.result.ResultCode;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -19,8 +22,8 @@ import java.util.Map;
  * @apiNote 全局异常处理器
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Value("${spring.profiles.active}")
     private String prod;
@@ -31,6 +34,13 @@ public class GlobalExceptionHandler {
         dealErrorMessage(request,ex, resultInfo);
         return resultInfo;
     }
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResultInfo errorHandler(HttpServletRequest request, BadCredentialsException ex) {
+        ResultInfo resultInfo = ResultInfo.error(ex.hashCode(),ex.getMessage());
+        dealErrorMessage(request,ex, resultInfo);
+        return resultInfo;
+    }
+
 
     @ExceptionHandler(value = BusinessException.class)
     public ResultInfo errorHandler(HttpServletRequest request, BusinessException ex) {
@@ -54,9 +64,9 @@ public class GlobalExceptionHandler {
         if (!prod.equals("prod")) {
             resultInfo.setData(errorData);
         }
-        logger.error("请求路径地址：{}",request.getRequestURL());
-        logger.error("请求路径方式：{}",request.getRequestURL());
-        logger.error("请求参数信息：{}",parameterData);
-        logger.error("请求错误信息：{}", errorData);
+        log.error("请求路径地址：{}",request.getRequestURL());
+        log.error("请求路径方式：{}",request.getRequestURL());
+        log.error("请求参数信息：{}",parameterData);
+        log.error("请求错误信息：{}", errorData);
     }
 }

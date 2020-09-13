@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import springfox.documentation.spring.web.json.Json;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletRequest;
+
 /**
  * @author yichaofan
  * @date 2020/6/4 17:47
@@ -59,10 +62,10 @@ public class LogAspect {
      * @return java.lang.Object
      **/
     @Around("serviceLog()")
-    public Object serviceLogAround(ProceedingJoinPoint point) {
+    public Object serviceLogAround(ProceedingJoinPoint point) throws Throwable {
         String className = point.getTarget().getClass().getName();
         String methodName = point.getSignature().getName();
-        try {
+
             long start = System.currentTimeMillis();
             Object result = point.proceed();
             long runTime = System.currentTimeMillis() - start;
@@ -70,10 +73,7 @@ public class LogAspect {
             // TODO  通常会将操作日志信息记录到数据库当中，例如mysql mongodb
             logger.info("\r\n请求对应类:{}\r\n请求对应方法:{}\r\n请求操作参数:{}\r\n执行耗时:{}", className, methodName, handlerParameter(point), runTime);
             return result;
-        } catch (Throwable throwable) {
-            logger.error(throwable.getMessage());
-            return ResultInfo.error("系统开小差了");
-        }
+
     }
 
     /**
@@ -87,9 +87,12 @@ public class LogAspect {
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         Log log = methodSignature.getMethod().getAnnotation(Log.class);
         String[] parameterNames = methodSignature.getParameterNames();
-        Class[] parameterTypes = methodSignature.getParameterTypes();
+        methodSignature.getParameterTypes();
         Object[] args = point.getArgs();
         for (Object pojo : args) {
+            if(pojo instanceof ServletRequest){
+                continue;
+            }
             JSONObject object =new JSONObject();
             stringBuilder.append("\n{parameterValue:").append( JSONUtils.toJSONString(pojo)).append(" }");
         }
