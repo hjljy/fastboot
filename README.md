@@ -40,3 +40,5 @@ Druid: 阿里druid数据库连接池，默认开启各项统计，访问路径�
 Mybatis-plus: 基于mybatis的数据库ORM框架，CodeGenerator: 基于mybatis-plus的代码生成器 一键生成controller，service,dao，xml，entity类
 
 HuTool: 糊涂工具包，一个包含众多工具类的jar包
+
+Security: 一个功能强大且高度可定制的身份验证和访问控制权限框架。

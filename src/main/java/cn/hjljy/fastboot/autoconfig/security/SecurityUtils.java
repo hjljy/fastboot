@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @author : yichaofan
@@ -52,9 +53,32 @@ public class SecurityUtils {
     public static UserInfo getUserInfo(){
         Authentication authentication = getAuthentication();
         if(authentication!=null){
-            UserInfo userInfo = (UserInfo) authentication.getPrincipal();
-            return userInfo;
+            Object principal = authentication.getPrincipal();
+            if(principal!=null){
+                UserInfo userInfo = (UserInfo) authentication.getPrincipal();
+                return userInfo;
+            }
         }
         throw new BusinessException();
+    }
+
+    /**
+     * 获取当前登录用户ID
+     * @return
+     */
+    public static String getUserId(){
+        UserInfo userInfo = getUserInfo();
+        return userInfo.getUserId();
+    }
+
+    /**
+     * 生成BCryptPasswordEncoder密码
+     *
+     * @param password 密码
+     * @return 加密字符串
+     */
+    public static String encryptPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
     }
 }
