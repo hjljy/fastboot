@@ -1,3 +1,4 @@
+
 # fastboot
 基于springboot 自己配置的一套可以直接用于开发的框架。整合了很多基础的配置，可以直接进行开发。
 
@@ -28,6 +29,8 @@ TaskExecutor: 创建默认线程池，只需要@Autowird 注入就可以使用
 CorsFilter :支持跨域CORS请求  需要在启动类上加注解 @EnableCors
 
 TransactionConfiguration：全局事务处理器
+
+JacksonUtil: jackson工具包 使用jackson实现字符串和实体类的转换，可自主扩展
 
 ## 已整合开发工具
 
