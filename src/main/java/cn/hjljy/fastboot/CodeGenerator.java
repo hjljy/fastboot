@@ -66,7 +66,7 @@ public class CodeGenerator {
         mpg.setPackageInfo(pc);
 
 
-        String dtoPath = pc.getParent() + ".pojo.dto";
+        String dtoPath = pc.getParent() + ".pojo"+modelName+".dto";
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         // 不输出默认的XML 默认生成的xml在mapper层里面
