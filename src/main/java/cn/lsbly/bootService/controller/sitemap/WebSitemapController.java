@@ -2,12 +2,14 @@ package cn.lsbly.bootService.controller.sitemap;
 
 
 import cn.lsbly.bootService.common.result.ResultInfo;
+import cn.lsbly.bootService.pojo.sitemap.dto.WebSitemapDto;
 import cn.lsbly.bootService.service.sitemap.IWebSitemapService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,14 +21,23 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/sitemap")
+@Api(value = "网址导航",tags = "网址导航")
 public class WebSitemapController {
 
     @Autowired
     IWebSitemapService sitemapService;
 
     @GetMapping("/{username}")
+    @ApiOperation(value = "根据用户名获取网址导航")
     public ResultInfo getSitemap(@PathVariable(value = "username",required=false) String username) {
-        sitemapService.getSitemapByUsername(username);
+        List<WebSitemapDto> sitemap = sitemapService.getSitemapByUsername(username);
+        return ResultInfo.success(sitemap);
+    }
+
+    @PostMapping("/")
+    @ApiOperation(value = "新增网址导航")
+    public ResultInfo addSitemap(@RequestBody WebSitemapDto sitemapDto) {
+        sitemapService.addSitemap(sitemapDto);
         return ResultInfo.success();
     }
 }

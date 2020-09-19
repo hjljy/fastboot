@@ -17,5 +17,15 @@ import java.util.List;
  */
 public interface IWebSitemapService extends IService<WebSitemapPo> {
 
+    /**
+     * @author yichaofan
+     * @apiNote  根据用户名获取网站信息 如果username为null，获取hjljy的网站
+     * @since  23:50 2020/9/19
+     * @param username
+     *
+     * @return java.util.List<cn.lsbly.bootService.pojo.sitemap.dto.WebSitemapDto>
+     **/
     List<WebSitemapDto> getSitemapByUsername(String username);
+
+    void addSitemap(WebSitemapDto sitemapDto);
 }
