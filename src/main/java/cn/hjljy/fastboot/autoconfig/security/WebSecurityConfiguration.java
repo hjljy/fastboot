@@ -48,8 +48,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(allow.toArray(array)).permitAll()
                 //其余请求都需要验证
                 .anyRequest().authenticated()
-                //授权码模式需要 会弹出默认自带的登录框
+                //授权码模式需要
                 .and().httpBasic()
+                //会弹出默认自带的登录框   前后端分离开发下可以不配置，让前端根据请求状态码403 自行跳转到登录界面
+                .and().formLogin()
                 //禁用跨站伪造
                 .and().csrf().disable();
         // 使用自定义的认证过滤器
