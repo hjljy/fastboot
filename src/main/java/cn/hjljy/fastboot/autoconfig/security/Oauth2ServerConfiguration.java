@@ -3,8 +3,10 @@ package cn.hjljy.fastboot.autoconfig.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -15,14 +17,17 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 /**
  * @author 海加尔金鹰
- * @apiNote TODO
+ * @apiNote oath2 验证服务
  * @since 2020/9/20 22:32
  **/
 @Configuration
 @EnableAuthorizationServer
-public class Oauth2Configuration extends AuthorizationServerConfigurerAdapter {
+public class Oauth2ServerConfiguration extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -30,36 +35,15 @@ public class Oauth2Configuration extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         // 配置token获取和验证时的策略
-        security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+        security.realm("oauth2").tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()").allowFormAuthenticationForClients();
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        /*clients.inMemory()
-                .withClient("client")
-                // secret密码配置从 Spring Security 5.0开始必须以 {加密方式}+加密后的密码 这种格式填写
-                *//*
-         *   当前版本5新增支持加密方式：
-         *   bcrypt - BCryptPasswordEncoder (Also used for encoding)
-         *   ldap - LdapShaPasswordEncoder
-         *   MD4 - Md4PasswordEncoder
-         *   MD5 - new MessageDigestPasswordEncoder("MD5")
-         *   noop - NoOpPasswordEncoder
-         *   pbkdf2 - Pbkdf2PasswordEncoder
-         *   scrypt - SCryptPasswordEncoder
-         *   SHA-1 - new MessageDigestPasswordEncoder("SHA-1")
-         *   SHA-256 - new MessageDigestPasswordEncoder("SHA-256")
-         *   sha256 - StandardPasswordEncoder
-         *//*
-                .secret("{noop}secret")
-                .scopes("all")
-                .authorizedGrantTypes("authorization_code", "password", "refresh_token")
-                .autoApprove(true);*/
         clients.inMemory()
-                .withClient("client").secret("123456")
+                .withClient("test").secret(bCryptPasswordEncoder.encode("test"))
                 .scopes("all")
-                .authorizedGrantTypes("authorization_code", "password", "refresh_token")
-                .autoApprove(true);
+                .authorizedGrantTypes("authorization_code", "password", "refresh_token");
     }
 
     @Override
@@ -69,11 +53,7 @@ public class Oauth2Configuration extends AuthorizationServerConfigurerAdapter {
                 .tokenStore(memoryTokenStore())
                 // 不添加userDetailsService，刷新access_token时会报错
                 .userDetailsService(userDetailsService);
-
-        // 使用最基本的InMemoryTokenStore生成token
-        //endpoints.authenticationManager(authenticationManager).tokenStore(memoryTokenStore());
-
-
+        endpoints.allowedTokenEndpointRequestMethods(HttpMethod.POST,HttpMethod.GET);
     }
 
     // 使用最基本的InMemoryTokenStore生成token

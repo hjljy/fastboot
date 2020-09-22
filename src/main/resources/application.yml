@@ -29,6 +29,6 @@ fastboot:
   request:
     allow:
       - /login
-      - /login1
+      - /oauth/token
       - /actuator/**
       - /druid/**

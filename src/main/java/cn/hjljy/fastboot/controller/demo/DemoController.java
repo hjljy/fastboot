@@ -23,7 +23,7 @@ import cn.hjljy.fastboot.pojo.dto.DemoPoDto;
 @RequestMapping("/demo-po")
 public class DemoController {
 
-    @GetMapping
+    @RequestMapping
     public String getDemo(String name){
         if(SecurityContextHolder.getContext() == null) {
             return null;
