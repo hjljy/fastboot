@@ -37,8 +37,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //  不限制用户账号。只要密码是123456就可以通过验证 并添加权限
         String password = SecurityUtils.encryptPassword("123456");
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("sys:menu:add");
+        SimpleGrantedAuthority authority2 = new SimpleGrantedAuthority("ROLE_USER");
         List<GrantedAuthority> authorities =new ArrayList<>();
         authorities.add(authority);
+        authorities.add(authority2);
         UserInfo userInfo =new UserInfo(username,password,authorities);
         userInfo.setEmail("hjljy@outlook.com");
         userInfo.setUserId("yichaofan");

@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
  * @since 2020/9/22 22:20
  **/
 @Configuration
-@EnableResourceServer
+//@EnableResourceServer
 public class OAuth2ResourceConfiguration extends ResourceServerConfigurerAdapter {
 
 
