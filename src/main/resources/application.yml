@@ -1,6 +1,7 @@
 spring:
   profiles:
     active: dev
+
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml  #xml所在位置  不设置默认是在mapper类同级
   configuration:
@@ -27,8 +28,16 @@ mybatis-plus:
       insert-strategy: not_null # 插入时如果字段为null,就不插入数据，建议数据库表字段设置默认值
 fastboot:
   request:
-    allow:
+    allow: # 请求放行地址
       - /login
-      - /oauth/token
+      - /oauth/**
       - /actuator/**
+      - /swagger-resources/**
       - /druid/**
+      - /css/**
+      - /404.html
+      - /500.html
+      - /html/**
+      - /js/**
+
+

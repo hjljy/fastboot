@@ -29,4 +29,8 @@ public class FastBootConfig {
     public void setRequest(Map<String, List<String>> request) {
         this.request = request;
     }
+
+    public List<String> getRequestAllow(){
+        return request.get("allow");
+    }
 }

@@ -26,7 +26,7 @@ import java.util.Map;
  **/
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true,jsr250Enabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -40,8 +40,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //读取配置文件当中的数据 不在这里写死 方便后续如果有新的需要放行的请求，不用修改代码重启项目
-        Map<String, List<String>> request = config.getRequest();
-        List<String> allow = request.get("allow");
+        List<String> allow = config.getRequestAllow();
         String[] array = new String[allow.size()];
         http
                 .authorizeRequests()

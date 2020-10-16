@@ -6,11 +6,12 @@ import cn.hjljy.fastboot.common.result.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Map;
 
 
@@ -22,19 +23,12 @@ import java.util.Map;
 @RestController
 public class LoginController {
 
-
     @Autowired
-    AuthenticationManager authenticationManager;
+    TokenEndpoint tokenEndpoint;
 
-    @PostMapping(value = "login")
-    public ResultInfo login(@RequestBody Map<String,String> params)  {
-        UserInfo userInfo = SecurityUtils.login(params.get("username"), params.get("password"), authenticationManager);
-        return ResultInfo.success(userInfo);
-    }
-
-    @PostMapping(value = "/oauth/token2")
-    public ResultInfo token(@RequestBody Map<String,String> params)  {
-      //  UserInfo userInfo = SecurityUtils.login(params.get("username"), params.get("password"), authenticationManager);
+    @PostMapping(value = "/oauth/token")
+    public ResultInfo token(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
+        OAuth2AccessToken accessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         return ResultInfo.success();
     }
 }

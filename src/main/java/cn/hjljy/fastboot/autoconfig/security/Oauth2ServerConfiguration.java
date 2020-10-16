@@ -17,7 +17,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 /**
  * @author 海加尔金鹰
- * @apiNote oath2 验证服务
+ * @apiNote oath2 验证服务器
  * @since 2020/9/20 22:32
  **/
 @Configuration
@@ -33,7 +33,7 @@ public class Oauth2ServerConfiguration extends AuthorizationServerConfigurerAdap
     private UserDetailsService userDetailsService;
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer security){
         // 配置token获取和验证时的策略
         security.realm("oauth2").tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()").allowFormAuthenticationForClients();
     }
@@ -47,7 +47,7 @@ public class Oauth2ServerConfiguration extends AuthorizationServerConfigurerAdap
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         // 配置tokenStore，保存到redis缓存中
         endpoints.authenticationManager(authenticationManager)
                 .tokenStore(memoryTokenStore())
