@@ -6,9 +6,7 @@ import cn.hjljy.fastboot.common.result.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -22,13 +20,23 @@ import java.util.Map;
  */
 @RestController
 public class LoginController {
-
     @Autowired
-    TokenEndpoint tokenEndpoint;
+    AuthenticationManager authenticationManager;
 
-    @PostMapping(value = "/oauth/token")
-    public ResultInfo token(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
-        OAuth2AccessToken accessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
-        return ResultInfo.success();
+    /***
+     * 描述: 单纯security的登录，集成auth2之后无法使用 使用/oauth/token接口进行登录
+     * <p>
+     * 作者: yichaofan
+     * 日期: 2020/10/15 18:16
+     *
+     * @param params
+     * @return cn.hjljy.fastboot.common.result.ResultInfo
+     **/
+    @Deprecated
+    @PostMapping(value = "login")
+    public ResultInfo login(@RequestBody Map<String,String> params)  {
+        UserInfo userInfo = SecurityUtils.login(params.get("username"), params.get("password"), authenticationManager);
+        return ResultInfo.success(userInfo);
     }
+
 }
