@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig.security;
+package cn.hjljy.fastboot.autoconfig.security.resource;
 
 import cn.hjljy.fastboot.autoconfig.config.FastBootConfig;
 import org.springframework.beans.factory.annotation.Autowired;
