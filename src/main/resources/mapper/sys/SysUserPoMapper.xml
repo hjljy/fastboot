@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hjljy.fastboot.mapper.sys.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysUserPo">
+        <id column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="nick_name" property="nickName" />
+        <result column="password" property="password" />
+        <result column="emali" property="emali" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="sex" property="sex" />
+        <result column="birthday" property="birthday" />
+        <result column="description" property="description" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_name, nick_name, password, emali, avatar_url, sex, birthday, description, create_time, update_time
+    </sql>
+
+</mapper>
