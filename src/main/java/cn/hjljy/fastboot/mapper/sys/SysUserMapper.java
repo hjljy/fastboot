@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
- * @since 2020-11-07
+ * @since 2020-11-09
  */
 public interface SysUserMapper extends BaseMapper<SysUserPo> {
 

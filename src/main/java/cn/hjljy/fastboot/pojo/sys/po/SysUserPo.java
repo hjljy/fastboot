@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.pojo.sys.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +15,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
- * @since 2020-11-07
+ * @since 2020-11-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -42,7 +43,7 @@ public class SysUserPo implements Serializable {
     @ApiModelProperty(value = "用户头像")
     private String avatarUrl;
 
-    @ApiModelProperty(value = "用户性别 -1保密 0女 1男 ")
+    @ApiModelProperty(value = "用户性别 -1保密(默认) 0女 1男 ")
     private Integer sex;
 
     @ApiModelProperty(value = "出生日期")
@@ -56,6 +57,13 @@ public class SysUserPo implements Serializable {
 
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
+
+    @ApiModelProperty(value = "是否禁用  0否(默认) 1是")
+    private Integer enable;
+
+    @ApiModelProperty(value = "是否删除  0否(默认) 1是")
+    @TableLogic
+    private Integer status;
 
 
 }

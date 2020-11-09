@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        userService.selectByUserName(username);
+//        userService.selectByUserName(username);
         //TODO 当前使用测试数据进行测试 需要修改成实际的业务逻辑处理
         //  不限制用户账号。只要密码是123456就可以通过验证 并添加权限
         String password = SecurityUtils.encryptPassword("123456");
