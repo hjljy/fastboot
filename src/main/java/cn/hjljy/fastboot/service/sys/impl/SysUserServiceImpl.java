@@ -16,5 +16,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserPo> implements ISysUserService {
-
+    @Override
+    public SysUserPo selectByUserName(String username) {
+        return null;
+    }
 }
