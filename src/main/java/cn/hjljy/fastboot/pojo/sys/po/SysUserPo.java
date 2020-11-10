@@ -26,7 +26,7 @@ public class SysUserPo implements Serializable {
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "用户ID")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "用户名称")
     private String userName;

@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot;
 
 
+import cn.hjljy.fastboot.service.BaseService;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -119,6 +120,7 @@ public class CodeGenerator {
         strategy.setRestControllerStyle(true);
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
+        strategy.setSuperServiceImplClass(BaseService.class);
         //设置逻辑删除字段
         strategy.setLogicDeleteFieldName("status");
         mpg.setStrategy(strategy);

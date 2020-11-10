@@ -6,14 +6,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 /**
  * @author yichaofan
- * @apiNote todo
+ * @apiNote 自定义基础Service
  * @since 2020/11/9 21:44
  */
-public class BaseService<M extends BaseMapper<T>,T> extends ServiceImpl {
-
+public class BaseService<M extends BaseMapper<T>,T> extends ServiceImpl<M,T> {
+    /**
+     * 根据实体属性进行查询
+     * @param t 对应实体
+     * @return
+     */
     public T selectOne(T t){
         QueryWrapper<T> queryWrapper =new QueryWrapper<>();
         queryWrapper.setEntity(t);
-        return (T) this.baseMapper.selectOne(queryWrapper);
+        return this.baseMapper.selectOne(queryWrapper);
     }
 }

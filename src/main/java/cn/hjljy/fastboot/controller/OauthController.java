@@ -22,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/oauth")
 public class OauthController {
-    @Autowired
+
     TokenEndpoint tokenEndpoint;
 
     @PostMapping(value = "/token")

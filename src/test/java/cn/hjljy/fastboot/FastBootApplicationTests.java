@@ -2,7 +2,9 @@ package cn.hjljy.fastboot;
 
 import cn.hjljy.fastboot.autoconfig.config.FastBootConfig;
 import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
+import cn.hjljy.fastboot.pojo.sys.po.SysUserPo;
 import cn.hjljy.fastboot.service.demo.IDemoService;
+import cn.hjljy.fastboot.service.sys.ISysUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,10 +21,12 @@ class FastBootApplicationTests {
     @Autowired
     FastBootConfig config;
 
+    @Autowired
+    ISysUserService sysUserService;
+
     @Test
     public void getAllow() {
-        Map<String, List<String>> request = config.getRequest();
-        List<String> allow = request.get("allow");
-        System.out.println(allow.toString());
+        SysUserPo userPo = sysUserService.selectByUserName("admin");
+        System.out.println(userPo.getNickName());
     }
 }
