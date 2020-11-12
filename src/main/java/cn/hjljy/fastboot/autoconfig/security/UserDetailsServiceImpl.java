@@ -1,6 +1,10 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.common.enums.SysUserStatusEnum;
+import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.pojo.sys.po.SysUserPo;
+import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +26,8 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     ISysUserService userService;
+    @Autowired
+    ISysRoleService roleService;
     /**
      * 这里根据传进来的用户账号进行用户信息的构建
      * 通常的做法是
@@ -40,7 +46,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        SysUserPo userPo= userService.selectByUserName(username);
+        SysUserPo userInfo= userService.selectByUserName(username);
+        checkUserInfo(userInfo,username);
+        roleService.getUserRoleInfo(userInfo.getId());
         //TODO 当前使用测试数据进行测试 需要修改成实际的业务逻辑处理
         //  不限制用户账号。只要密码是123456就可以通过验证 并添加权限
         String password = SecurityUtils.encryptPassword("123456");
@@ -51,9 +59,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             SimpleGrantedAuthority authority1 = new SimpleGrantedAuthority("ROLE_ADMIN");
             authorities.add(authority1);
         }
-        UserInfo userInfo =new UserInfo(username,password,authorities);
-        userInfo.setEmail("hjljy@outlook.com");
-        userInfo.setUserId("yichaofan");
-        return userInfo;
+        UserInfo userInfo1 =new UserInfo(username,password,authorities);
+        userInfo1.setEmail("hjljy@outlook.com");
+        userInfo1.setUserId("yichaofan");
+        return userInfo1;
+    }
+
+    private void checkUserInfo(SysUserPo userInfo,String username) {
+        if(null==userInfo){
+            throw new BusinessException(ResultCode.USER_NOT_FOUND,username);
+        }
+        if(SysUserStatusEnum.DISABLE.equals(userInfo.getEnable())){
+            throw new BusinessException(ResultCode.USER_NOT_ENABLE,username);
+        }
     }
 }

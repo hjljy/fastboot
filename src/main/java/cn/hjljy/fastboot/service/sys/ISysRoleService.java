@@ -12,5 +12,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-11-10
  */
 public interface ISysRoleService extends IService<SysRolePo> {
-
+    /**
+     * 获取用户的角色和权限信息
+     * @param userId
+     */
+    void getUserRoleInfo(Long userId);
 }

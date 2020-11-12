@@ -4,6 +4,7 @@ import cn.hjljy.fastboot.pojo.sys.po.SysRolePo;
 import cn.hjljy.fastboot.mapper.sys.SysRoleMapper;
 import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import cn.hjljy.fastboot.service.BaseService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRolePo> implements ISysRoleService {
 
+
+    @Override
+    public void getUserRoleInfo(Long userId) {
+//        QueryWrapper<SysRolePo> queryWrapper =new QueryWrapper<>();
+//        queryWrapper.lambda().eq(S)
+//        this.list(q)
+    }
 }
