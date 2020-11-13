@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.mapper.sys;
 
-import cn.hjljy.fastboot.pojo.sys.po.SysUserPo;
+import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author 海加尔金鹰（www.hjljy.cn）
  * @since 2020-11-09
  */
-public interface SysUserMapper extends BaseMapper<SysUserPo> {
+public interface SysUserMapper extends BaseMapper<SysUser> {
 
 }

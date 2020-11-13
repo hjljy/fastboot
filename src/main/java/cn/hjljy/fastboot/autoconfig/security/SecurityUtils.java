@@ -66,7 +66,7 @@ public class SecurityUtils {
      * 获取当前登录用户ID
      * @return
      */
-    public static String getUserId(){
+    public static Long getUserId(){
         UserInfo userInfo = getUserInfo();
         return userInfo.getUserId();
     }

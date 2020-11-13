@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.pojo.sys.dto;
+package cn.hjljy.fastboot.pojo.sys.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -18,8 +18,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="SysRoleMenuPoDto对象", description="")
-public class SysRoleMenuPoDto implements Serializable {
+@TableName("sys_role_menu")
+@ApiModel(value="SysRoleMenuPo对象", description="")
+public class SysRoleMenu implements Serializable {
 
     private static final long serialVersionUID=1L;
 

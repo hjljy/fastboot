@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.pojo.sys.po;
+package cn.hjljy.fastboot.pojo.sys.dto;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
@@ -19,9 +19,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sys_menu")
-@ApiModel(value="SysMenuPo对象", description="")
-public class SysMenuPo implements Serializable {
+@ApiModel(value="SysMenuPoDto对象", description="")
+public class SysMenuDto implements Serializable {
 
     private static final long serialVersionUID=1L;
 

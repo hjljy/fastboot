@@ -42,7 +42,7 @@ public class ${entity}Dto extends ${superEntityClass}#if(${activeRecord})<${enti
 #elseif(${activeRecord})
 public class ${entity}Dto extends Model<${entity}> {
 #else
-public class ${entity}Dto extends ${entity} implements Serializable {
+public class ${entity}Dto implements Serializable {
 #end
 
 #if(${entitySerialVersionUID})
@@ -50,7 +50,51 @@ public class ${entity}Dto extends ${entity} implements Serializable {
 #end
 
 
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
 
+    #if(${field.keyFlag})
+        #set($keyPropertyName=${field.propertyName})
+    #end
+    #if("$!field.comment" != "")
+        #if(${swagger2})
+        @ApiModelProperty(value = "${field.comment}")
+        #else
+        /**
+         * ${field.comment}
+         */
+        #end
+    #end
+    #if(${field.keyFlag})
+        ## 主键
+        #if(${field.keyIdentityFlag})
+        @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
+        #elseif(!$null.isNull(${idType}) && "$!idType" != "")
+        @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
+        #elseif(${field.convert})
+        @TableId("${field.annotationColumnName}")
+        #end
+        ## 普通字段
+    #elseif(${field.fill})
+        ## -----   存在字段填充设置   -----
+        #if(${field.convert})
+        @TableField(value = "${field.annotationColumnName}", fill = FieldFill.${field.fill})
+        #else
+        @TableField(fill = FieldFill.${field.fill})
+        #end
+    #elseif(${field.convert})
+    @TableField("${field.annotationColumnName}")
+    #end
+    ## 乐观锁注解
+    #if(${versionFieldName}==${field.name})
+    @Version
+    #end
+    ## 逻辑删除注解
+    #if(${logicDeleteFieldName}==${field.name})
+    @TableLogic
+    #end
+private ${field.propertyType} ${field.propertyName};
+#end
 
 ## ----------  END 字段循环遍历  ----------
 

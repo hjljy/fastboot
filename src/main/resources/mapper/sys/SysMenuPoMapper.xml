@@ -3,7 +3,7 @@
 <mapper namespace="cn.hjljy.fastboot.mapper.sys.SysMenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysMenuPo">
+    <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysMenu">
         <id column="id" property="id" />
         <result column="pid" property="pid" />
         <result column="menu_type" property="menuType" />
@@ -22,5 +22,15 @@
     <sql id="Base_Column_List">
         id, pid, menu_type, menu_name, perms, sort, menu_channle, menu_path, visiable, create_time, update_time, status
     </sql>
+    <select id="getUserMenuListInfo" resultType="cn.hjljy.fastboot.pojo.sys.po.SysMenu">
+        SELECT DISTINCT m.*
+        FROM sys_menu m
+        LEFT JOIN sys_role_menu rm ON m.id = rm.menu_id
+        LEFT JOIN sys_user_role ur ON rm.role_id = ur.role_id
+        LEFT JOIN sys_role r on r.id = ur.role_id
+		LEFT JOIN sys_user u ON u.id=ur.user_id
+        WHERE u.id	= #{userId}
+        ORDER BY m.sort;
+    </select>
 
 </mapper>

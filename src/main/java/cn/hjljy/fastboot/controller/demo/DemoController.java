@@ -37,7 +37,6 @@ public class DemoController {
         return userInfo.toString();
     }
     @RequestMapping("/t2")
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public String getT2(String name){
         if(SecurityContextHolder.getContext() == null) {
             return null;

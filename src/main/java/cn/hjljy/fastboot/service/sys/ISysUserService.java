@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.service.sys;
 
-import cn.hjljy.fastboot.pojo.sys.po.SysUserPo;
+import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,11 +11,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author 海加尔金鹰（www.hjljy.cn）
  * @since 2020-11-09
  */
-public interface ISysUserService extends IService<SysUserPo> {
+public interface ISysUserService extends IService<SysUser> {
     /**
      * 根据用户账号查询用户信息
      * @param username 用户账号
      * @return
      */
-    SysUserPo selectByUserName(String username);
+    SysUser selectByUserName(String username);
 }

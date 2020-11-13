@@ -36,7 +36,7 @@ public class CodeGenerator {
         gc.setAuthor("海加尔金鹰（www.hjljy.cn）");
         gc.setOpen(false);
         //设置实体类后缀
-        gc.setEntityName("%sPo");
+        //gc.setEntityName("%sPo");
         //实体属性 Swagger2 注解
         gc.setSwagger2(true);
         gc.setBaseColumnList(true);

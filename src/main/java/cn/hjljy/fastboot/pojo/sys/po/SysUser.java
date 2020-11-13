@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.pojo.sys.dto;
+package cn.hjljy.fastboot.pojo.sys.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
@@ -19,13 +19,14 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="SysUserPoDto对象", description="")
-public class SysUserPoDto implements Serializable {
+@TableName("sys_user")
+@ApiModel(value="SysUserPo对象", description="")
+public class SysUser implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "用户ID")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "用户名称")
     private String userName;

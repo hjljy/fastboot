@@ -3,11 +3,17 @@ package cn.hjljy.fastboot.autoconfig.security;
 import cn.hjljy.fastboot.common.enums.SysUserStatusEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
-import cn.hjljy.fastboot.pojo.sys.po.SysUserPo;
+import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
+import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
+import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
+import cn.hjljy.fastboot.pojo.sys.po.SysRole;
+import cn.hjljy.fastboot.pojo.sys.po.SysUser;
+import cn.hjljy.fastboot.service.sys.ISysMenuService;
 import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 海加尔金鹰
@@ -28,6 +35,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     ISysUserService userService;
     @Autowired
     ISysRoleService roleService;
+    @Autowired
+    ISysMenuService menuService;
     /**
      * 这里根据传进来的用户账号进行用户信息的构建
      * 通常的做法是
@@ -45,27 +54,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        SysUserPo userInfo= userService.selectByUserName(username);
+        //获取用户信息
+        SysUser userInfo= userService.selectByUserName(username);
         checkUserInfo(userInfo,username);
-        roleService.getUserRoleInfo(userInfo.getId());
-        //TODO 当前使用测试数据进行测试 需要修改成实际的业务逻辑处理
-        //  不限制用户账号。只要密码是123456就可以通过验证 并添加权限
-        String password = SecurityUtils.encryptPassword("123456");
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("sys:menu:add");
-        List<GrantedAuthority> authorities =new ArrayList<>();
-        authorities.add(authority);
-        if(username.equals("admin")){
-            SimpleGrantedAuthority authority1 = new SimpleGrantedAuthority("ROLE_ADMIN");
-            authorities.add(authority1);
-        }
-        UserInfo userInfo1 =new UserInfo(username,password,authorities);
-        userInfo1.setEmail("hjljy@outlook.com");
-        userInfo1.setUserId("yichaofan");
-        return userInfo1;
+        //获取角色权限信息
+        List<SysRole> roleInfo = roleService.getUserRoleInfo(userInfo.getId());
+        List<SysMenu> menuListInfo = menuService.getUserMenuListInfo(userInfo.getId());
+        String[] perms = (String[]) menuListInfo.stream().map(SysMenu::getPerms).toArray();
+        List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(perms);
+        String password = SecurityUtils.encryptPassword("admin");
+        UserInfo user =new UserInfo(username,password,authorityList);
+        user.setEmail(userInfo.getEmali());
+        user.setNickName(userInfo.getNickName());
+        user.setRoleDtos(roleInfo);
+        user.setUserId(userInfo.getId());
+        return user;
     }
 
-    private void checkUserInfo(SysUserPo userInfo,String username) {
+    private void checkUserInfo(SysUser userInfo, String username) {
         if(null==userInfo){
             throw new BusinessException(ResultCode.USER_NOT_FOUND,username);
         }

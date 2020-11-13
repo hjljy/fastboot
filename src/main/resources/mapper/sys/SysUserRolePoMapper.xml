@@ -3,7 +3,7 @@
 <mapper namespace="cn.hjljy.fastboot.mapper.sys.SysUserRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysUserRolePo">
+    <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysUserRole">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
         <result column="role_id" property="roleId" />

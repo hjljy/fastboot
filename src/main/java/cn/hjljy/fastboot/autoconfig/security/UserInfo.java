@@ -1,10 +1,13 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
+import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author 海加尔金鹰
@@ -23,12 +26,20 @@ public class UserInfo extends User {
     /**
      * 描述: 用户ID
      **/
-    private String userId;
+    private Long userId;
+    /**
+     * 描述: 用户昵称
+     **/
+    private String NickName;
+    /**
+     * 描述：用户角色信息
+     */
+    private List<SysRole> roleDtos;
 
     public UserInfo(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
     }
-    public UserInfo(String username, String password, String userId,Collection<? extends GrantedAuthority> authorities) {
+    public UserInfo(String username, String password, Long userId,Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.userId=userId;
     }
@@ -45,11 +56,27 @@ public class UserInfo extends User {
         this.email = email;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getNickName() {
+        return NickName;
+    }
+
+    public void setNickName(String nickName) {
+        NickName = nickName;
+    }
+
+    public List<SysRole> getRoleDtos() {
+        return roleDtos;
+    }
+
+    public void setRoleDtos(List<SysRole> roleDtos) {
+        this.roleDtos = roleDtos;
     }
 }

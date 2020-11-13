@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
-import cn.hjljy.fastboot.pojo.sys.po.SysUserRolePo;
+import cn.hjljy.fastboot.pojo.sys.po.SysUserRole;
 import cn.hjljy.fastboot.mapper.sys.SysUserRoleMapper;
 import cn.hjljy.fastboot.service.sys.ISysUserRoleService;
 import cn.hjljy.fastboot.service.BaseService;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-11-12
  */
 @Service
-public class SysUserRoleServiceImpl extends BaseService<SysUserRoleMapper, SysUserRolePo> implements ISysUserRoleService {
+public class SysUserRoleServiceImpl extends BaseService<SysUserRoleMapper, SysUserRole> implements ISysUserRoleService {
 
 }

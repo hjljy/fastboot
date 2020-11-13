@@ -3,7 +3,7 @@
 <mapper namespace="cn.hjljy.fastboot.mapper.sys.SysRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysRolePo">
+    <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysRole">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="sort" property="sort" />
@@ -16,5 +16,12 @@
     <sql id="Base_Column_List">
         id, name, sort, create_time, update_time, status
     </sql>
+    <select id="selectUserRoleInfoByUserId" parameterType="long" resultType="cn.hjljy.fastboot.pojo.sys.po.SysRole">
+           SELECT r.*
+				FROM sys_role r
+				LEFT JOIN sys_user_role ur on r.id = ur.role_id
+				LEFT JOIN sys_user u ON u.id=ur.user_id
+				WHERE u.id	= #{userId};
+    </select>
 
 </mapper>

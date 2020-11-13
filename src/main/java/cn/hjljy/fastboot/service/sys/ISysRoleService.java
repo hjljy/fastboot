@@ -1,7 +1,10 @@
 package cn.hjljy.fastboot.service.sys;
 
-import cn.hjljy.fastboot.pojo.sys.po.SysRolePo;
+import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
+import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -11,10 +14,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author 海加尔金鹰（www.hjljy.cn）
  * @since 2020-11-10
  */
-public interface ISysRoleService extends IService<SysRolePo> {
+public interface ISysRoleService extends IService<SysRole> {
     /**
      * 获取用户的角色和权限信息
-     * @param userId
+     * @param userId 用户ID
      */
-    void getUserRoleInfo(Long userId);
+    List<SysRole> getUserRoleInfo(Long userId);
 }
