@@ -1,9 +1,8 @@
 spring:
   profiles:
     active: dev
-
 mybatis-plus:
-  mapper-locations: classpath:mapper/*.xml  #xml所在位置  不设置默认是在mapper类同级
+  mapper-locations: classpath*:mapper/**/*.xml  #xml所在位置  不设置默认是在mapper类同级
   configuration:
     # mybatis-plus支持原生配置
     use-column-label: true

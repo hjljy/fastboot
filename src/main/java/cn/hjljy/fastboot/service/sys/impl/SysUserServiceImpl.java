@@ -19,6 +19,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     @Override
     public SysUser selectByUserName(String username) {
         SysUser po = new SysUser();
+        po.setUserName(username);
         return selectOne(po);
     }
 }

@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(value = BadCredentialsException.class)
     public ResultInfo errorHandler(HttpServletRequest request, BadCredentialsException ex) {
-        ResultInfo resultInfo = ResultInfo.error(ex.hashCode(),ex.getMessage());
+        ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(),ex.getMessage());
         dealErrorMessage(request,ex, resultInfo);
         return resultInfo;
     }
@@ -53,19 +53,18 @@ public class GlobalExceptionHandler {
     }
 
     private void dealErrorMessage(HttpServletRequest request,Exception ex, ResultInfo resultInfo){
+        ex.printStackTrace();
         StringWriter var1 = new StringWriter();
-        PrintWriter var2 = new PrintWriter(var1);
-        ex.printStackTrace(var2);
         String error = var1.toString();
         StringBuilder errorData = new StringBuilder();
         errorData.append(error);
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        StringBuilder parameterData =new StringBuilder();
-        String body = ServletUtil.getBody(request);
-        String clientIP = ServletUtil.getClientIP(request);
-        for (String s : parameterMap.keySet()) {
-            parameterData.append(parameterMap.get(s).toString());
+        String body="";
+        try{
+            body = ServletUtil.getBody(request);
+        }catch (Exception e){
+            log.warn("记录请求参数失败");
         }
+        String clientIP = ServletUtil.getClientIP(request);
         if (!prod.equals("prod")) {
             resultInfo.setData(body);
         }

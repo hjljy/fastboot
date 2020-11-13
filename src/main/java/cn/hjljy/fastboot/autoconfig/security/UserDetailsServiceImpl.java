@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -60,7 +61,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //获取角色权限信息
         List<SysRole> roleInfo = roleService.getUserRoleInfo(userInfo.getId());
         List<SysMenu> menuListInfo = menuService.getUserMenuListInfo(userInfo.getId());
-        String[] perms = (String[]) menuListInfo.stream().map(SysMenu::getPerms).toArray();
+        String[] perms =  menuListInfo.stream().map(SysMenu::getPerms).toArray(String[]::new);
         List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(perms);
         String password = SecurityUtils.encryptPassword("admin");
         UserInfo user =new UserInfo(username,password,authorityList);

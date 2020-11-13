@@ -38,14 +38,7 @@ public class DemoController {
     }
     @RequestMapping("/t2")
     public String getT2(String name){
-        if(SecurityContextHolder.getContext() == null) {
-            return null;
-        }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserInfo userInfo = (UserInfo) authentication.getPrincipal();
-
-//        return ResultInfo.success(userInfo);
-        return userInfo.toString();
+        return name;
     }
 }
 
