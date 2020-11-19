@@ -17,6 +17,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Enumeration;
 import java.util.Map;
 
 /**
@@ -59,6 +60,11 @@ public class GlobalExceptionHandler {
         StringBuilder errorData = new StringBuilder();
         errorData.append(error);
         String body="";
+        Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()){
+            String parameter = request.getParameter(names.nextElement());
+            System.out.println(parameter);
+        }
         try{
             body = ServletUtil.getBody(request);
         }catch (Exception e){

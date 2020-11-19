@@ -22,13 +22,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/oauth")
 public class OauthController {
-
+    @Autowired
     TokenEndpoint tokenEndpoint;
 
     @PostMapping(value = "/token")
     public ResultInfo token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
-        UserInfo userInfo = SecurityUtils.getUserInfo();
-        return ResultInfo.success(userInfo);
+        return ResultInfo.success(accessToken);
     }
 }
