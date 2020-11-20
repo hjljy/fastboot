@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * @author yichaofan
- * @date 2020/6/4 17:47
+ * @since  2020/6/4 17:47
  * @apiNote 项目操作日志切面
  */
 @Aspect
@@ -48,12 +48,15 @@ public class LogAspect {
         String className = point.getTarget().getClass().getName();
         String methodName = point.getSignature().getName();
         // TODO  可以根据实际需求将操作日志信息记录到数据库当中，例如 mongodb
-        log.info("操作类名：{}\r\n操作方法：{}\r\n操作参数：{}", className,methodName,handlerParameter(point));
+        log.info("\r\n操作类名：{}\r\n操作方法：{}\r\n操作参数：{}", className,methodName,handlerParameter(point));
         long start = System.currentTimeMillis();
         //需要执行切面 不捕捉异常信息直接抛出
         Object result = point.proceed();
         long runTime = System.currentTimeMillis() - start;
-        log.info("操作用时：{}毫秒\r\n返回结果:{}",runTime,result.toString());
+        if(result instanceof ResultInfo){
+            ResultInfo resultInfo =(ResultInfo) result;
+            log.info("\r\n操作用时：{}毫秒\r\n返回结果:{}",runTime,resultInfo.getMsg());
+        }
         return result;
 
     }

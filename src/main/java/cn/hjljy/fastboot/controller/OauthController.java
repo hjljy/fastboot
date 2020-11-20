@@ -1,7 +1,5 @@
 package cn.hjljy.fastboot.controller;
 
-import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
-import cn.hjljy.fastboot.autoconfig.security.UserInfo;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

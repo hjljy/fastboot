@@ -9,7 +9,7 @@ public enum ResultCode {
     //统一返回
     SUCCESS(0, "操作成功"),
     DEFAULT(1, "操作失败"),
-    ERROR(2, "服务器开小差了"),
+    ERROR(2, "服务器异常,请联系管理员"),
 
     //业务逻辑异常
     CUSTOM_EXCEPTION(10000,"操作逻辑异常，不允许本次操作"),

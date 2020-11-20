@@ -32,16 +32,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResultInfo errorHandler(HttpServletRequest request, Exception ex) {
+        ex.printStackTrace();
         ResultInfo resultInfo = ResultInfo.error(ResultCode.ERROR);
         return resultInfo;
     }
     @ExceptionHandler(value = BadCredentialsException.class)
     public ResultInfo errorHandler(HttpServletRequest request, BadCredentialsException ex) {
+        ex.printStackTrace();
         ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(),ex.getMessage());
         return resultInfo;
     }
     @ExceptionHandler(value = AuthenticationException.class)
     public ResultInfo errorHandler(HttpServletRequest request, AuthenticationException ex) {
+        ex.printStackTrace();
         ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_NOT_FOUND_OR_ENABLE.getCode(),ex.getMessage());
         return resultInfo;
     }

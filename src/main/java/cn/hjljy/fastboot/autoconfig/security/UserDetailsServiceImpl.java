@@ -3,8 +3,6 @@ package cn.hjljy.fastboot.autoconfig.security;
 import cn.hjljy.fastboot.common.enums.SysUserStatusEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
-import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
-import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
@@ -14,16 +12,12 @@ import cn.hjljy.fastboot.service.sys.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntFunction;
-import java.util.stream.Collectors;
 
 /**
  * @author 海加尔金鹰
