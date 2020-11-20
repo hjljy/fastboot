@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
@@ -50,12 +51,12 @@ public class SecurityUtils {
      * 获取当前登录用户信息
      * @return
      */
-    public static UserInfo getUserInfo(){
+    public static User getUserInfo(){
         Authentication authentication = getAuthentication();
         if(authentication!=null){
             Object principal = authentication.getPrincipal();
             if(principal!=null){
-                UserInfo userInfo = (UserInfo) authentication.getPrincipal();
+                User userInfo = (User)authentication.getPrincipal();
                 return userInfo;
             }
         }
@@ -66,9 +67,12 @@ public class SecurityUtils {
      * 获取当前登录用户ID
      * @return
      */
-    public static Long getUserId(){
-        UserInfo userInfo = getUserInfo();
-        return userInfo.getUserId();
+    public static String getUsername(){
+        User userInfo = getUserInfo();
+        if (userInfo!=null){
+            return userInfo.getUsername();
+        }
+        return null;
     }
 
     /**

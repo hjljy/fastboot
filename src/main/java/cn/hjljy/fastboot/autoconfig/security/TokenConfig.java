@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -22,11 +23,13 @@ public class TokenConfig {
     /** JWT密钥 */
     private String signingKey = "fastboot";
 
+
+
     /**
      * JWT 令牌转换器
      * @return
      */
-    @Bean
+    @Bean("jwtAccessTokenConverter")
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter jwt = new JwtAccessTokenConverter(){
             @Override
@@ -43,7 +46,8 @@ public class TokenConfig {
                 }
                 String scope =scopeTemp;
                 Map<String, Object> data = new HashMap<String, Object>(4){{
-                    put("user_id", user.getUserId());
+                    put("userId", user.getUserId());
+                    put("username", user.getUsername());
                     put("email", user.getEmail());
                     put("roleDtos",user.getRoleDtos());
                     put("nickName", user.getNickName());
@@ -54,12 +58,11 @@ public class TokenConfig {
                 return super.encode(accessToken, authentication);
             }
         };
-        //资源服务器可以自己解析token
-        DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
-        jwt.setAccessTokenConverter(defaultAccessTokenConverter);
+
         jwt.setSigningKey(signingKey);
         return jwt;
     }
+
 
     /**
      * 配置 token 如何生成
