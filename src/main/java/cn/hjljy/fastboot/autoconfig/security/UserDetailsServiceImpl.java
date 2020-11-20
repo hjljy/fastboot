@@ -73,11 +73,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private void checkUserInfo(SysUser userInfo, String username) {
-        if(null==userInfo){
-            throw new BusinessException(ResultCode.USER_NOT_FOUND,username);
-        }
-        if(SysUserStatusEnum.DISABLE.equals(userInfo.getEnable())){
-            throw new BusinessException(ResultCode.USER_NOT_ENABLE,username);
+        if(null==userInfo||SysUserStatusEnum.DISABLE.equals(userInfo.getEnable())){
+            throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE,username+ResultCode.USER_NOT_FOUND_OR_ENABLE.getMsg());
         }
     }
 }

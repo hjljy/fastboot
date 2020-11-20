@@ -31,7 +31,7 @@ public class OAuth2ResourceConfiguration extends ResourceServerConfigurerAdapter
         List<String> requestAllow = fastBootConfig.getRequestAllow();
         String[] allow=new String[requestAllow.size()];
         String[] array = requestAllow.toArray(allow);
-        registry.antMatchers("/oauth/*").permitAll();
+        registry.antMatchers(array).permitAll();
         registry.anyRequest().authenticated();
     }
 }

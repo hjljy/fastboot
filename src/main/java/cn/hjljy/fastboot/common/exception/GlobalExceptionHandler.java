@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,55 +30,26 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @Value("${spring.profiles.active}")
-    private String prod;
-
     @ExceptionHandler(value = Exception.class)
     public ResultInfo errorHandler(HttpServletRequest request, Exception ex) {
-        ResultInfo resultInfo = ResultInfo.error("服务器开了个小差");
-        dealErrorMessage(request,ex, resultInfo);
+        ResultInfo resultInfo = ResultInfo.error(ResultCode.ERROR);
         return resultInfo;
     }
     @ExceptionHandler(value = BadCredentialsException.class)
     public ResultInfo errorHandler(HttpServletRequest request, BadCredentialsException ex) {
         ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(),ex.getMessage());
-        dealErrorMessage(request,ex, resultInfo);
         return resultInfo;
     }
-
+    @ExceptionHandler(value = AuthenticationException.class)
+    public ResultInfo errorHandler(HttpServletRequest request, AuthenticationException ex) {
+        ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_NOT_FOUND_OR_ENABLE.getCode(),ex.getMessage());
+        return resultInfo;
+    }
 
     @ExceptionHandler(value = BusinessException.class)
     public ResultInfo errorHandler(HttpServletRequest request, BusinessException ex) {
         ResultInfo resultInfo = ResultInfo.error(ex.getCode(),ex.getMessage());
-        dealErrorMessage(request,ex, resultInfo);
         return resultInfo;
     }
 
-    private void dealErrorMessage(HttpServletRequest request,Exception ex, ResultInfo resultInfo){
-        ex.printStackTrace();
-        StringWriter var1 = new StringWriter();
-        String error = var1.toString();
-        StringBuilder errorData = new StringBuilder();
-        errorData.append(error);
-        String body="";
-        Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements()){
-            String parameter = request.getParameter(names.nextElement());
-            System.out.println(parameter);
-        }
-        try{
-            body = ServletUtil.getBody(request);
-        }catch (Exception e){
-            log.warn("记录请求参数失败");
-        }
-        String clientIP = ServletUtil.getClientIP(request);
-        if (!prod.equals("prod")) {
-            resultInfo.setData(body);
-        }
-        log.error("请求路径地址：{}",request.getRequestURL());
-        log.error("请求路径方式：{}",request.getMethod());
-        log.error("请求参数信息：{}",body);
-        log.error("请求来源地址：{}",clientIP);
-        log.error("请求错误信息：{}", errorData);
-    }
 }
