@@ -59,7 +59,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(perms);
         String password = SecurityUtils.encryptPassword("admin");
         UserInfo user =new UserInfo(username,password,authorityList);
-        user.setEmail(userInfo.getEmali());
+        user.setEmail(userInfo.getEmail());
         user.setNickName(userInfo.getNickName());
         user.setRoleDtos(roleInfo);
         user.setUserId(userInfo.getId());

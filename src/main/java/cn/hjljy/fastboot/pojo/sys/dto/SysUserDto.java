@@ -27,17 +27,14 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "用户ID")
     private Long id;
 
-    @ApiModelProperty(value = "用户名称")
+    @ApiModelProperty(value = "用户账号")
     private String userName;
 
     @ApiModelProperty(value = "用户昵称")
     private String nickName;
 
-    @ApiModelProperty(value = "用户密码")
-    private String password;
-
     @ApiModelProperty(value = "用户邮箱")
-    private String emali;
+    private String email;
 
     @ApiModelProperty(value = "用户头像")
     private String avatarUrl;
@@ -50,6 +47,9 @@ public class SysUserDto implements Serializable {
 
     @ApiModelProperty(value = "用户描述")
     private String description;
+
+    @ApiModelProperty(value = "返回的token")
+    private String token;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

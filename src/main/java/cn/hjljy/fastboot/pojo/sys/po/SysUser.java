@@ -38,7 +38,7 @@ public class SysUser implements Serializable {
     private String password;
 
     @ApiModelProperty(value = "用户邮箱")
-    private String emali;
+    private String email;
 
     @ApiModelProperty(value = "用户头像")
     private String avatarUrl;

@@ -31,16 +31,7 @@ public class OauthController {
     public ResultInfo token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
-        Map<String, Object> additionalInformation = token.getAdditionalInformation();
-        Long userId= (Long)additionalInformation.get("userId");
-        String email= (String)additionalInformation.get("email");
-        String username= (String)additionalInformation.get("username");
-        String scope= (String)additionalInformation.get("scope");
-        String nickName= (String)additionalInformation.get("nickName");
-        SysUserDto userDto =new SysUserDto();
-        userDto.setEmali(email);
-        userDto.setNickName(nickName);
-        userDto.setId(userId);
-        return ResultInfo.success(userDto);
+        // TODO 可以考虑将返回的TOKEN信息存入redis或者数据库
+        return ResultInfo.success(token);
     }
 }

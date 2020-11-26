@@ -37,7 +37,7 @@ public class DemoController {
         return userInfo.toString();
     }
     @RequestMapping("/t2")
-    public String getT2(String name){
+    public String getT2(@RequestBody  String name){
         return name;
     }
 }
