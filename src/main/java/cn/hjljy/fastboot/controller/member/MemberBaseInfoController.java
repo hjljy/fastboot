@@ -34,7 +34,7 @@ public class MemberBaseInfoController {
 
     @PostMapping("/list")
     @ApiOperation(value ="分页查询会员信息")
-    public ResultInfo getMemberBaseInfoList(@RequestBody MemberListDto dto){
+    public ResultInfo<List<MemberBaseInfoDto>> getMemberBaseInfoList(@RequestBody MemberListDto dto){
         List<MemberBaseInfoDto> list= memberBaseInfoService.getMemberBaseInfoList(dto.getOrgId(),dto.getKeywords(),dto.getLevelId(),dto.getPageNo(),dto.getPageNum());
         return ResultInfo.success(list);
     }
