@@ -13,9 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 自定义访问无权限资源时的异常
- * @author xz
- * @date 2020/6/16
+ *
+ * @author yichofan
+ * @since  2020/6/16
+ * @apiNote 自定义访问无权限资源时的异常
  */
 @Component
 public class CustomAccessDeniedHandler extends OAuth2AccessDeniedHandler {
