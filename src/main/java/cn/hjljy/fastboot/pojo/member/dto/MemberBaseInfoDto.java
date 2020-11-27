@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  *
@@ -32,15 +34,18 @@ public class MemberBaseInfoDto implements Serializable {
     private Long memberId;
 
     @ApiModelProperty(value = "会员所属机构ID")
+    @NotNull(message = "会员所属机构ID不能为空")
     private Long orgId;
 
     @ApiModelProperty(value = "会员性别 0女 1男 -1保密(默认)")
     private Integer memberSex;
 
     @ApiModelProperty(value = "会员名称")
+    @NotNull(message = "会员名称不能为空")
     private String memberName;
 
     @ApiModelProperty(value = "会员手机号")
+    @NotNull(message = "会员手机号不能为空")
     private String memberPhone;
 
     @ApiModelProperty(value = "会员生日：年月日")

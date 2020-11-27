@@ -96,6 +96,16 @@ public class SnowFlakeUtil {
         return System.currentTimeMillis();
     }
 
+    public static Long createID(){
+        SnowFlakeUtil snowFlake = new SnowFlakeUtil(1, 6);
+        long nextId = snowFlake.nextId();
+        return nextId;
+    }
+    public static String createCardID(String pre){
+        SnowFlakeUtil snowFlake = new SnowFlakeUtil(5, 7);
+        long nextId = snowFlake.nextId();
+        return pre+nextId;
+    }
     public static void main(String[] args) {
         //如果分布式部署项目，这里的参数建议设置独立的
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(2, 3);

@@ -24,6 +24,10 @@ public enum ResultCode {
     PERMISSION_DENIED(20021,"权限不足，请联系管理员"),
     TOKEN_EXPIRED(20022,"会话已过期, 请重新登录"),
     TOKEN_NOT_FOUND(20022,"未携带TOKEN,非法请求！"),
+
+    //会员系统异常码
+    MEMBER_NOT_FOUND(40001,"未找到对应的会员信息"),
+    MEMBER_EXIST(40002,"会员已存在"),
     //服务端代码异常
     SQL_EXCEPTION(90000,"SQL异常"),
     NPE_EXCEPTION(90001,"NPE异常");

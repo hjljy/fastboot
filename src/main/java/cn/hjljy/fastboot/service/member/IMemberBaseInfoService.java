@@ -28,4 +28,19 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * @return 会员列表信息
      */
     IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(String orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum);
+
+    /**
+     * 新增会员信息
+     * @param dto 会员信息
+     * @return
+     */
+    Boolean addMember(MemberBaseInfoDto dto);
+
+    /**
+     * 根据机构Id和手机号获取会员信息
+     * @param memberPhone 会员手机号
+     * @param orgId 所属机构ID
+     * @return
+     */
+    MemberBaseInfo selectByPhoneAndOrgId(String memberPhone, Long orgId);
 }
