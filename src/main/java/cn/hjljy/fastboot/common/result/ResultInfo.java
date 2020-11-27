@@ -75,7 +75,7 @@ public class ResultInfo<T> {
         this.msg = msg;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 

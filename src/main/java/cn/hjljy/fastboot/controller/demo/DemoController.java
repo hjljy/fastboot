@@ -24,7 +24,7 @@ import cn.hjljy.fastboot.pojo.dto.DemoPoDto;
 @RequestMapping("/demo-po")
 public class DemoController {
 
-    @RequestMapping("/t1")
+    @PostMapping("/t1")
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public String getDemo(String name){
         if(SecurityContextHolder.getContext() == null) {
@@ -36,7 +36,7 @@ public class DemoController {
 //        return ResultInfo.success(userInfo);
         return userInfo.toString();
     }
-    @RequestMapping("/t2")
+    @PostMapping("/t2")
     public String getT2(@RequestBody  String name){
         return name;
     }
