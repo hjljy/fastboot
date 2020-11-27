@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @apiNote 前端AJAX请求返回实体
  */
 @ApiModel(value = "前端AJAX请求返回实体")
-public class ResultInfo {
+public class ResultInfo<T> {
     @ApiModelProperty(value = "状态码，非0表示失败")
     private int code;
 
@@ -18,7 +18,7 @@ public class ResultInfo {
     private String msg;
 
     @ApiModelProperty(value = "请求返回数据")
-    private Object data;
+    private T data;
 
 
 
@@ -26,7 +26,7 @@ public class ResultInfo {
     public ResultInfo() {
     }
 
-    public ResultInfo(Object data) {
+    public ResultInfo(T data) {
         this.code = ResultCode.SUCCESS.getCode();
         this.msg = ResultCode.SUCCESS.getMsg();
         this.data = data;
@@ -79,7 +79,7 @@ public class ResultInfo {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

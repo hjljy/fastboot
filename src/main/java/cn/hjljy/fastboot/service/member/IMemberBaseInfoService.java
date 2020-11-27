@@ -1,7 +1,11 @@
 package cn.hjljy.fastboot.service.member;
 
+import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
+import cn.hjljy.fastboot.pojo.member.dto.MemberListDto;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
 
+    /**
+     * 分页查询数据
+     * @param orgId  机构ID
+     * @param keywords  关键字
+     * @param levelId  等级ID
+     * @param pageNo 页码
+     * @param pageNum 页数
+     * @return 会员列表信息
+     */
+    List<MemberBaseInfoDto> getMemberBaseInfoList(String orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum);
 }

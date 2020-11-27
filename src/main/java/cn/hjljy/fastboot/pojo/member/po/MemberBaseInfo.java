@@ -34,7 +34,7 @@ public class MemberBaseInfo implements Serializable {
     private Integer memberSex;
 
     @ApiModelProperty(value = "会员名称")
-    private String membrName;
+    private String memberName;
 
     @ApiModelProperty(value = "会员手机号")
     private String memberPhone;
@@ -54,8 +54,11 @@ public class MemberBaseInfo implements Serializable {
     @ApiModelProperty(value = "会员卡号")
     private String memberCard;
 
+    @ApiModelProperty(value = "会员来源")
+    private String source;
+
     @ApiModelProperty(value = "会员积分")
-    @TableField("member_Integral")
+
     private Long memberIntegral;
 
     @ApiModelProperty(value = "成长值")
