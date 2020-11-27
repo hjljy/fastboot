@@ -65,10 +65,8 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice {
                 log.info(sb.toString(),request.getURI(),request.getMethod().name(),inputStream2String(request.getBody()),token, JacksonUtil.obj2String(body));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
-
-
         return body;
     }
 
@@ -101,8 +99,8 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice {
                 sb.append(line);
             }
         } catch (IOException e) {
+            sb.append("body参数获取失败");
             log.error(e.getMessage());
-            throw new RuntimeException(e);
         } finally {
             if (reader != null) {
                 try {
