@@ -2,6 +2,8 @@ package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -14,6 +16,7 @@ import java.util.List;
  * @apiNote 用户信息类 主要是提供给验证框架使用，并将用户基本信息保存到这个类
  * @since 2020/9/11
  **/
+@ApiModel("用户信息")
 public class UserInfo extends User {
 
     private static final long serialVersionUID = 1L;
@@ -22,6 +25,7 @@ public class UserInfo extends User {
      * 描述: 可以添加自定义的用户属性
      * 用户邮箱
      **/
+    @ApiModelProperty(value = "用户邮箱")
     private String email;
     /**
      * 描述: 用户ID
