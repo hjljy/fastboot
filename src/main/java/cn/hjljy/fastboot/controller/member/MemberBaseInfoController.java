@@ -5,6 +5,7 @@ import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberListDto;
 import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class MemberBaseInfoController {
 
     @PostMapping("/list")
     @ApiOperation(value ="分页查询会员信息")
-    public ResultInfo<List<MemberBaseInfoDto>> getMemberBaseInfoList(@RequestBody MemberListDto dto){
-        List<MemberBaseInfoDto> list= memberBaseInfoService.getMemberBaseInfoList(dto.getOrgId(),dto.getKeywords(),dto.getLevelId(),dto.getPageNo(),dto.getPageNum());
+    public ResultInfo<IPage<MemberBaseInfoDto>> getMemberBaseInfoPageList(@RequestBody MemberListDto dto){
+        IPage<MemberBaseInfoDto> list= memberBaseInfoService.getMemberBaseInfoPageList(dto.getOrgId(),dto.getKeywords(),dto.getLevelId(),dto.getPageNo(),dto.getPageNum());
         return ResultInfo.success(list);
     }
 }

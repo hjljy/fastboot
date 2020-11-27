@@ -4,6 +4,8 @@ import cn.hjljy.fastboot.common.BaseDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author yichaofan
  * @apiNote 会员list接口实体

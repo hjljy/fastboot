@@ -3,6 +3,7 @@ package cn.hjljy.fastboot.service.member;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberListDto;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -26,5 +27,5 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * @param pageNum 页数
      * @return 会员列表信息
      */
-    List<MemberBaseInfoDto> getMemberBaseInfoList(String orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum);
+    IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(String orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum);
 }
