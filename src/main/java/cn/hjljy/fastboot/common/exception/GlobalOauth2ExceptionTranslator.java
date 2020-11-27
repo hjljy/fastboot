@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author xz
- * @Description 针对Token过期异常处理
- * @date 2020/6/3 13:52
+ * @author yichaofan
+ * @apiNote  针对Token过期异常处理
+ * @since  2020/6/16
  **/
 public class GlobalOauth2ExceptionTranslator implements WebResponseExceptionTranslator {
     private Logger log = LoggerFactory.getLogger(cn.hjljy.fastboot.common.exception.GlobalOauth2ExceptionTranslator.class);
