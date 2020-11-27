@@ -33,6 +33,9 @@ fastboot:
       - /login
       - /oauth/**
       - /actuator/**
+      - /v2/api-docs/**
+      - /favicon.ico
+      - /webjars/**
       - /swagger-resources/**
       - /druid/**
       - /css/**
