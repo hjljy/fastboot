@@ -1,5 +1,7 @@
 package cn.hjljy.fastboot.common.exception;
 
+import cn.hjljy.fastboot.common.result.ResultCode;
+import cn.hjljy.fastboot.common.result.ResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -34,6 +36,6 @@ public class CustomAccessDeniedHandler extends OAuth2AccessDeniedHandler {
         response.setStatus(200);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        response.getWriter().print(result);
+        response.getWriter().print(ResultInfo.error(ResultCode.PERMISSION_DENIED));
     }
 }
