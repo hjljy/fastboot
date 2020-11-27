@@ -1,5 +1,7 @@
 package cn.hjljy.fastboot.common.exception;
 
+import cn.hjljy.fastboot.common.result.ResultCode;
+import cn.hjljy.fastboot.common.result.ResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,6 @@ import java.util.Map;
  * @since  2020/6/16
  **/
 public class GlobalOauth2ExceptionTranslator implements WebResponseExceptionTranslator {
-    private Logger log = LoggerFactory.getLogger(cn.hjljy.fastboot.common.exception.GlobalOauth2ExceptionTranslator.class);
 
     @Override
     public ResponseEntity translate(Exception e) {
@@ -26,21 +27,11 @@ public class GlobalOauth2ExceptionTranslator implements WebResponseExceptionTran
         Throwable t = e.getCause();
         // Token 无效的情况
         if (t instanceof InvalidTokenException) {
-            log.error("携带的Token无效");
-            Map<String, Object> data = new HashMap<String, Object>(4){{
-               put("message", "您的会话已过期, 请重新登录！");
-               put("responseCode", 403);
-            }};
-            return new ResponseEntity(data, HttpStatus.FORBIDDEN);
+            return new ResponseEntity(ResultInfo.error(ResultCode.TOKEN_EXPIRED), HttpStatus.FORBIDDEN);
         }
         // 其余非法请求 未携带Token
         if (e instanceof InsufficientAuthenticationException) {
-            log.error("未携带Token,非法请求！");
-            Map<String, Object> data = new HashMap<String, Object>(4){{
-                put("message", "非法请求！");
-                put("responseCode", 401);
-            }};
-            return new ResponseEntity(data, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(ResultInfo.error(ResultCode.TOKEN_NOT_FOUND), HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED);
     }

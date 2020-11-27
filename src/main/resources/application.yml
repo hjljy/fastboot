@@ -32,12 +32,12 @@ fastboot:
     allow: # 请求放行地址
       - /login
       - /oauth/**
-      - /demo-po/t2
       - /actuator/**
       - /swagger-resources/**
       - /druid/**
       - /css/**
       - /404.html
+      - /doc.html
       - /500.html
       - /html/**
       - /js/**
