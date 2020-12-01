@@ -3,6 +3,10 @@ package cn.hjljy.fastboot.autoconfig.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -51,11 +55,31 @@ public class TokenConfig {
                     put("email", user.getEmail());
                     put("roleDtos",user.getRoleDtos());
                     put("nickName", user.getNickName());
+                    put("authorities", user.getAuthorities());
                     put("scope",scope);
                 }};
                 //自定义TOKEN包含的信息
                 token.setAdditionalInformation(data);
                 return super.encode(accessToken, authentication);
+            }
+            @Override
+            protected Map<String, Object> decode(String token) {
+                Map<String, Object> decode = super.decode(token);
+                Long userId = (Long)decode.get("userId");
+                String username = (String)decode.get("username");
+                String email = (String)decode.get("email");
+                String nickName = (String)decode.get("nickName");
+                String scope = (String)decode.get("scope");
+                List<GrantedAuthority> authorities= (ArrayList<GrantedAuthority>) decode.get("authorities");
+
+                UserInfo userInfo =new UserInfo(username,"N/A",userId, authorities);
+                userInfo.setNickName(nickName);
+                userInfo.setEmail(email);
+                UsernamePasswordAuthenticationToken authenticationToken
+                        = new UsernamePasswordAuthenticationToken(userInfo,null,authorities);
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                decode.put("user_name",userInfo);
+                return decode;
             }
         };
 
