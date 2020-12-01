@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.service.member.impl;
 
+import cn.hjljy.fastboot.common.enums.SexEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
@@ -50,6 +51,9 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
             throw new BusinessException(ResultCode.MEMBER_EXIST);
         }
         info.setMemberId(SnowFlakeUtil.createID());
+        if(info.getMemberSex()==null){
+            info.setMemberSex(SexEnum.DEFAULT.getCode());
+        }
         info.setCreateTime(LocalDateTime.now());
         this.baseMapper.insert(info);
         return null;

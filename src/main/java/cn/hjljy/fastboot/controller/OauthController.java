@@ -6,6 +6,7 @@ import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,7 @@ public class OauthController {
     public ResultInfo<OAuth2AccessToken> token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
+        User userInfo = SecurityUtils.getUserInfo();
         // TODO 可以考虑将返回的TOKEN信息存入redis或者数据库
         return ResultInfo.success(token);
     }
