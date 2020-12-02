@@ -1,11 +1,13 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.common.constant.OAuth2Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -27,8 +29,6 @@ public class TokenConfig {
     /** JWT密钥 */
     private String signingKey = "fastboot";
 
-
-
     /**
      * JWT 令牌转换器
      * @return
@@ -36,12 +36,13 @@ public class TokenConfig {
     @Bean("jwtAccessTokenConverter")
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter jwt = new JwtAccessTokenConverter(){
+            /**
+             * 用户信息JWT加密
+             */
             @Override
             protected String encode(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
                 DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
 
-                //设置TOKEN过期时间为1个月
-                token.setExpiration(new Date(System.currentTimeMillis() +60*60*24*30));
                 UserInfo user = (UserInfo) authentication.getUserAuthentication().getPrincipal();
                 Set<String> tokenScope = token.getScope();
                 String scopeTemp = " ";
@@ -62,6 +63,10 @@ public class TokenConfig {
                 token.setAdditionalInformation(data);
                 return super.encode(accessToken, authentication);
             }
+
+            /**
+             * 用户信息JWT
+             */
             @Override
             protected Map<String, Object> decode(String token) {
                 Map<String, Object> decode = super.decode(token);
@@ -70,15 +75,24 @@ public class TokenConfig {
                 String email = (String)decode.get("email");
                 String nickName = (String)decode.get("nickName");
                 String scope = (String)decode.get("scope");
-                List<GrantedAuthority> authorities= (ArrayList<GrantedAuthority>) decode.get("authorities");
-
-                UserInfo userInfo =new UserInfo(username,"N/A",userId, authorities);
+                String auth=decode.get("authorities").toString();
+                List<GrantedAuthority> grantedAuthorityList=new ArrayList<>();
+                List<LinkedHashMap<String,String>> authorities =(List<LinkedHashMap<String,String>>) decode.get("authorities");
+                Set<String> set =new HashSet<>();
+                for (LinkedHashMap<String, String> authority : authorities) {
+                    String authority1 = authority.getOrDefault("authority", "N/A");
+                    SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getOrDefault("authority", "N/A"));
+                    grantedAuthorityList.add(grantedAuthority);
+                    set.add(authority1);
+                }
+                List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(auth);
+                UserInfo userInfo =new UserInfo(username,"N/A",userId, grantedAuthorityList);
                 userInfo.setNickName(nickName);
                 userInfo.setEmail(email);
-                UsernamePasswordAuthenticationToken authenticationToken
-                        = new UsernamePasswordAuthenticationToken(userInfo,null,authorities);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userInfo,null, grantedAuthorityList);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 decode.put("user_name",userInfo);
+                decode.put("authorities",set);
                 return decode;
             }
         };

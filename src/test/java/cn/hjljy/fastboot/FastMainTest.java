@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 public class FastMainTest {
 
     public static void main(String[] args) {
-        BigDecimal one = BigDecimal.ONE;
-        BigDecimal decimal = new BigDecimal("1234156.121654");
-        one.add(BigDecimal.ONE);
-        System.out.println(one.toString());
+        Set<String> set =new HashSet<>();
+        set.add("{sys:menu:add}");
+        boolean contains = set.contains("sys:menu:add");
+        System.out.println(contains);
     }
     public static Date str2Date(String date, String f) {
         SimpleDateFormat format = new SimpleDateFormat(f);
