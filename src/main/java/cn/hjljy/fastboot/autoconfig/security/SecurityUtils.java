@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -60,7 +61,7 @@ public class SecurityUtils {
                 return userInfo;
             }
         }
-        throw new BusinessException();
+        throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
     }
 
     /**

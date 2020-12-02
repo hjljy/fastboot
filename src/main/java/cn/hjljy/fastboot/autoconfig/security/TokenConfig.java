@@ -75,24 +75,18 @@ public class TokenConfig {
                 String email = (String)decode.get("email");
                 String nickName = (String)decode.get("nickName");
                 String scope = (String)decode.get("scope");
-                String auth=decode.get("authorities").toString();
                 List<GrantedAuthority> grantedAuthorityList=new ArrayList<>();
                 List<LinkedHashMap<String,String>> authorities =(List<LinkedHashMap<String,String>>) decode.get("authorities");
-                Set<String> set =new HashSet<>();
                 for (LinkedHashMap<String, String> authority : authorities) {
-                    String authority1 = authority.getOrDefault("authority", "N/A");
                     SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getOrDefault("authority", "N/A"));
                     grantedAuthorityList.add(grantedAuthority);
-                    set.add(authority1);
                 }
-                List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList(auth);
                 UserInfo userInfo =new UserInfo(username,"N/A",userId, grantedAuthorityList);
                 userInfo.setNickName(nickName);
                 userInfo.setEmail(email);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userInfo,null, grantedAuthorityList);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 decode.put("user_name",userInfo);
-                decode.put("authorities",set);
                 return decode;
             }
         };

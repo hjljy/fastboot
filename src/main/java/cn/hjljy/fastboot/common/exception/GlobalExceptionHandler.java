@@ -8,8 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -60,16 +65,40 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理oauth2登录验证异常
-     * @param request
+     * @param response
      * @param ex
      * @return
      */
     @ExceptionHandler(value = AuthenticationException.class)
-    public ResultInfo errorHandler(HttpServletRequest request, AuthenticationException ex) {
+    public ResultInfo errorHandler(HttpServletResponse response, AuthenticationException ex) {
         ex.printStackTrace();
+        //默认是用户密码不正确
         ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_NOT_FOUND_OR_ENABLE.getCode(),ex.getMessage());
+        Throwable cause = ex.getCause();
+        //token 过期处理
+        if (cause instanceof InvalidTokenException) {
+            resultInfo= ResultInfo.error(ResultCode.TOKEN_EXPIRED);
+        }
+        // 其余非法请求 未携带Token
+        if (ex instanceof InsufficientAuthenticationException) {
+            resultInfo=  ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
+        }
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         return resultInfo;
     }
+//    /**
+//     * 处理oauth2 token 无权限问题
+//     * @param response
+//     * @param ex
+//     * @return
+//     */
+//    @ExceptionHandler(value = AuthenticationException.class)
+//    public ResultInfo errorHandler(HttpServletResponse response, AccessDeniedException ex) {
+//        ex.printStackTrace();
+//        ResultInfo resultInfo = ResultInfo.error(ResultCode.PERMISSION_DENIED.getCode(),ex.getMessage());
+//        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//        return resultInfo;
+//    }
 
     /**
      * 处理业务抛出的异常信息
@@ -90,9 +119,13 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(value = Exception.class)
-    public ResultInfo errorHandler(HttpServletRequest request, Exception ex) {
+    public ResultInfo errorHandler(HttpServletRequest request,HttpServletResponse response, Exception ex) {
         ex.printStackTrace();
         ResultInfo resultInfo = ResultInfo.error(ResultCode.ERROR);
+        if(ex instanceof AccessDeniedException ){
+            resultInfo=ResultInfo.error(ResultCode.PERMISSION_DENIED);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        }
         return resultInfo;
     }
 }
