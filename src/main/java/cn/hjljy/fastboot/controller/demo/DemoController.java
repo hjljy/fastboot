@@ -25,7 +25,7 @@ import cn.hjljy.fastboot.pojo.dto.DemoPoDto;
 public class DemoController {
 
     @PostMapping("/t1")
-    @PreAuthorize("hasAuthority('sys:menu:add')")
+    @PreAuthorize("hasAuthority('{authority=sys:menu:add}')")
     public String getDemo(String name){
         if(SecurityContextHolder.getContext() == null) {
             return null;
