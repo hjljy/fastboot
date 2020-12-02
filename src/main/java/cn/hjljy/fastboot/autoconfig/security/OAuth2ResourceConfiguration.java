@@ -1,8 +1,6 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.autoconfig.config.FastBootConfig;
-import cn.hjljy.fastboot.common.exception.CustomAccessDeniedHandler;
-import cn.hjljy.fastboot.common.exception.GlobalOauth2ExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,9 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.util.List;
 
@@ -42,14 +38,5 @@ public class OAuth2ResourceConfiguration extends ResourceServerConfigurerAdapter
         registry.antMatchers(array).permitAll();
         registry.anyRequest().authenticated();
     }
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        // 自定义异常转换
-        AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
-        ((OAuth2AuthenticationEntryPoint) authenticationEntryPoint).setExceptionTranslator(new GlobalOauth2ExceptionTranslator());
-        resources
-                .tokenStore(tokenStore)
-                .accessDeniedHandler(new CustomAccessDeniedHandler())
-                .authenticationEntryPoint(authenticationEntryPoint);
-    }
+
 }
