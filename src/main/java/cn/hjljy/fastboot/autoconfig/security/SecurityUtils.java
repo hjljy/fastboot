@@ -52,7 +52,7 @@ public class SecurityUtils {
      * 获取当前登录用户信息
      * @return
      */
-    public static User getUserInfo(){
+    public static UserInfo getUserInfo(){
         Authentication authentication = getAuthentication();
         if(authentication!=null){
             Object principal = authentication.getPrincipal();
