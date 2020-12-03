@@ -34,7 +34,7 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * @param dto 会员信息
      * @return
      */
-    Boolean addMember(MemberBaseInfoDto dto);
+    int addMember(MemberBaseInfoDto dto);
 
     /**
      * 根据机构Id和手机号获取会员信息

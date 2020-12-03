@@ -44,7 +44,7 @@ public class MemberBaseInfoController {
 
     @PostMapping("/addMember")
     @ApiOperation(value ="新增会员信息")
-    public ResultInfo<Boolean> addMember(@RequestBody @Validated MemberBaseInfoDto dto){
+    public ResultInfo<Integer> addMember(@RequestBody @Validated MemberBaseInfoDto dto){
         return ResultInfo.success( memberBaseInfoService.addMember(dto));
     }
 }

@@ -17,4 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, MemberLevel> implements IMemberLevelService {
 
+    @Override
+    public MemberLevel selectOrgDefaultLevelId(Long orgId) {
+        MemberLevel memberLevel =new MemberLevel();
+        memberLevel.setMemberDefault(true);
+        memberLevel.setOrgId(orgId);
+        return selectOne(memberLevel);
+    }
 }

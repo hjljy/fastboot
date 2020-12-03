@@ -89,7 +89,7 @@ public class MemberBaseInfoDto implements Serializable {
 
     @ApiModelProperty(value = "是否禁用 0否(默认) 1是")
     @TableLogic
-    private Boolean status;
+    private Integer status;
 
 
 }

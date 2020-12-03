@@ -58,7 +58,6 @@ public class MemberBaseInfo implements Serializable {
     private String source;
 
     @ApiModelProperty(value = "会员积分")
-
     private Long memberIntegral;
 
     @ApiModelProperty(value = "成长值")
@@ -81,7 +80,7 @@ public class MemberBaseInfo implements Serializable {
 
     @ApiModelProperty(value = "是否禁用 0否(默认) 1是")
     @TableLogic
-    private Boolean status;
+    private Integer status;
 
 
 }
