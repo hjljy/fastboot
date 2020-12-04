@@ -97,14 +97,19 @@ public class SnowFlakeUtil {
     }
 
     public static Long createID(){
-        SnowFlakeUtil snowFlake = new SnowFlakeUtil(1, 6);
+        SnowFlakeUtil snowFlake = new SnowFlakeUtil(1, 2);
         long nextId = snowFlake.nextId();
         return nextId;
     }
     public static String createCardID(String pre){
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(5, 7);
-        long nextId = snowFlake.nextId();
-        return pre+nextId;
+        String cardId = pre+snowFlake.nextId();
+        return cardId;
+    }
+    public static String createStringID(){
+        SnowFlakeUtil snowFlake = new SnowFlakeUtil(1, 5);
+        String cardId = Long.toString(snowFlake.nextId());
+        return cardId;
     }
     public static void main(String[] args) {
         //如果分布式部署项目，这里的参数建议设置独立的

@@ -43,4 +43,12 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * @return
      */
     MemberBaseInfo selectByPhoneAndOrgId(String memberPhone, Long orgId);
+
+    /**
+     * 根据机构Id和会员卡号获取会员信息
+     * @param memberCard 会员卡号
+     * @param orgId 所属机构ID
+     * @return
+     */
+    MemberBaseInfo selectByCardAndOrgId(String memberCard, Long orgId);
 }

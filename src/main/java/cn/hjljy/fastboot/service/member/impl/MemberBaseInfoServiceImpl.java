@@ -14,6 +14,7 @@ import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hjljy.fastboot.service.member.IMemberLevelService;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.IdcardUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -59,6 +60,13 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         if(memberBaseInfo!=null){
             throw new BusinessException(ResultCode.MEMBER_EXIST);
         }
+        //判断会员卡号是否重复
+        if(StringUtils.isNotEmpty(dto.getMemberCard())){
+            MemberBaseInfo baseInfo = this.selectByCardAndOrgId(dto.getMemberCard(), dto.getOrgId());
+            if(baseInfo!=null){
+                throw new BusinessException(ResultCode.MEMBER_EXIST);
+            }
+        }
         //处理默认信息
         MemberLevel level = memberLevelService.selectOrgDefaultLevelId(dto.getOrgId());
         if(level==null){
@@ -73,7 +81,10 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
             dto.setSource(SourceEnum.NORMAL.name());
         }
         if(StringUtils.isEmpty(dto.getMemberCard())){
-            dto.setMemberCard(SnowFlakeUtil.createCardID("MN"));
+            dto.setMemberCard(SnowFlakeUtil.createStringID());
+        }
+        if(StringUtils.isEmpty(dto.getMemberBirth())){
+            dto.setMemberBirth(DateUtil.today());
         }
         info.setMemberId(SnowFlakeUtil.createID());
         info.setMemberSex(dto.getMemberSex());
@@ -93,6 +104,14 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     public MemberBaseInfo selectByPhoneAndOrgId(String memberPhone, Long orgId) {
         MemberBaseInfo memberBaseInfo =new MemberBaseInfo();
         memberBaseInfo.setMemberPhone(memberPhone);
+        memberBaseInfo.setOrgId(orgId);
+        return this.selectOne(memberBaseInfo);
+    }
+
+    @Override
+    public MemberBaseInfo selectByCardAndOrgId(String memberCard, Long orgId) {
+        MemberBaseInfo memberBaseInfo =new MemberBaseInfo();
+        memberBaseInfo.setMemberCard(memberCard);
         memberBaseInfo.setOrgId(orgId);
         return this.selectOne(memberBaseInfo);
     }
