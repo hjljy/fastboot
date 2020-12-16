@@ -32,7 +32,6 @@ public class OauthController {
     public ResultInfo<OAuth2AccessToken> token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
-        User userInfo = SecurityUtils.getUserInfo();
         // TODO 可以考虑将返回的TOKEN信息存入redis或者数据库
         return ResultInfo.success(token);
     }

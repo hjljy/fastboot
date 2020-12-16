@@ -19,10 +19,13 @@ import java.util.stream.Collectors;
 public class FastMainTest {
 
     public static void main(String[] args) {
+        Map<String,Object> map =new HashMap<>();
+        map.put("iotPush","true");
+
         Set<String> set =new HashSet<>();
         set.add("{sys:menu:add}");
         boolean contains = set.contains("sys:menu:add");
-        System.out.println(contains);
+        System.out.println(map.get("iotPush").equals("true"));
     }
     public static Date str2Date(String date, String f) {
         SimpleDateFormat format = new SimpleDateFormat(f);
