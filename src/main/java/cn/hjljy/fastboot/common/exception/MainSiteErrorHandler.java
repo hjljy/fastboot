@@ -8,10 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author yichaofan
- * @apiNote : 路径映射错误处理 主要处理请求404 500 等情况返回的界面
- * @date 2020/6/7 18:04
+ * @apiNote : 路径映射错误处理 主要处理请求404 500 等情况返回的界面  前后端分离的项目无需使用
+ * @since  2020/6/7 18:04
  **/
-@Controller
+@Deprecated
+//@Controller
 public class MainSiteErrorHandler implements ErrorController {
     private static final String ERROR_PATH = "/error";
 
