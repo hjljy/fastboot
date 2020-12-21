@@ -22,5 +22,5 @@ public interface MemberBaseInfoMapper extends BaseMapper<MemberBaseInfo> {
      * @param levelId  等级ID
      * @return 会员列表信息
      */
-    IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(IPage<MemberBaseInfoDto> page, @Param("orgId") String orgId,@Param("keywords") String keywords,@Param("levelId") Long levelId);
+    IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(IPage<MemberBaseInfoDto> page, @Param("orgId") Long orgId,@Param("keywords") String keywords,@Param("levelId") Long levelId);
 }

@@ -14,11 +14,17 @@ import javax.validation.constraints.NotNull;
 public class BaseDto {
     @NotNull(message ="机构ID必传")
     @ApiModelProperty(value = "机构ID")
-    String orgId;
+    Long orgId;
 
     @ApiModelProperty(value = "多少页")
     Integer pageNo;
 
     @ApiModelProperty(value = "每页多少条数据")
     Integer pageNum;
+
+    @ApiModelProperty(value = "api版本")
+    String apiVersion;
+
+    @ApiModelProperty(value = "请求来源 web,ios,windows,h5,andiron")
+    String source;
 }

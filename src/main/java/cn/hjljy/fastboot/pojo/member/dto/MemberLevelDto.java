@@ -11,6 +11,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  *
@@ -31,12 +34,15 @@ public class MemberLevelDto implements Serializable {
     private Long levelId;
 
     @ApiModelProperty(value = "机构ID")
+    @NotNull(message = "所属机构ID不能为空")
     private Long orgId;
 
     @ApiModelProperty(value = "等级名称")
+    @NotBlank(message = "等级名称不能为空")
     private String levelName;
 
     @ApiModelProperty(value = "会员等级排序")
+    @NotNull(message = "会员等级排序不能为空")
     private Integer levelOrder;
 
     @ApiModelProperty(value = "等级所需成长值")

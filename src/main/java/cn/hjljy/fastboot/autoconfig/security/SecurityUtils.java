@@ -69,7 +69,7 @@ public class SecurityUtils {
      * @return
      */
     public static String getUsername(){
-        User userInfo = getUserInfo();
+        UserInfo userInfo = getUserInfo();
         if (userInfo!=null){
             return userInfo.getUsername();
         }
@@ -85,5 +85,13 @@ public class SecurityUtils {
     public static String encryptPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
+    }
+
+    public static Long getUserId() {
+        UserInfo userInfo = getUserInfo();
+        if (userInfo!=null){
+            return userInfo.getUserId();
+        }
+        return null;
     }
 }

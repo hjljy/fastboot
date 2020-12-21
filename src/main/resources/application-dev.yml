@@ -42,5 +42,5 @@ spring:
         allow: ""  # 白名单 表示所有
         deny: 192.168.1.12 # 黑名单
 server:
-  port: 8080
+  port: 8090
 

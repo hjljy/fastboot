@@ -48,9 +48,6 @@ public class ResultInfo<T> {
         return new ResultInfo(code.getCode(),code.getMsg());
     }
 
-    public static ResultInfo success(Object data) {
-        return new ResultInfo(data);
-    }
     public static ResultInfo success() {
         return new ResultInfo(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMsg());
     }

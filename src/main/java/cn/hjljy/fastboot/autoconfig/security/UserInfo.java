@@ -32,6 +32,10 @@ public class UserInfo extends User {
      **/
     private Long userId;
     /**
+     * 描述: 用户机构ID
+     **/
+    private Long orgId;
+    /**
      * 描述: 用户昵称
      **/
     private String NickName;
@@ -82,5 +86,13 @@ public class UserInfo extends User {
 
     public void setRoleDtos(List<SysRole> roleDtos) {
         this.roleDtos = roleDtos;
+    }
+
+    public Long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
     }
 }

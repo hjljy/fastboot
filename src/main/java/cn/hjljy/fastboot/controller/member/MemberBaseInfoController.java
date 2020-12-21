@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -29,23 +29,23 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/v1/member")
-@Api(value = "会员列表",tags = "会员列表信息")
+@Api(value = "会员列表", tags = "会员列表信息")
 public class MemberBaseInfoController {
 
     @Autowired
     IMemberBaseInfoService memberBaseInfoService;
 
     @PostMapping("/list")
-    @ApiOperation(value ="分页查询会员信息")
-    public ResultInfo<IPage<MemberBaseInfoDto>> getMemberBaseInfoPageList(@RequestBody @Validated MemberListDto dto){
-        IPage<MemberBaseInfoDto> list= memberBaseInfoService.getMemberBaseInfoPageList(dto.getOrgId(),dto.getKeywords(),dto.getLevelId(),dto.getPageNo(),dto.getPageNum());
-        return ResultInfo.success(list);
+    @ApiOperation(value = "分页查询会员信息")
+    public ResultInfo<IPage<MemberBaseInfoDto>> getMemberBaseInfoPageList(@RequestBody @Validated MemberListDto dto) {
+        IPage<MemberBaseInfoDto> list = memberBaseInfoService.getMemberBaseInfoPageList(dto.getOrgId(), dto.getKeywords(), dto.getLevelId(), dto.getPageNo(), dto.getPageNum());
+        return new ResultInfo<>(list);
     }
 
     @PostMapping("/addMember")
-    @ApiOperation(value ="新增会员信息")
-    public ResultInfo<Integer> addMember(@RequestBody @Validated MemberBaseInfoDto dto){
-        return ResultInfo.success( memberBaseInfoService.addMember(dto));
+    @ApiOperation(value = "新增会员信息")
+    public ResultInfo<Integer> addMember(@RequestBody @Validated MemberBaseInfoDto dto) {
+        return new ResultInfo<>(memberBaseInfoService.addMember(dto));
     }
 }
 

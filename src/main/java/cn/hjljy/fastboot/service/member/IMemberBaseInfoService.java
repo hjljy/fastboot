@@ -27,12 +27,12 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * @param pageNum 页数
      * @return 会员列表信息
      */
-    IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(String orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum);
+    IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(Long orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum);
 
     /**
      * 新增会员信息
      * @param dto 会员信息
-     * @return
+     * @return int 结果
      */
     int addMember(MemberBaseInfoDto dto);
 
@@ -40,7 +40,7 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * 根据机构Id和手机号获取会员信息
      * @param memberPhone 会员手机号
      * @param orgId 所属机构ID
-     * @return
+     * @return MemberBaseInfo 会员信息
      */
     MemberBaseInfo selectByPhoneAndOrgId(String memberPhone, Long orgId);
 
@@ -48,7 +48,7 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * 根据机构Id和会员卡号获取会员信息
      * @param memberCard 会员卡号
      * @param orgId 所属机构ID
-     * @return
+     * @return MemberBaseInfo 会员信息
      */
     MemberBaseInfo selectByCardAndOrgId(String memberCard, Long orgId);
 }

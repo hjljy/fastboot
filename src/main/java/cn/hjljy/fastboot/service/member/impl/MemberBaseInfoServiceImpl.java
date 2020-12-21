@@ -41,7 +41,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     private IMemberLevelService memberLevelService;
 
     @Override
-    public IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(String orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum) {
+    public IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(Long orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum) {
         IPage<MemberBaseInfoDto> page = new Page<>();
         page.setPages(pageNo);
         page.setSize(pageNum);
@@ -70,7 +70,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         //处理默认信息
         MemberLevel level = memberLevelService.selectOrgDefaultLevelId(dto.getOrgId());
         if(level==null){
-            dto.setLevelId(-1L);
+            dto.setLevelId(0L);
         }else {
             dto.setLevelId(level.getLevelId());
         }
