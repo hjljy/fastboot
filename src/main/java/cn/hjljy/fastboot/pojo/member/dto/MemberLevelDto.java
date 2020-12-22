@@ -25,9 +25,9 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "MemberLevelDto对象", description = "")
-public class MemberLevelDto implements Serializable {
+public class MemberLevelDto  {
 
-    private static final long serialVersionUID = 1L;
+
 
 
     @ApiModelProperty(value = "等级ID")

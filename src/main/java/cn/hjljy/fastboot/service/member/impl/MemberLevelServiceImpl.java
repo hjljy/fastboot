@@ -10,6 +10,7 @@ import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hjljy.fastboot.service.member.IMemberLevelService;
 import cn.hutool.core.bean.BeanUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -41,7 +42,11 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
         memberLevel.setOrgId(orgId);
         List<MemberLevel> list = this.selectList(memberLevel);
         List<MemberLevelDto> dtoList = new ArrayList<>();
-        BeanUtil.copyProperties(list, dtoList);
+        for (MemberLevel level : list) {
+            MemberLevelDto dto = new MemberLevelDto();
+            BeanUtil.copyProperties(level,dto);
+            dtoList.add(dto);
+        }
         return dtoList;
     }
 

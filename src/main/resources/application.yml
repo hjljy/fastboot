@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml  #xml所在位置  不设置默认是在mapper类同级
   configuration:

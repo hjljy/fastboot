@@ -33,6 +33,6 @@ public class OauthController {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
         // TODO 可以考虑将返回的TOKEN信息存入redis或者数据库
-        return ResultInfo.success(token);
+        return new ResultInfo<>(token);
     }
 }
