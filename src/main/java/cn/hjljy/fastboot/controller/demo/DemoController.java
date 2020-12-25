@@ -5,6 +5,7 @@ package cn.hjljy.fastboot.controller.demo;
 import cn.hjljy.fastboot.autoconfig.security.UserInfo;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
+import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,8 +38,8 @@ public class DemoController {
         return userInfo.toString();
     }
     @PostMapping("/t2")
-    public String getT2(@RequestBody  String name){
-        return name;
+    public String getT2(@RequestBody SysUser user){
+        return user.getUserName();
     }
 }
 
