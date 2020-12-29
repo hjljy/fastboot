@@ -70,7 +70,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         //处理默认信息
         MemberLevel level = memberLevelService.selectOrgDefaultLevelId(dto.getOrgId());
         if(level==null){
-            dto.setLevelId(0L);
+            throw new BusinessException(ResultCode.MEMBER_LEVEL_NOT_EXIST,"新会员默认等级未设置，请先设置");
         }else {
             dto.setLevelId(level.getLevelId());
         }

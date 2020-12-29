@@ -27,9 +27,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "MemberLevelDto对象", description = "")
 public class MemberLevelDto  {
 
-
-
-
     @ApiModelProperty(value = "等级ID")
     private Long levelId;
 

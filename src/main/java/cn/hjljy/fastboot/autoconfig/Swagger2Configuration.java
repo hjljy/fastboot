@@ -59,13 +59,49 @@ public class Swagger2Configuration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("swagger RESTful APIs")
-                .description("swagger RESTful APIs")
-                .termsOfServiceUrl("http://www.hjljy.cn/")
-                .contact("hjljy@outlook.com")
+                .title("全部接口API")
+                .description("系统全部接口API文档")
                 .version("1.0")
                 .build();
     }
 
+    private ApiInfo sysApiInfo() {
+        return new ApiInfoBuilder()
+                .title("系统管理模块api")
+                .description("sys下所有api接口")
+                .version("1.0")
+                .build();
+    }
 
+    @Bean
+    public Docket sysApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(sysApiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/v1/sys/**"))
+                .build()
+                .groupName("系统管理")
+                .pathMapping("/");
+    }
+
+    private ApiInfo memberApiInfo() {
+        return new ApiInfoBuilder()
+                .title("会员管理模块api")
+                .description("member下所有api接口")
+                .version("1.0")
+                .build();
+    }
+
+    @Bean
+    public Docket memberApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(memberApiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/v1/member/**"))
+                .build()
+                .groupName("会员管理")
+                .pathMapping("/");
+    }
 }

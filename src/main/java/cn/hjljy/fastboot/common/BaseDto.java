@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author yichaofan
- * @apiNote 基础类
+ * @apiNote 基础参数类
  * @since 2020/11/26 18:14
  */
 @Data
@@ -15,6 +15,9 @@ public class BaseDto {
     @NotNull(message ="机构ID必传")
     @ApiModelProperty(value = "机构ID")
     Long orgId;
+
+    @ApiModelProperty(value = "查询关键字")
+    String keywords;
 
     @ApiModelProperty(value = "多少页")
     Integer pageNo;

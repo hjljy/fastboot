@@ -29,7 +29,6 @@ public class MemberBaseInfoDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @ApiModelProperty(value = "会员ID")
     private Long memberId;
 
