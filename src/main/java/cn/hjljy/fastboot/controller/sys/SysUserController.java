@@ -6,6 +6,7 @@ import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberListDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
+import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  用戶列表信息
+ * 用戶列表信息
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -37,9 +38,9 @@ public class SysUserController {
 
     @PostMapping("/page")
     @ApiOperation(value = "分页查询用户信息")
-    public ResultInfo<IPage<SysUserDto>> getSysUserPage(@RequestBody @Validated BaseDto dto){
-        dto.getOrgId();
-        return null;
+    public ResultInfo<IPage<SysUserDto>> getSysUserPage(@RequestBody @Validated SysUserParam param) {
+        IPage<SysUserDto> page = userService.getSysUserInfoPage(param);
+        return new ResultInfo<>(page);
     }
 }
 

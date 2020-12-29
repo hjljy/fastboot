@@ -1,6 +1,9 @@
 package cn.hjljy.fastboot.service.sys;
 
+import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
+import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -15,7 +18,14 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 根据用户账号查询用户信息
      * @param username 用户账号
-     * @return
+     * @return SysUser 用户信息
      */
     SysUser selectByUserName(String username);
+
+    /**
+     * 分页查询用户信息
+     * @param param 分页查询信息
+     * @return IPage<SysUserDto> 分页信息
+     */
+    IPage<SysUserDto> getSysUserInfoPage(SysUserParam param);
 }

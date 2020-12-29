@@ -20,4 +20,9 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param userId 用户ID
      */
     List<SysRole> getUserRoleInfo(Long userId);
+    /**
+     * 获取用户的角色和权限信息
+     * @param userIds 用户ID集合
+     */
+    List<SysRoleDto> getUserRoleInfos(List<Long> userIds);
 }

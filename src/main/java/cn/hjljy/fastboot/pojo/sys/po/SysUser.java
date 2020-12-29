@@ -28,6 +28,9 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "用户ID")
     private Long id;
 
+    @ApiModelProperty(value = "用户机构ID")
+    private Long orgId;
+
     @ApiModelProperty(value = "用户名称")
     private String userName;
 

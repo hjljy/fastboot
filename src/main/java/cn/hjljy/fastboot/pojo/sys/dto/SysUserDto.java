@@ -27,6 +27,9 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "用户ID")
     private Long id;
 
+    @ApiModelProperty(value = "用户机构ID")
+    private Long orgId;
+
     @ApiModelProperty(value = "用户账号")
     private String userName;
 
@@ -54,8 +57,7 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
+
 
     @ApiModelProperty(value = "是否禁用  0否(默认) 1是")
     private Integer enable;

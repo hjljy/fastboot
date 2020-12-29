@@ -4,24 +4,36 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysRole">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="sort" property="sort" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sort" property="sort"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, sort, create_time, update_time, status
     </sql>
+
     <select id="selectUserRoleInfoByUserId" resultType="cn.hjljy.fastboot.pojo.sys.po.SysRole">
            SELECT r.*
 				FROM sys_role r
 				LEFT JOIN sys_user_role ur on r.id = ur.role_id
 				LEFT JOIN sys_user u ON u.id=ur.user_id
-				WHERE u.id	= #{userId};
+				WHERE u.id	= #{userId} and r.status =0;
+    </select>
+
+    <select id="selectUserRoleInfoByUserIds" resultType="cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto">
+        SELECT r.*
+        FROM sys_role r
+        LEFT JOIN sys_user_role ur on r.id = ur.role_id
+        LEFT JOIN sys_user u ON u.id=ur.user_id
+        WHERE r.status =0 and u.id in
+        <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
     </select>
 
 </mapper>

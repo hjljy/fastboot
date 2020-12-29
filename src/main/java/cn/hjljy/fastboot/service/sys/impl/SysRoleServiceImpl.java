@@ -6,7 +6,9 @@ import cn.hjljy.fastboot.mapper.sys.SysRoleMapper;
 import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import cn.hjljy.fastboot.service.BaseService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,5 +27,13 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
     public List<SysRole> getUserRoleInfo(Long userId) {
         List<SysRole> roleDtos = baseMapper.selectUserRoleInfoByUserId(userId);
         return roleDtos;
+    }
+
+    @Override
+    public List<SysRoleDto> getUserRoleInfos(List<Long> userIds) {
+        if(CollectionUtils.isEmpty(userIds)){
+            return new ArrayList<>();
+        }
+        return baseMapper.selectUserRoleInfoByUserIds(userIds);
     }
 }

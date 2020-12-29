@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.common;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -30,4 +31,8 @@ public class BaseDto {
 
     @ApiModelProperty(value = "请求来源 web,ios,windows,h5,andiron")
     String source;
+
+    public Page createPage(){
+        return new Page(pageNo, pageNum);
+    }
 }

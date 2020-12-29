@@ -8,7 +8,8 @@
         <result column="user_name" property="userName" />
         <result column="nick_name" property="nickName" />
         <result column="password" property="password" />
-        <result column="emali" property="emali" />
+        <result column="email" property="email" />
+        <result column="org_id" property="orgId" />
         <result column="avatar_url" property="avatarUrl" />
         <result column="sex" property="sex" />
         <result column="birthday" property="birthday" />
@@ -23,5 +24,31 @@
     <sql id="Base_Column_List">
         id, user_name, nick_name, password, emali, avatar_url, sex, birthday, description, create_time, update_time, enable, status
     </sql>
+    <select id="getSysUserInfoPage" resultType="cn.hjljy.fastboot.pojo.sys.dto.SysUserDto">
+        select
+        DISTINCT
+        u.id,
+        u.org_id,
+        u.user_name,
+        u.email,
+        u.nick_name,
+        u.avatar_url,
+        u.sex,
+        u.birthday,
+        u.create_time,
+        u.update_time,
+        u.enable,
+        u.description
+        from sys_user u
+        left join sys_user_role ur  ON u.id  = ur.user_id
+        <if test="roleId != null and roleId != ''">
+            and ur.role_id =#{roleId}
+        </if>
+        left join sys_role r ON ur.role_id = r.id
+        WHERE u.org_id =#{orgId} and u.status = 0
+        <if test="keywords != null and keywords != ''">
+            AND  (u.nick_name like CONCAT("%",#{keywords},"%")  OR u.user_name like CONCAT("%",#{keywords},"%"))
+        </if>
+    </select>
 
 </mapper>
