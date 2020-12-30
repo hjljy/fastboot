@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.Date;
  * 备注 代码来自：https://blog.csdn.net/qq_42937522/article/details/110310826
  * jackson全局配置java8 LocalDateTime的序列化  全局返回时间戳并且将参数里面的时间戳转换成LocalDateTime
  */
+@Configuration
 public class JacksonCustomizerConfig {
     /**
      * description:适配自定义序列化和反序列化策略
