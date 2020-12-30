@@ -29,7 +29,7 @@ public class SysRole implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "角色机构ID")
-    private Integer orgId;
+    private Long orgId;
 
     @ApiModelProperty(value = "角色名称")
     private String name;

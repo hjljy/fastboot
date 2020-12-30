@@ -28,7 +28,7 @@ public class SysRoleDto implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "角色机构ID")
-    private Integer orgId;
+    private Long orgId;
 
     @ApiModelProperty(value = "用户ID")
     private Long userId;

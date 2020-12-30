@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
-import cn.hjljy.fastboot.common.enums.SysUserStatusEnum;
+import cn.hjljy.fastboot.common.enums.StatusEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
@@ -12,7 +12,6 @@ import cn.hjljy.fastboot.service.sys.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -67,7 +66,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private void checkUserInfo(SysUser userInfo, String username) {
-        if(null==userInfo||SysUserStatusEnum.DISABLE.equals(userInfo.getEnable())){
+        if(null==userInfo|| StatusEnum.DISABLE.equals(userInfo.getEnable())){
             throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE,username+ResultCode.USER_NOT_FOUND_OR_ENABLE.getMsg());
         }
     }

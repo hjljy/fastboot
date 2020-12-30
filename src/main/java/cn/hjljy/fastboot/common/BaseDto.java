@@ -13,9 +13,9 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class BaseDto {
-    @NotNull(message ="机构ID必传")
+
     @ApiModelProperty(value = "机构ID")
-    Long orgId;
+    Long orgId=-1L;
 
     @ApiModelProperty(value = "查询关键字")
     String keywords;
@@ -30,7 +30,7 @@ public class BaseDto {
     String apiVersion;
 
     @ApiModelProperty(value = "请求来源 web,ios,windows,h5,andiron")
-    String source;
+    String source="WEB";
 
     public Page createPage(){
         return new Page(pageNo, pageNum);

@@ -1,9 +1,9 @@
 package cn.hjljy.fastboot.common.enums;
 
 /**
- * 张宏
+ * 状态枚举
  */
-public enum SysUserStatusEnum {
+public enum StatusEnum {
     ENABLE(0, "启用"),
     DISABLE(1, "禁用");
 
@@ -11,7 +11,7 @@ public enum SysUserStatusEnum {
 
     private String remark;
 
-    SysUserStatusEnum(Integer code, String remark) {
+    StatusEnum(Integer code, String remark) {
         this.code = code;
         this.remark = remark;
     }

@@ -1,22 +1,20 @@
 package cn.hjljy.fastboot.service.member.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
+import cn.hjljy.fastboot.common.enums.MemberSourceEnum;
 import cn.hjljy.fastboot.common.enums.SexEnum;
-import cn.hjljy.fastboot.common.enums.SourceEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
+import cn.hjljy.fastboot.mapper.member.MemberBaseInfoMapper;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
-import cn.hjljy.fastboot.mapper.member.MemberBaseInfoMapper;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
-import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import cn.hjljy.fastboot.service.BaseService;
+import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import cn.hjljy.fastboot.service.member.IMemberLevelService;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.IdcardUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
@@ -24,8 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>
@@ -78,7 +74,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
             dto.setMemberSex(SexEnum.DEFAULT.getCode());
         }
         if(StringUtils.isEmpty(dto.getSource())){
-            dto.setSource(SourceEnum.NORMAL.name());
+            dto.setSource(MemberSourceEnum.NORMAL.name());
         }
         if(StringUtils.isEmpty(dto.getMemberCard())){
             dto.setMemberCard(SnowFlakeUtil.createStringID());
