@@ -7,8 +7,9 @@
 所以可不可以直接弄一个整合好的，到时直接使用就可以了呢？
 
 # 项目分支说明
-主干：单一数据源   
-分支：DynamicDataSources 多数据源 (https://github.com/hjljy/fastboot/tree/DynamicDataSources)
+master：单一数据源
+
+member_dev: 会员系统开发分支   
 
 ## 已整合基础配置
 
@@ -30,7 +31,14 @@ CorsFilter :支持跨域CORS请求  需要在启动类上加注解 @EnableCors
 
 TransactionConfiguration：全局事务处理器
 
+ResponseBodyAdvice： 全局请求参数日志打印
+
+JacksonCustomizerConfig：全局返回时间戳并且将参数里面的时间戳转换成LocalDateTime
+
 JacksonUtil: jackson工具包 使用jackson实现字符串和实体类的转换，可自主扩展
+
+SnowFlakeUtil: 雪花算法分布式全局随机ID生成器
+
 
 ## 已整合开发工具
 
