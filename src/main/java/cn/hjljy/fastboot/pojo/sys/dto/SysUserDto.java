@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -57,7 +59,8 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
-
+    @ApiModelProperty(value = "角色信息")
+    private List<SysRoleDto> roles;
 
     @ApiModelProperty(value = "是否禁用  0否(默认) 1是")
     private Integer enable;

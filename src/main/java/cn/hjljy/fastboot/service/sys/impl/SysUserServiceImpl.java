@@ -46,6 +46,10 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         if (!CollectionUtils.isEmpty(infoPage)) {
             List<Long> userIds = infoPage.stream().map(SysUserDto::getId).collect(Collectors.toList());
             List<SysRoleDto> roles = roleService.getUserRoleInfos(userIds);
+            infoPage.forEach(n->{
+                List<SysRoleDto> list = roles.stream().filter(m -> m.getUserId().equals(n.getId())).collect(Collectors.toList());
+                n.setRoles(list);
+            });
         }
         page.setRecords(infoPage);
         return page;
