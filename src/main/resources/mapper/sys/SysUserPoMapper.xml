@@ -41,7 +41,7 @@
         u.description
         from sys_user u
         left join sys_user_role ur  ON u.id  = ur.user_id
-        <if test="roleId != null and roleId != ''">
+        <if test="roleId != null ">
             and ur.role_id =#{roleId}
         </if>
         left join sys_role r ON ur.role_id = r.id
