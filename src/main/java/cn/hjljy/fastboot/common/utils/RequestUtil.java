@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.common.utils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,11 @@ import java.nio.charset.Charset;
 
 public class RequestUtil {
 
+    /**
+     * 获取请求当中body的数据
+     * @param inputStream 数据量
+     * @return json字符串
+     */
     public static String inputStream2String(InputStream inputStream){
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
@@ -30,5 +36,16 @@ public class RequestUtil {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 获取请求当中的token
+     * @param request 请求
+     * @return token字符串
+     */
+    public static String getToken(HttpServletRequest request){
+        String authorization = request.getHeader("Authorization");
+        String token = authorization.substring("Bearer".length()).trim();
+        return token;
     }
 }

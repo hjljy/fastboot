@@ -20,14 +20,17 @@ public class BaseDto {
     @ApiModelProperty(value = "查询关键字")
     String keywords;
 
+    @ApiModelProperty(value = "token")
+    String token;
+
     @ApiModelProperty(value = "多少页")
-    Integer pageNo;
+    Integer pageNo = 1;
 
     @ApiModelProperty(value = "每页多少条数据")
-    Integer pageNum;
+    Integer pageNum = 20;
 
     @ApiModelProperty(value = "api版本")
-    String apiVersion;
+    String apiVersion = "v1";
 
     @ApiModelProperty(value = "请求来源 web,ios,windows,h5,andiron")
     String source="WEB";

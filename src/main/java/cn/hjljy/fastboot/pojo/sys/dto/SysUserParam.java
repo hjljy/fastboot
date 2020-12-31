@@ -26,4 +26,7 @@ public class SysUserParam extends BaseDto {
     @ApiModelProperty(value = "用户角色ID")
     private Long roleId;
 
+    @ApiModelProperty(value = "用户ID")
+    private Long userId;
+
 }
