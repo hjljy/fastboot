@@ -28,4 +28,11 @@ public interface ISysUserService extends IService<SysUser> {
      * @return IPage<SysUserDto> 分页信息
      */
     IPage<SysUserDto> getSysUserInfoPage(SysUserParam param);
+
+    /**
+     * 根据Id查询用户所有信息
+     * @param userId 用户ID
+     * @return 用户详情
+     */
+    SysUserDto getUserDetailInfoByUserId(Long userId);
 }

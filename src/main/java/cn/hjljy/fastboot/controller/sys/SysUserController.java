@@ -50,7 +50,8 @@ public class SysUserController {
     @ApiOperation(value = "根据ID查询用户详细信息")
     public ResultInfo<SysUserDto> getSysUserInfo(SysUserParam param) {
         Assert.notNull(param.getUserId(),"用户ID不能为空");
-        return null;
+        SysUserDto user =  userService.getUserDetailInfoByUserId(param.getUserId());
+        return new ResultInfo<>(user);
     }
 }
 

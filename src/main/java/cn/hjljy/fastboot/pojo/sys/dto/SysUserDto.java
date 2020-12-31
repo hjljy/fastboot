@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
+import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -62,12 +63,13 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "角色信息")
     private List<SysRoleDto> roles;
 
+    @ApiModelProperty(value = "菜单权限")
+    private List<SysMenuDto> menus;
+
     @ApiModelProperty(value = "是否禁用  0否(默认) 1是")
     private Integer enable;
 
-    @ApiModelProperty(value = "是否删除  0否(默认) 1是")
-    @TableLogic
-    private Integer status;
+
 
 
 }
