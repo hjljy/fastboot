@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,9 +37,6 @@ import java.util.Map;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-
-
-
 
     /**
      * 处理请求方法不匹配异常
@@ -86,19 +84,18 @@ public class GlobalExceptionHandler {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         return resultInfo;
     }
-//    /**
-//     * 处理oauth2 token 无权限问题
-//     * @param response
-//     * @param ex
-//     * @return
-//     */
-//    @ExceptionHandler(value = AuthenticationException.class)
-//    public ResultInfo errorHandler(HttpServletResponse response, AccessDeniedException ex) {
-//        ex.printStackTrace();
-//        ResultInfo resultInfo = ResultInfo.error(ResultCode.PERMISSION_DENIED.getCode(),ex.getMessage());
-//        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-//        return resultInfo;
-//    }
+
+    /**
+     * 处理参数异常信息
+     * @param request
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = BusinessException.class)
+    public ResultInfo errorHandler(HttpServletRequest request, IllegalArgumentException ex) {
+        ResultInfo resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION.getCode(),ex.getMessage());
+        return resultInfo;
+    }
 
     /**
      * 处理业务抛出的异常信息
@@ -125,6 +122,10 @@ public class GlobalExceptionHandler {
         if(ex instanceof AccessDeniedException ){
             resultInfo=ResultInfo.error(ResultCode.PERMISSION_DENIED);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        }else if(ex instanceof SQLException){
+            resultInfo.setCode(ResultCode.SQL_EXCEPTION.getCode());
+        }else if(ex instanceof NullPointerException){
+            resultInfo.setCode(ResultCode.NPE_EXCEPTION.getCode());
         }
         return resultInfo;
     }

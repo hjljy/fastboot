@@ -25,8 +25,8 @@ public enum ResultCode {
     TOKEN_EXPIRED(20022,"会话已过期, 请重新登录"),
     TOKEN_NOT_FOUND(20022,"未携带TOKEN,非法请求！"),
     //服务端代码异常
-    SQL_EXCEPTION(90000,"SQL异常"),
-    NPE_EXCEPTION(90001,"NPE异常");
+    SQL_EXCEPTION(90000,"服务器异常,请联系管理员"),
+    NPE_EXCEPTION(90001,"服务器异常,请联系管理员");
 
     private int code;
 
