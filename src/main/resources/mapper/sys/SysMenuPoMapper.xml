@@ -10,7 +10,7 @@
         <result column="menu_name" property="menuName" />
         <result column="perms" property="perms" />
         <result column="sort" property="sort" />
-        <result column="menu_channle" property="menuChannle" />
+        <result column="menu_channel" property="menuChannel" />
         <result column="menu_path" property="menuPath" />
         <result column="visiable" property="visiable" />
         <result column="create_time" property="createTime" />

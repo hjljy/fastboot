@@ -44,7 +44,7 @@ public class SysMenu implements Serializable {
     private Integer sort;
 
     @ApiModelProperty(value = "菜单渠道 1 web 2 app 3 api")
-    private Integer menuChannle;
+    private Integer menuChannel;
 
     @ApiModelProperty(value = "菜单路径")
     private String menuPath;
