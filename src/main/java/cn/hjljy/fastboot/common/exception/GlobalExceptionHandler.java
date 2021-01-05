@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
      * @param ex
      * @return
      */
-    @ExceptionHandler(value = BusinessException.class)
+    @ExceptionHandler(value = IllegalArgumentException.class)
     public ResultInfo errorHandler(HttpServletRequest request, IllegalArgumentException ex) {
         ResultInfo resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION.getCode(),ex.getMessage());
         return resultInfo;
