@@ -33,7 +33,7 @@ TransactionConfiguration：全局事务处理器
 
 ResponseBodyAdvice： 全局请求参数日志打印
 
-JacksonCustomizerConfig：全局返回时间戳并且将参数里面的时间戳转换成LocalDateTime
+JacksonCustomizerConfig：全局返回时间戳并且将参数里面的时间戳转换成LocalDateTime,全局将Long类型数据返回为string类型避免前端大整数精度丢失
 
 JacksonUtil: jackson工具包 使用jackson实现字符串和实体类的转换，可自主扩展
 
