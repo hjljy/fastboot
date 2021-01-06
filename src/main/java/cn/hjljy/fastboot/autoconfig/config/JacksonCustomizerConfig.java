@@ -19,13 +19,14 @@ import java.time.ZoneOffset;
 import java.util.Date;
 
 /**
- * 备注 代码来自：https://blog.csdn.net/qq_42937522/article/details/110310826
- * jackson全局配置java8 LocalDateTime的序列化  全局返回时间戳并且将参数里面的时间戳转换成LocalDateTime
+ * 描述：jackson全局配置
+ * 1 将Long类型转换成string类型返回，避免大整数导致前端精度丢失的问题
+ * 2 将LocalDateTime全局返回时间戳（方便前端处理）并且将参数里面的时间戳转换成LocalDateTime
  */
 @Configuration
 public class JacksonCustomizerConfig {
     /**
-     * description:适配自定义序列化和反序列化策略
+     * 描述:统一配置类型的转换策略
      */
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
@@ -33,15 +34,15 @@ public class JacksonCustomizerConfig {
             //将Long类型转换成string类型返回，避免大整数导致前端精度丢失的问题
             builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
             builder.serializerByType(Long.class,ToStringSerializer.instance);
-            //将LocalDateTime时间类型统一转换成毫秒级时间戳，返回给前端方便前端统一处理
+            //将LocalDateTime全局返回时间戳（方便前端处理）并且将参数里面的时间戳转换成LocalDateTime
             builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer());
             builder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer());
         };
     }
 
     /**
-     * description:序列化
-     * LocalDateTime序列化为毫秒级时间戳
+     * 描述：将LocalDateTime转换为毫秒级时间戳
+     *
      */
     public static class LocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
         @Override
@@ -55,8 +56,8 @@ public class JacksonCustomizerConfig {
     }
 
     /**
-     * description:反序列化
-     * 毫秒级时间戳序列化为LocalDateTime
+     * 描述：将毫秒级时间戳转换为LocalDateTime
+     *
      */
     public static class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
         @Override
