@@ -53,7 +53,7 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice {
             sb.append("\n返回参数：{}");
             HttpHeaders headers = request.getHeaders();
             MediaType contentType = headers.getContentType();
-            if (contentType.getType().equals(MediaType.MULTIPART_FORM_DATA.getType())) {
+            if (contentType != null && contentType.getType().equals(MediaType.MULTIPART_FORM_DATA.getType())) {
                 log.info(sb.toString(), request.getURI(), request.getMethod().name(), "", "", JacksonUtil.obj2String(body));
             } else {
                 String token = "";
