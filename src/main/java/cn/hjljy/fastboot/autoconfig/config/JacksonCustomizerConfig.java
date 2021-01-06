@@ -1,6 +1,5 @@
 package cn.hjljy.fastboot.autoconfig.config;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
@@ -30,8 +30,10 @@ public class JacksonCustomizerConfig {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return builder -> {
+            //将Long类型转换成string类型返回，避免大整数导致前端精度丢失的问题
             builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
             builder.serializerByType(Long.class,ToStringSerializer.instance);
+            //将LocalDateTime时间类型统一转换成毫秒级时间戳，返回给前端方便前端统一处理
             builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer());
             builder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer());
         };
@@ -46,7 +48,7 @@ public class JacksonCustomizerConfig {
         public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers)
                 throws IOException {
             if (value != null) {
-                long timestamp = LocalDateTimeUtil.toEpochMilli(value);
+                long timestamp = value.toInstant(ZoneOffset.of("+8")).toEpochMilli();
                 gen.writeNumber(timestamp);
             }
         }
@@ -62,7 +64,7 @@ public class JacksonCustomizerConfig {
                 throws IOException {
             long timestamp = p.getValueAsLong();
             if (timestamp > 0) {
-                return LocalDateTimeUtil.of(timestamp, ZoneOffset.of("+8"));
+                return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.of("+8"));
             } else {
                 return null;
             }
@@ -79,7 +81,7 @@ public class JacksonCustomizerConfig {
             @Override
             public LocalDateTime convert(String source) {
                 //毫秒级时间戳转LocalDateTime
-                return LocalDateTimeUtil.of(Long.parseLong(source), ZoneOffset.of("+8"));
+                return LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(source)), ZoneOffset.of("+8"));
             }
         };
     }
