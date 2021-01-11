@@ -49,6 +49,7 @@
         <if test="keywords != null and keywords != ''">
             AND  (u.nick_name like CONCAT("%",#{keywords},"%")  OR u.user_name like CONCAT("%",#{keywords},"%"))
         </if>
+        order by u.create_time
     </select>
 
 </mapper>

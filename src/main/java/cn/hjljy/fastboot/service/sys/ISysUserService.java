@@ -35,4 +35,11 @@ public interface ISysUserService extends IService<SysUser> {
      * @return 用户详情
      */
     SysUserDto getUserDetailInfoByUserId(Long userId);
+
+    /**
+     * 新增用户信息
+     * @param dto 用户基础信息
+     * @return B
+     */
+    void addSysUserInfo(SysUserDto dto);
 }

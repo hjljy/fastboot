@@ -12,6 +12,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 
@@ -30,14 +34,21 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "用户ID")
     private Long id;
 
+    @NotNull(message = "用户机构不能为空")
     @ApiModelProperty(value = "用户机构ID")
     private Long orgId;
 
+    @NotBlank(message = "用户账号不能为空")
     @ApiModelProperty(value = "用户账号")
     private String userName;
 
+    @NotBlank(message = "用户昵称不能为空")
     @ApiModelProperty(value = "用户昵称")
     private String nickName;
+
+    @NotBlank(message = "用户密码不能为空")
+    @ApiModelProperty(value = "用户密码")
+    private String password;
 
     @ApiModelProperty(value = "用户邮箱")
     private String email;
@@ -60,6 +71,7 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
+    @NotEmpty(message = "角色信息不能为空")
     @ApiModelProperty(value = "角色信息")
     private List<SysRoleDto> roles;
 
