@@ -62,7 +62,7 @@ public class SysUser implements Serializable {
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "是否禁用  0否(默认) 1是")
-    private Integer enable;
+    private Boolean enable;
 
     @ApiModelProperty(value = "是否删除  0否(默认) 1是")
     @TableLogic
