@@ -19,13 +19,15 @@ import java.util.stream.Collectors;
 public class FastMainTest {
 
     public static void main(String[] args) {
-        Map<String,Object> map =new HashMap<>();
-        map.put("iotPush","true");
+        String key = "21011220405994385136080";
+        int abs = Math.abs(key.hashCode());
 
-        Set<String> set =new HashSet<>();
-        set.add("{sys:menu:add}");
-        boolean contains = set.contains("sys:menu:add");
-        System.out.println(map.get("iotPush").equals("true"));
+        String numKey = "21011220415185632045839";
+
+        int abs1 = Math.abs(numKey.hashCode());
+
+        System.out.println(abs);
+        System.out.println(abs1);
     }
     public static Date str2Date(String date, String f) {
         SimpleDateFormat format = new SimpleDateFormat(f);

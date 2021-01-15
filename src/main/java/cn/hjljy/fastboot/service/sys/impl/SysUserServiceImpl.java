@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
+import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.sys.SysUserMapper;
@@ -107,6 +108,8 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         SysUser user = new SysUser();
         BeanUtil.copyProperties(dto, user);
         Long userId = SnowFlakeUtil.createID();
+        String password = SecurityUtils.encryptPassword(user.getPassword());
+        user.setPassword(password);
         user.setId(userId);
         //保存用户信息
         this.baseMapper.insert(user);
