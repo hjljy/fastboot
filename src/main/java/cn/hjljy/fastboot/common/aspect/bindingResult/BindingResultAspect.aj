@@ -4,17 +4,20 @@ import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author yichaofan
- * @date 2020/6/5 18:04
- * @apiNote 全局JSR参数校验结果处理器
+ * @since 2020/6/5 18:04
+ * @apiNote 
+ * @see cn.hjljy.fastboot.common.exception.GlobalExceptionHandler#errorHandler(HttpServletRequest, MethodArgumentNotValidException)
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
+@Deprecated
 public class BindingResultAspect {
 
     /**
