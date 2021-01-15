@@ -15,7 +15,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -94,6 +96,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = IllegalArgumentException.class)
     public ResultInfo errorHandler(HttpServletRequest request, IllegalArgumentException ex) {
         ResultInfo resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION.getCode(),ex.getMessage());
+        return resultInfo;
+    }
+
+    /**
+     * 处理参数异常信息
+     * @param request
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResultInfo errorHandler(HttpServletRequest request, MethodArgumentNotValidException ex) {
+        BindingResult result = ex.getBindingResult();
+        ResultInfo resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
+        resultInfo.setMsg(result.getAllErrors().toString());
         return resultInfo;
     }
 
