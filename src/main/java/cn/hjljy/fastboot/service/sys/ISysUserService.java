@@ -39,7 +39,12 @@ public interface ISysUserService extends IService<SysUser> {
     /**
      * 新增用户信息
      * @param dto 用户基础信息
-     * @return B
      */
     void addSysUserInfo(SysUserDto dto);
+
+    /**
+     * 更新用户信息
+     * @param param 用户基础信息
+     */
+    void updateSysUserInfo(SysUserDto param);
 }

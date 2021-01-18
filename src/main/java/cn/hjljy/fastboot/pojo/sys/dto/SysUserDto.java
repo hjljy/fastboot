@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * <p>
@@ -62,6 +63,7 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "出生日期")
     private LocalDateTime birthday;
 
+    @Size(max=260,message = "用户描述过长，请简单描述")
     @ApiModelProperty(value = "用户描述")
     private String description;
 

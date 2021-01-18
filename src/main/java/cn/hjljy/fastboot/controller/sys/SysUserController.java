@@ -60,9 +60,18 @@ public class SysUserController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('{authority=sys:user:add}')")
-    @ApiOperation(value = "根据ID查询用户详细信息")
-    public ResultInfo addSysUserInfo(@RequestBody @Validated SysUserDto dto) {
-        userService.addSysUserInfo(dto);
+    @ApiOperation(value = "新增用户")
+    public ResultInfo addSysUserInfo(@RequestBody @Validated SysUserDto param) {
+        userService.addSysUserInfo(param);
+        return ResultInfo.success();
+    }
+
+    @PostMapping("/update")
+    @PreAuthorize("hasAuthority('{authority=sys:user:update}')")
+    @ApiOperation(value = "更新用户信息")
+    public ResultInfo updateSysUserInfo(@RequestBody @Validated SysUserDto param) {
+        Assert.notNull(param.getId(),"用户ID不能为空");
+        userService.updateSysUserInfo(param);
         return ResultInfo.success();
     }
 }

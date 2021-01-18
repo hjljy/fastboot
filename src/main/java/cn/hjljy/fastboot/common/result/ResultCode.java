@@ -18,12 +18,13 @@ public enum ResultCode {
     REQUEST_METHOD_EXCEPTION(10002,"请求方式错误"),
 
     //用户 权限相关异常
-    USER_NOT_FOUND_OR_ENABLE(20000,"用户不存在或被禁用"),
-    USER_PASSWORD_WRONG(20001,"用户名或密码错误"),
+    USER_NOT_FOUND_OR_ENABLE(20001,"用户不存在或被禁用"),
+    USER_EXIST(20002,"用户已存在"),
+    USER_PASSWORD_WRONG(20003,"用户名或密码错误"),
 
-    PERMISSION_DENIED(20021,"权限不足，请联系管理员"),
-    TOKEN_EXPIRED(20022,"会话已过期, 请重新登录"),
-    TOKEN_NOT_FOUND(20022,"未携带TOKEN,非法请求！"),
+    PERMISSION_DENIED(21001,"权限不足，请联系管理员"),
+    TOKEN_EXPIRED(21002,"会话已过期, 请重新登录"),
+    TOKEN_NOT_FOUND(21023,"未携带TOKEN,非法请求！"),
 
     //会员系统异常码
     MEMBER_NOT_FOUND(40001,"未找到对应的会员信息"),

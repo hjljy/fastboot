@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.sys.SysUserMapper;
 import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
@@ -19,12 +20,16 @@ import cn.hjljy.fastboot.service.sys.ISysUserRoleService;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.util.deparser.UpdateDeParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +44,7 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
+@Slf4j
 public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> implements ISysUserService {
 
     @Autowired
@@ -81,7 +87,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         //查询用户基础信息
         SysUser sysUser = this.baseMapper.selectById(userId);
         if (sysUser == null) {
-            throw new BusinessException();
+            throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
         }
         BeanUtil.copyProperties(sysUser, userDto, "password");
         //查询用户角色信息
@@ -107,17 +113,58 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
 
     @Override
     public void addSysUserInfo(SysUserDto dto) {
+        // 1 判断用户账号是否已存在
+        SysUser userName = this.selectByUserName(dto.getUserName());
+        if (null != userName) {
+            throw new BusinessException(ResultCode.USER_EXIST);
+        }
         SysUser user = new SysUser();
         BeanUtil.copyProperties(dto, user);
         Long userId = SnowFlakeUtil.createID();
         String password = SecurityUtils.encryptPassword(user.getPassword());
         user.setPassword(password);
         user.setId(userId);
-        //保存用户信息
+        //2 保存用户信息
         this.baseMapper.insert(user);
         List<SysRoleDto> roles = dto.getRoles();
-        //保存用户角色信息
-        if(CollectionUtil.isNotEmpty(roles)){
+        //3 保存用户角色信息
+        this.saveUserRole(roles,userId);
+    }
+
+
+
+    @Override
+    public void updateSysUserInfo(SysUserDto param) {
+        // 1 判断用户是否存在
+        SysUser user = this.getById(param.getId());
+        if (null == user) {
+            throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
+        }
+        SysUser sysUser = new SysUser();
+        BeanUtil.copyProperties(param, sysUser);
+        // 2 更新时，不允许更新用户账号,账号置为null
+        sysUser.setUserName(null);
+        // 3 更新时，不允许更新用户密码,密码置为null
+        sysUser.setPassword(null);
+        sysUser.setUpdateTime(LocalDateTime.now());
+        // 4 更新用户基础信息
+        this.updateById(sysUser);
+        // 5 更新用户权限信息
+        UpdateWrapper<SysUserRole> wrapper =new UpdateWrapper<>();
+        wrapper.lambda().eq(SysUserRole::getUserId,param.getId());
+        userRoleService.remove(wrapper);
+        List<SysRoleDto> roles = param.getRoles();
+        this.saveUserRole(roles,param.getId());
+
+    }
+
+    /**
+     * 保存用户角色信息
+     * @param roles 角色信息
+     * @param userId 用户ID
+     */
+    private void saveUserRole(List<SysRoleDto> roles, Long userId) {
+        if (CollectionUtil.isNotEmpty(roles)) {
             List<SysUserRole> userRoles = new ArrayList<>();
             for (SysRoleDto role : roles) {
                 SysUserRole userRole = new SysUserRole();
