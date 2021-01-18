@@ -18,6 +18,7 @@ import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import cn.hjljy.fastboot.service.sys.ISysUserRoleService;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -114,15 +116,17 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         //保存用户信息
         this.baseMapper.insert(user);
         List<SysRoleDto> roles = dto.getRoles();
-        List<SysUserRole> userRoles = new ArrayList<>();
-        for (SysRoleDto role : roles) {
-            SysUserRole userRole = new SysUserRole();
-            userRole.setRoleId(role.getId());
-            userRole.setUserId(userId);
-            userRole.setStatus(0);
-            userRoles.add(userRole);
-        }
         //保存用户角色信息
-        userRoleService.saveBatch(userRoles);
+        if(CollectionUtil.isNotEmpty(roles)){
+            List<SysUserRole> userRoles = new ArrayList<>();
+            for (SysRoleDto role : roles) {
+                SysUserRole userRole = new SysUserRole();
+                userRole.setRoleId(role.getId());
+                userRole.setUserId(userId);
+                userRole.setStatus(0);
+                userRoles.add(userRole);
+            }
+            userRoleService.saveBatch(userRoles);
+        }
     }
 }

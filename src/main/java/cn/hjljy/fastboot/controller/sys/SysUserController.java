@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
@@ -36,6 +37,7 @@ public class SysUserController {
     JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @PostMapping("/page")
+    @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
     @ApiOperation(value = "分页查询用户信息")
     public ResultInfo getSysUserPage(@RequestBody @Validated SysUserParam param) {
         return ResultInfo.success(userService.getSysUserInfoPage(param));
@@ -43,23 +45,21 @@ public class SysUserController {
 
     @GetMapping("/token/info")
     @ApiOperation(value = "根据token查询用户详细信息")
-    public ResultInfo getSysUserInfoByToken(SysUserParam param) {
+    public ResultInfo getSysUserInfoByToken() {
         Long userId = SecurityUtils.getUserId();
-        if(param.getUserId()!=null){
-            userId=param.getUserId();
-        }
         return ResultInfo.success(userService.getUserDetailInfoByUserId(userId));
     }
 
     @GetMapping("/info")
     @ApiOperation(value = "根据ID查询用户详细信息")
+    @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
     public ResultInfo getSysUserInfo(SysUserParam param) {
         Assert.notNull(param.getUserId(),"用户ID不能为空");
-        SysUserDto user =  userService.getUserDetailInfoByUserId(param.getUserId());
-        return ResultInfo.success(user);
+        return ResultInfo.success(userService.getUserDetailInfoByUserId(param.getUserId()));
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('{authority=sys:user:add}')")
     @ApiOperation(value = "根据ID查询用户详细信息")
     public ResultInfo addSysUserInfo(@RequestBody @Validated SysUserDto dto) {
         userService.addSysUserInfo(dto);

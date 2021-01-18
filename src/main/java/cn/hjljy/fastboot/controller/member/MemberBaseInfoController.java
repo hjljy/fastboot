@@ -33,15 +33,15 @@ public class MemberBaseInfoController {
 
     @PostMapping("/page")
     @ApiOperation(value = "分页查询会员信息")
-    public ResultInfo<IPage<MemberBaseInfoDto>> getMemberBaseInfoPageList(@RequestBody @Validated MemberListDto dto) {
+    public ResultInfo getMemberBaseInfoPageList(@RequestBody @Validated MemberListDto dto) {
         IPage<MemberBaseInfoDto> list = memberBaseInfoService.getMemberBaseInfoPageList(dto.getOrgId(), dto.getKeywords(), dto.getLevelId(), dto.getPageNo(), dto.getPageNum());
-        return new ResultInfo<>(list);
+        return new ResultInfo(list);
     }
 
     @PostMapping("/addMember")
     @ApiOperation(value = "新增会员信息")
-    public ResultInfo<Integer> addMember(@RequestBody @Validated MemberBaseInfoDto dto) {
-        return new ResultInfo<>(memberBaseInfoService.addMember(dto));
+    public ResultInfo addMember(@RequestBody @Validated MemberBaseInfoDto dto) {
+        return new ResultInfo(memberBaseInfoService.addMember(dto));
     }
 }
 

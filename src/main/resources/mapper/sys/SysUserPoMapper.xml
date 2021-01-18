@@ -41,11 +41,11 @@
         u.description
         from sys_user u
         left join sys_user_role ur  ON u.id  = ur.user_id
+        left join sys_role r ON ur.role_id = r.id
+        WHERE u.org_id =#{orgId} and u.status = 0
         <if test="roleId != null ">
             and ur.role_id =#{roleId}
         </if>
-        left join sys_role r ON ur.role_id = r.id
-        WHERE u.org_id =#{orgId} and u.status = 0
         <if test="keywords != null and keywords != ''">
             AND  (u.nick_name like CONCAT("%",#{keywords},"%")  OR u.user_name like CONCAT("%",#{keywords},"%"))
         </if>

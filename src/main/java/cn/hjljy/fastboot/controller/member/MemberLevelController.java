@@ -37,14 +37,14 @@ public class MemberLevelController {
 
     @PostMapping("/list")
     @ApiOperation(value = "查询机构所有会员等级信息（不进行分页）")
-    public ResultInfo<List<MemberLevelDto>> getMemberLevelList(@RequestBody  @Validated BaseDto dto){
+    public ResultInfo getMemberLevelList(@RequestBody  @Validated BaseDto dto){
         List<MemberLevelDto> list= memberLevelService.selectOrgMemberLevelList(dto.getOrgId());
-        return new ResultInfo<>(list);
+        return new ResultInfo(list);
     }
 
     @PostMapping("addLevel")
-    public ResultInfo<Integer> addLevel(@RequestBody  @Validated MemberLevelDto dto){
-        return new ResultInfo<>(memberLevelService.addLevel(dto));
+    public ResultInfo addLevel(@RequestBody  @Validated MemberLevelDto dto){
+        return new ResultInfo(memberLevelService.addLevel(dto));
     }
 }
 
