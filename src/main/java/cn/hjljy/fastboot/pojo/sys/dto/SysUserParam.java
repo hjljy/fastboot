@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
 import cn.hjljy.fastboot.common.BaseDto;
+import cn.hjljy.fastboot.common.aspect.validated.Select;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,7 +29,7 @@ public class SysUserParam extends BaseDto {
     private Long roleId;
 
     @ApiModelProperty(value = "用户ID")
-    @NotBlank(message = "用户ID不能为空")
+    @NotBlank(message = "用户ID不能为空",groups = Select.class)
     private Long userId;
 
 }

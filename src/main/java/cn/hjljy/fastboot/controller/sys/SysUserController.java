@@ -2,6 +2,9 @@ package cn.hjljy.fastboot.controller.sys;
 
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
+import cn.hjljy.fastboot.common.aspect.validated.Insert;
+import cn.hjljy.fastboot.common.aspect.validated.Select;
+import cn.hjljy.fastboot.common.aspect.validated.Update;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
@@ -11,7 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,14 +53,14 @@ public class SysUserController {
     @GetMapping("/info")
     @ApiOperation(value = "根据ID查询用户详细信息")
     @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
-    public ResultInfo getSysUserInfo(SysUserParam param) {
+    public ResultInfo getSysUserInfo(@Validated({Select.class}) SysUserParam param) {
         return ResultInfo.success(userService.getUserDetailInfoByUserId(param.getUserId()));
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('{authority=sys:user:add}')")
     @ApiOperation(value = "新增用户")
-    public ResultInfo addSysUserInfo(@RequestBody @Validated SysUserDto param) {
+    public ResultInfo addSysUserInfo(@RequestBody @Validated({Insert.class}) SysUserDto param) {
         userService.addSysUserInfo(param);
         return ResultInfo.success();
     }
@@ -66,7 +68,7 @@ public class SysUserController {
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('{authority=sys:user:update}')")
     @ApiOperation(value = "更新用户信息")
-    public ResultInfo updateSysUserInfo(@RequestBody @Validated SysUserDto param) {
+    public ResultInfo updateSysUserInfo(@RequestBody @Validated({Update.class}) SysUserDto param) {
 
         userService.updateSysUserInfo(param);
         return ResultInfo.success();
@@ -75,7 +77,7 @@ public class SysUserController {
     @PostMapping("/disable")
     @PreAuthorize("hasAuthority('{authority=sys:user:disable}')")
     @ApiOperation(value = "禁用用户")
-    public ResultInfo disableSysUser(@RequestBody @Validated SysUserParam param) {
+    public ResultInfo disableSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
 
 //        userService.disableSysUser(param);
         return ResultInfo.success();

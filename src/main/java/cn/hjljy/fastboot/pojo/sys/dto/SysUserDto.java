@@ -1,5 +1,7 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
+import cn.hjljy.fastboot.common.aspect.validated.Insert;
+import cn.hjljy.fastboot.common.aspect.validated.Update;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
@@ -33,13 +35,14 @@ public class SysUserDto implements Serializable {
     private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "用户ID")
+    @NotNull(message = "用户账号ID不能为空",groups = Update.class)
     private Long id;
 
     @NotNull(message = "用户机构不能为空")
     @ApiModelProperty(value = "用户机构ID")
     private Long orgId;
 
-    @NotBlank(message = "用户账号不能为空")
+    @NotBlank(message = "用户账号不能为空",groups = Insert.class)
     @ApiModelProperty(value = "用户账号")
     private String userName;
 
@@ -47,7 +50,7 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "用户昵称")
     private String nickName;
 
-    @NotBlank(message = "用户密码不能为空")
+    @NotBlank(message = "用户密码不能为空",groups = Insert.class)
     @ApiModelProperty(value = "用户密码")
     private String password;
 
