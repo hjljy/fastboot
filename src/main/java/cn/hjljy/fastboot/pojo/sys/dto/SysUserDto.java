@@ -73,7 +73,6 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
-    @NotEmpty(message = "角色信息不能为空")
     @ApiModelProperty(value = "角色信息")
     private List<SysRoleDto> roles;
 

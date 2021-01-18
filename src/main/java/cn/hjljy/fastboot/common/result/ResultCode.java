@@ -19,7 +19,7 @@ public enum ResultCode {
 
     //用户 权限相关异常
     USER_NOT_FOUND_OR_ENABLE(20001,"用户不存在或被禁用"),
-    USER_EXIST(20002,"用户已存在"),
+    USER_EXIST(20002,"用户账号已存在"),
     USER_PASSWORD_WRONG(20003,"用户名或密码错误"),
 
     PERMISSION_DENIED(21001,"权限不足，请联系管理员"),

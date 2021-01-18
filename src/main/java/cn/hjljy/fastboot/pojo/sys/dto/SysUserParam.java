@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -27,6 +28,7 @@ public class SysUserParam extends BaseDto {
     private Long roleId;
 
     @ApiModelProperty(value = "用户ID")
+    @NotBlank(message = "用户ID不能为空")
     private Long userId;
 
 }
