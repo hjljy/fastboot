@@ -1,20 +1,14 @@
 package cn.hjljy.fastboot.common.aspect.log;
 
 import cn.hjljy.fastboot.common.result.ResultInfo;
-import cn.hutool.json.JSONObject;
-import com.alibaba.druid.support.json.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.ServletWebRequest;
-import springfox.documentation.spring.web.json.Json;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +34,7 @@ public class LogAspect {
     /**
      * 描述:
      *
-     * @param point
+     * @param point 切点
      * @return java.lang.Object
      **/
     @Around("serviceLog()")

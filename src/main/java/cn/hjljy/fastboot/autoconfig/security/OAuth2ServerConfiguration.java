@@ -12,7 +12,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import java.util.Arrays;
+
+import java.util.Collections;
 
 /**
  * @author yichaofan
@@ -79,7 +80,7 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer security) {
         security
                 // 允许表单登录
                 .allowFormAuthenticationForClients()
@@ -90,11 +91,10 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
     }
     /**
      * 配置令牌
-     * @param endpoints
-     * @throws Exception
+     *
      */
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.tokenStore(tokenStore)
                 // 认证管理器 - 在密码模式必须配置
                 .authenticationManager(authenticationManager)
@@ -104,7 +104,7 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
                 .reuseRefreshTokens(false);
         // 设置令牌增强 JWT 转换
         TokenEnhancerChain enhancer = new TokenEnhancerChain();
-        enhancer.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
+        enhancer.setTokenEnhancers(Collections.singletonList(jwtAccessTokenConverter));
         endpoints.tokenEnhancer(enhancer);
     }
 }

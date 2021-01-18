@@ -1,10 +1,8 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
-import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -36,6 +34,10 @@ public class UserInfo extends User {
      **/
     private String NickName;
     /**
+     * 描述: 用户scope
+     **/
+    private String scope;
+    /**
      * 描述：用户角色信息
      */
     private List<SysRole> roleDtos;
@@ -46,10 +48,6 @@ public class UserInfo extends User {
     public UserInfo(String username, String password, Long userId,Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.userId=userId;
-    }
-
-    public UserInfo(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 
     public String getEmail() {
@@ -74,6 +72,14 @@ public class UserInfo extends User {
 
     public void setNickName(String nickName) {
         NickName = nickName;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 
     public List<SysRole> getRoleDtos() {

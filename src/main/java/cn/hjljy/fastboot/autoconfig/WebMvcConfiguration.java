@@ -5,11 +5,13 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
+
 @Configuration
 public class WebMvcConfiguration {
 
     @Bean
-    public FilterRegistrationBean setLogServiceFilter(){
+    public FilterRegistrationBean<RequestBodyFilter> setLogServiceFilter(){
         FilterRegistrationBean<RequestBodyFilter> registrationBean = new FilterRegistrationBean<>();
         RequestBodyFilter requestBodyFilter = new RequestBodyFilter();
         registrationBean.setFilter(requestBodyFilter);
