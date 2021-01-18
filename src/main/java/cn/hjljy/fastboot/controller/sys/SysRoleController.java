@@ -38,9 +38,8 @@ public class SysRoleController {
 
     @PostMapping("/list")
     @ApiOperation(value = "查询所有角色信息")
-    public ResultInfo<List<SysRoleDto>> getSysUserPage(@RequestBody @Validated BaseDto param) {
-        List<SysRoleDto> list = roleService.list(param);
-        return new ResultInfo<>(list);
+    public ResultInfo getSysUserPage(@RequestBody @Validated BaseDto param) {
+        return ResultInfo.success(roleService.list(param));
     }
 }
 

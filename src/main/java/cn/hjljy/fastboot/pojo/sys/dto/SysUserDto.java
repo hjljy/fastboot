@@ -79,7 +79,7 @@ public class SysUserDto implements Serializable {
     private List<SysMenuDto> menus;
 
     @ApiModelProperty(value = "是否禁用  0否(默认) 1是")
-    private Boolean enable;
+    private Integer enable;
 
 
 

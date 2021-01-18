@@ -28,7 +28,7 @@ public class LoginController {
      * 作者: yichaofan
      * 日期: 2020/10/15 18:16
      *
-     * @param params
+     * @param params 请求参数
      * @return cn.hjljy.fastboot.common.result.ResultInfo
      **/
     @Deprecated

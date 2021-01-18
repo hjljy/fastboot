@@ -37,32 +37,33 @@ public class SysUserController {
 
     @PostMapping("/page")
     @ApiOperation(value = "分页查询用户信息")
-    public ResultInfo<IPage<SysUserDto>> getSysUserPage(@RequestBody @Validated SysUserParam param) {
-        IPage<SysUserDto> page = userService.getSysUserInfoPage(param);
-        return new ResultInfo<>(page);
+    public ResultInfo getSysUserPage(@RequestBody @Validated SysUserParam param) {
+        return ResultInfo.success(userService.getSysUserInfoPage(param));
     }
 
     @GetMapping("/token/info")
     @ApiOperation(value = "根据token查询用户详细信息")
-    public ResultInfo<SysUserDto> getSysUserInfoByToken(SysUserParam param) {
+    public ResultInfo getSysUserInfoByToken(SysUserParam param) {
         Long userId = SecurityUtils.getUserId();
-        SysUserDto info = userService.getUserDetailInfoByUserId(userId);
-        return new ResultInfo<>(info);
+        if(param.getUserId()!=null){
+            userId=param.getUserId();
+        }
+        return ResultInfo.success(userService.getUserDetailInfoByUserId(userId));
     }
 
     @GetMapping("/info")
     @ApiOperation(value = "根据ID查询用户详细信息")
-    public ResultInfo<SysUserDto> getSysUserInfo(SysUserParam param) {
+    public ResultInfo getSysUserInfo(SysUserParam param) {
         Assert.notNull(param.getUserId(),"用户ID不能为空");
         SysUserDto user =  userService.getUserDetailInfoByUserId(param.getUserId());
-        return new ResultInfo<>(user);
+        return ResultInfo.success(user);
     }
 
     @PostMapping("/add")
     @ApiOperation(value = "根据ID查询用户详细信息")
-    public ResultInfo<Boolean> addSysUserInfo(@RequestBody @Validated SysUserDto dto) {
+    public ResultInfo addSysUserInfo(@RequestBody @Validated SysUserDto dto) {
         userService.addSysUserInfo(dto);
-        return new ResultInfo<>();
+        return ResultInfo.success();
     }
 }
 

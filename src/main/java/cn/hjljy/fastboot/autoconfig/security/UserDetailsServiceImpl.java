@@ -44,7 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * 最后在WebSecurityConfiguration里面添加自己的过滤器即可
      * @param username 用户账号
      * @return UserInfo
-     * @throws UsernameNotFoundException
+     * @throws UsernameNotFoundException 用户账户密码不正确异常
      */
     @Override
     public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -66,7 +66,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private void checkUserInfo(SysUser userInfo, String username) {
-        if(null==userInfo|| StatusEnum.DISABLE.equals(userInfo.getEnable())){
+        if(null==userInfo|| StatusEnum.DISABLE.getCode().equals(userInfo.getEnable())){
             throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE,username+ResultCode.USER_NOT_FOUND_OR_ENABLE.getMsg());
         }
     }
