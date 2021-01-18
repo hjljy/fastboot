@@ -35,31 +35,28 @@ public class SecurityUtils {
         UsernamePasswordAuthenticationToken token =new UsernamePasswordAuthenticationToken(username,password );
         Authentication authenticate = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authenticate);
-        UserInfo userInfo = (UserInfo) authenticate.getPrincipal();
-        return userInfo;
+        return (UserInfo) authenticate.getPrincipal();
     }
 
     /**
      * 获取当前登录的所有认证信息
-     * @return
+     * @return 返回认证信息
      */
     public static Authentication getAuthentication(){
         SecurityContext context = SecurityContextHolder.getContext();
-
         return context.getAuthentication();
     }
 
     /**
      * 获取当前登录用户信息
-     * @return
+     * @return 返回用户信息
      */
     public static UserInfo getUserInfo(){
         Authentication authentication = getAuthentication();
         if(authentication!=null){
             Object principal = authentication.getPrincipal();
             if(principal instanceof UserInfo){
-                UserInfo userInfo = (UserInfo)principal;
-                return userInfo;
+                return (UserInfo)principal;
             }
         }
         throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
@@ -67,14 +64,11 @@ public class SecurityUtils {
 
     /**
      * 获取当前登录用户ID
-     * @return
+     * @return 返回用户ID
      */
     public static String getUsername(){
-        UserInfo userInfo = getUserInfo();
-        if (userInfo!=null){
-            return userInfo.getUsername();
-        }
-        return null;
+        User userInfo = getUserInfo();
+        return userInfo.getUsername();
     }
 
     /**

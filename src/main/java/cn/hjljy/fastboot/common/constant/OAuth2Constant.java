@@ -2,7 +2,7 @@ package cn.hjljy.fastboot.common.constant;
 
 /**
  * @author yichaofan
- * @apiNote todo
+ * @apiNote Oauth常量类
  * @since 2020/11/17 17:19
  */
 public class OAuth2Constant {

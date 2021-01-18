@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.autoconfig;
 
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -30,7 +32,7 @@ public class Swagger2Configuration {
     @Bean
     public Docket createRestApi() {
 
-        List<Parameter> pars = new ArrayList<Parameter>();
+        List<Parameter> pars = new ArrayList<>();
 
         //构建默认参数
         ParameterBuilder ticketPar = new ParameterBuilder();
@@ -55,6 +57,10 @@ public class Swagger2Configuration {
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(pars);
+    }
+
+    private Contact getContact(){
+        return new Contact("hjljy","https://www.hjljy.cn","hjljy@outlook.com");
     }
 
     private ApiInfo apiInfo() {
@@ -89,6 +95,10 @@ public class Swagger2Configuration {
         return new ApiInfoBuilder()
                 .title("会员管理模块api")
                 .description("member下所有api接口")
+                .title("swagger RESTful APIs")
+                .description("swagger RESTful APIs")
+                .termsOfServiceUrl("http://www.hjljy.cn/")
+                .contact(getContact())
                 .version("1.0")
                 .build();
     }

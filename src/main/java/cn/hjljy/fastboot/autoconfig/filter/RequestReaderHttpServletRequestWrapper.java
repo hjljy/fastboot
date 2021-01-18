@@ -7,7 +7,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class RequestReaderHttpServletRequestWrapper extends HttpServletRequestWrapper {
@@ -16,23 +16,23 @@ public class RequestReaderHttpServletRequestWrapper extends HttpServletRequestWr
 
     public RequestReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
-        body = inputStream2String(request.getInputStream()).getBytes(Charset.forName("UTF-8"));
+        body = inputStream2String(request.getInputStream()).getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
-    public BufferedReader getReader() throws IOException {
+    public BufferedReader getReader() {
         return new BufferedReader(new InputStreamReader(getInputStream()));
     }
 
     @Override
-    public ServletInputStream getInputStream() throws IOException {
+    public ServletInputStream getInputStream() {
 
         final ByteArrayInputStream bais = new ByteArrayInputStream(body);
 
         return new ServletInputStream() {
 
             @Override
-            public int read() throws IOException {
+            public int read() {
                 return bais.read();
             }
 
@@ -63,7 +63,7 @@ public class RequestReaderHttpServletRequestWrapper extends HttpServletRequestWr
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
+            reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);

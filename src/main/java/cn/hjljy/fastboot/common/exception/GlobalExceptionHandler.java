@@ -1,15 +1,9 @@
 package cn.hjljy.fastboot.common.exception;
 
-import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.common.result.ResultCode;
-import cn.hutool.extra.servlet.ServletUtil;
-import cn.hutool.http.HttpUtil;
+import cn.hjljy.fastboot.common.result.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -21,15 +15,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author yichaofan
@@ -44,30 +32,22 @@ public class GlobalExceptionHandler {
      * 处理请求方法不匹配异常
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResultInfo requestMethodNoSuch(HttpServletResponse response, HttpRequestMethodNotSupportedException ex){
+    public ResultInfo requestMethodNoSuch( HttpRequestMethodNotSupportedException ex){
         ex.printStackTrace();
-        ResultInfo resultInfo = ResultInfo.error(ResultCode.REQUEST_METHOD_EXCEPTION.getCode(),ex.getMessage());
-        return resultInfo;
+        return ResultInfo.error(ResultCode.REQUEST_METHOD_EXCEPTION.getCode(),ex.getMessage());
     }
 
     /**
      * 处理security登录验证异常
-     * @param request
-     * @param ex
-     * @return
      */
     @ExceptionHandler(value = BadCredentialsException.class)
-    public ResultInfo errorHandler(HttpServletRequest request, BadCredentialsException ex) {
+    public ResultInfo errorHandler( BadCredentialsException ex) {
         ex.printStackTrace();
-        ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(),ex.getMessage());
-        return resultInfo;
+        return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(),ex.getMessage());
     }
 
     /**
      * 处理oauth2登录验证异常
-     * @param response
-     * @param ex
-     * @return
      */
     @ExceptionHandler(value = AuthenticationException.class)
     public ResultInfo errorHandler(HttpServletResponse response, AuthenticationException ex) {
@@ -88,25 +68,18 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理参数异常信息
-     * @param request
-     * @param ex
-     * @return
+     * 处理参数类型异常信息
      */
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResultInfo errorHandler(HttpServletRequest request, IllegalArgumentException ex) {
-        ResultInfo resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION.getCode(),ex.getMessage());
-        return resultInfo;
+    public ResultInfo errorHandler( IllegalArgumentException ex) {
+        return ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION.getCode(),ex.getMessage());
     }
 
     /**
-     * 处理参数异常信息
-     * @param request
-     * @param ex
-     * @return
+     * 处理参数数据格式异常信息
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResultInfo errorHandler(HttpServletRequest request, MethodArgumentNotValidException ex) {
+    public ResultInfo errorHandler( MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
         ResultInfo resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
         resultInfo.setMsg(result.getAllErrors().toString());
@@ -115,24 +88,17 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理业务抛出的异常信息
-     * @param request
-     * @param ex
-     * @return
      */
     @ExceptionHandler(value = BusinessException.class)
-    public ResultInfo errorHandler(HttpServletRequest request, BusinessException ex) {
-        ResultInfo resultInfo = ResultInfo.error(ex.getCode(),ex.getMessage());
-        return resultInfo;
+    public ResultInfo errorHandler( BusinessException ex) {
+        return ResultInfo.error(ex.getCode(),ex.getMessage());
     }
 
     /**
      * 处理其他的所有异常信息
-     * @param request
-     * @param ex
-     * @return
      */
     @ExceptionHandler(value = Exception.class)
-    public ResultInfo errorHandler(HttpServletRequest request,HttpServletResponse response, Exception ex) {
+    public ResultInfo errorHandler(HttpServletResponse response, Exception ex) {
         ex.printStackTrace();
         ResultInfo resultInfo = ResultInfo.error(ResultCode.ERROR);
         if(ex instanceof AccessDeniedException ){

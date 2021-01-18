@@ -1,18 +1,14 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
-import cn.hjljy.fastboot.common.constant.OAuth2Constant;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -31,7 +27,7 @@ public class TokenConfig {
 
     /**
      * JWT 令牌转换器
-     * @return
+     * @return 返回jwt处理器
      */
     @Bean("jwtAccessTokenConverter")
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
@@ -79,14 +75,18 @@ public class TokenConfig {
                 String scope = (String)decode.get("scope");
                 List<GrantedAuthority> grantedAuthorityList=new ArrayList<>();
                 //注意这里获取到的权限 虽然数据库存的权限是 "sys:menu:add"  但是这里就变成了"{authority=sys:menu:add}" 所以使用@PreAuthorize("hasAuthority('{authority=sys:menu:add}')")
-                List<LinkedHashMap<String,String>> authorities =(List<LinkedHashMap<String,String>>) decode.get("authorities");
-                for (LinkedHashMap<String, String> authority : authorities) {
-                    SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getOrDefault("authority", "N/A"));
-                    grantedAuthorityList.add(grantedAuthority);
+                Object object = decode.get("authorities");
+                if (object instanceof ArrayList<?>) {
+                    for (Object o : (List<?>) object) {
+                        LinkedHashMap<String,String> authority = LinkedHashMap.class.cast(o);
+                        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getOrDefault("authority", "N/A"));
+                        grantedAuthorityList.add(grantedAuthority);
+                    }
                 }
                 UserInfo userInfo =new UserInfo(username,"N/A",userId, grantedAuthorityList);
                 userInfo.setNickName(nickName);
                 userInfo.setEmail(email);
+                userInfo.setScope(scope);
                 //需要将解析出来的用户存入全局当中，不然无法转换成自定义的user类
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userInfo,null, grantedAuthorityList);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -109,13 +109,5 @@ public class TokenConfig {
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
-    }
-
-    public String getSigningKey() {
-        return signingKey;
-    }
-
-    public void setSigningKey(String signingKey) {
-        this.signingKey = signingKey;
     }
 }

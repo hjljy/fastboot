@@ -23,7 +23,7 @@ import java.util.Map;
  **/
 @Slf4j
 public class JacksonUtil {
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     // 日起格式化
     private static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
@@ -86,7 +86,7 @@ public class JacksonUtil {
             return null;
         }
         try {
-            return clazz.equals(String.class) ? (T) str : objectMapper.readValue(str, clazz);
+            return clazz.equals(String.class) ? clazz.cast(str) : objectMapper.readValue(str, clazz);
         } catch (Exception e) {
             log.warn("Parse String to Object error : {}", e.getMessage());
             return null;
@@ -96,7 +96,7 @@ public class JacksonUtil {
     /**
      * json字符串转换为map
      */
-    public static <T> Map<String, Object> json2map(String jsonString) throws Exception {
+    public static <T> Map json2map(String jsonString) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return mapper.readValue(jsonString, Map.class);
@@ -107,7 +107,7 @@ public class JacksonUtil {
      */
     public static <T> Map<String, T> json2map(String jsonString, Class<T> clazz) throws Exception {
         Map<String, Map<String, T>> map = objectMapper.readValue(jsonString, new TypeReference<Map<String, Map<String, T>>>() {});
-        Map<String, T> result = new HashMap<String, T>();
+        Map<String, T> result = new HashMap<>();
         for (Map.Entry<String, Map<String, T>> entry : map.entrySet()) {
             result.put(entry.getKey(), map2pojo(entry.getValue(), clazz));
         }
@@ -116,9 +116,6 @@ public class JacksonUtil {
 
     /**
      * 深度转换json成map
-     *
-     * @param json
-     * @return
      */
     public static Map<String, Object> json2mapDeeply(String json) throws Exception {
         return json2MapRecursion(json, objectMapper);
@@ -127,20 +124,17 @@ public class JacksonUtil {
     /**
      * 把json解析成list，如果list内部的元素存在jsonString，继续解析
      *
-     * @param json
      * @param mapper 解析工具
-     * @return
-     * @throws Exception
      */
-    private static List<Object> json2ListRecursion(String json, ObjectMapper mapper) throws Exception {
+    private static List json2ListRecursion(String json, ObjectMapper mapper) throws Exception {
         if (json == null) {
             return null;
         }
 
-        List<Object> list = mapper.readValue(json, List.class);
+        List list = mapper.readValue(json, List.class);
 
         for (Object obj : list) {
-            if (obj != null && obj instanceof String) {
+            if (obj instanceof String) {
                 String str = (String) obj;
                 if (str.startsWith("[")) {
                     obj = json2ListRecursion(str, mapper);
@@ -155,11 +149,6 @@ public class JacksonUtil {
 
     /**
      * 把json解析成map，如果map内部的value存在jsonString，继续解析
-     *
-     * @param json
-     * @param mapper
-     * @return
-     * @throws Exception
      */
     private static Map<String, Object> json2MapRecursion(String json, ObjectMapper mapper) throws Exception {
         if (json == null) {
@@ -170,7 +159,7 @@ public class JacksonUtil {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Object obj = entry.getValue();
-            if (obj != null && obj instanceof String) {
+            if (obj instanceof String) {
                 String str = ((String) obj);
 
                 if (str.startsWith("[")) {
@@ -190,10 +179,8 @@ public class JacksonUtil {
      * 与javaBean json数组字符串转换为列表
      */
     public static <T> List<T> json2list(String jsonArrayStr, Class<T> clazz) throws Exception {
-
         JavaType javaType = getCollectionType(ArrayList.class, clazz);
-        List<T> lst = (List<T>) objectMapper.readValue(jsonArrayStr, javaType);
-        return lst;
+        return (List<T>) objectMapper.readValue(jsonArrayStr, javaType);
     }
     /**
      * 获取泛型的Collection Type

@@ -11,11 +11,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.util.Objects;
 
 /**
  * @author yichaofan
@@ -24,7 +20,7 @@ import java.nio.charset.Charset;
  */
 @ControllerAdvice
 @Slf4j
-public class ResponseBodyAnalysis implements ResponseBodyAdvice {
+public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
     /**
      * 参数返回给前端之前进行，可以进行相关的处理例如，记录请求参数，响应参数，封装响应参数，等操作
      * <p>
@@ -54,16 +50,16 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice {
             HttpHeaders headers = request.getHeaders();
             MediaType contentType = headers.getContentType();
             if (contentType != null && contentType.getType().equals(MediaType.MULTIPART_FORM_DATA.getType())) {
-                log.info(sb.toString(), request.getURI(), request.getMethod().name(), "", "", JacksonUtil.obj2String(body));
+                log.info(sb.toString(), request.getURI(), Objects.requireNonNull(request.getMethod()).name(), "", "", JacksonUtil.obj2String(body));
             } else {
-                String token = "";
+                String token;
                 Object res = headers.get("Authorization");
                 if (res == null) {
                     token = "无";
                 } else {
                     token = res.toString();
                 }
-                log.info(sb.toString(), request.getURI(), request.getMethod().name(), RequestUtil.inputStream2String(request.getBody()), token, JacksonUtil.obj2String(body));
+                log.info(sb.toString(), request.getURI(), Objects.requireNonNull(request.getMethod()).name(), RequestUtil.inputStream2String(request.getBody()), token, JacksonUtil.obj2String(body));
             }
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -73,10 +69,6 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice {
 
     /**
      * 如果要beforeBodyWrite方法生效，必须返回true
-     *
-     * @param arg0
-     * @param arg1
-     * @return
      */
     @Override
     public boolean supports(MethodParameter arg0, Class arg1) {

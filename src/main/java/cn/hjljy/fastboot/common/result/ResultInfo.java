@@ -1,6 +1,5 @@
 package cn.hjljy.fastboot.common.result;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -10,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @apiNote 前端AJAX请求返回实体
  */
 @ApiModel(value = "前端AJAX请求返回实体")
-public class ResultInfo<T> {
+public class ResultInfo {
     @ApiModelProperty(value = "状态码，非0表示失败")
     private int code;
 
@@ -18,15 +17,13 @@ public class ResultInfo<T> {
     private String msg;
 
     @ApiModelProperty(value = "请求返回数据")
-    private T data;
-
-
+    private Object data;
 
 
     public ResultInfo() {
     }
 
-    public ResultInfo(T data) {
+    public ResultInfo(Object data) {
         this.code = ResultCode.SUCCESS.getCode();
         this.msg = ResultCode.SUCCESS.getMsg();
         this.data = data;
@@ -45,11 +42,15 @@ public class ResultInfo<T> {
     }
 
     public static ResultInfo error(ResultCode code) {
-        return new ResultInfo(code.getCode(),code.getMsg());
+        return new ResultInfo(code.getCode(), code.getMsg());
+    }
+
+    public static ResultInfo success(Object data) {
+        return new ResultInfo(data);
     }
 
     public static ResultInfo success() {
-        return new ResultInfo(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMsg());
+        return new ResultInfo(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
     }
 
     public static ResultInfo error(int code, String message) {
@@ -72,11 +73,11 @@ public class ResultInfo<T> {
         this.msg = msg;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

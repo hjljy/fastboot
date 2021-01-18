@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * @author yichaofan
- * @date 2020/6/4 11:12
+ * @since  2020/6/4 11:12
  * @apiNote 支持跨域CORS请求  如果需要开启需要在启动类上添加注解 {@link cn.hjljy.fastboot.autoconfig.annotation.EnableCors}
  * @see EnableCors
  */
@@ -24,7 +24,7 @@ import java.util.List;
 public class CorsFilterConfiguration {
 
     @Bean
-    public FilterRegistrationBean corsFilter() {
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
@@ -52,7 +52,7 @@ public class CorsFilterConfiguration {
 //        source.registerCorsConfiguration("/cors/**",config);
         // 设置所有的请求路径都可以访问
         source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
         //设置优先级为最高
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
