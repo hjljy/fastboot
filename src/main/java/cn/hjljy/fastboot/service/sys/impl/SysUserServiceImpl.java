@@ -151,8 +151,9 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
 
     @Override
     public void disableSysUser(SysUserParam param) {
-        // 1 判断用户是否存在
         SysUser user = this.userIfExist(param.getUserId());
+        user.setEnable(param.getEnable());
+        this.updateById(user);
     }
 
     @Override

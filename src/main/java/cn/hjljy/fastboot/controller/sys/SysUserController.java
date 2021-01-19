@@ -80,5 +80,13 @@ public class SysUserController {
         userService.disableSysUser(param);
         return ResultInfo.success();
     }
+
+    @PostMapping("/del")
+    @PreAuthorize("hasAuthority('{authority=sys:user:del}')")
+    @ApiOperation(value = "删除用户")
+    public ResultInfo delSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
+        userService.removeById(param.getUserId());
+        return ResultInfo.success();
+    }
 }
 
