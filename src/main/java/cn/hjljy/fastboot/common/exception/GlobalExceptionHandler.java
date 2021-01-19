@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.common.exception;
 
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -115,6 +116,10 @@ public class GlobalExceptionHandler {
             resultInfo.setCode(ResultCode.SQL_EXCEPTION.getCode());
         } else if (ex instanceof NullPointerException) {
             resultInfo.setCode(ResultCode.NPE_EXCEPTION.getCode());
+        }else if(ex instanceof InvalidFormatException){
+            resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
+            resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
+            resultInfo.setData(ex.getMessage());
         }
         return resultInfo;
     }
