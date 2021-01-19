@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
      * 处理oauth2登录验证异常
      */
     @ExceptionHandler(value = AuthenticationException.class)
-    public ResultInfo errorHandler(HttpServletResponse response, AuthenticationException ex) {
+    public ResultInfo errorHandler(AuthenticationException ex) {
         ex.printStackTrace();
         //默认是用户密码不正确
         ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
@@ -67,7 +67,6 @@ public class GlobalExceptionHandler {
         if (ex instanceof InsufficientAuthenticationException) {
             resultInfo = ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
         }
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         return resultInfo;
     }
 
@@ -107,20 +106,19 @@ public class GlobalExceptionHandler {
      * 处理其他的所有异常信息
      */
     @ExceptionHandler(value = Exception.class)
-    public ResultInfo errorHandler(HttpServletResponse response, Exception ex) {
+    public ResultInfo errorHandler(Exception ex) {
         ex.printStackTrace();
         ResultInfo resultInfo = ResultInfo.error(ResultCode.ERROR);
         if (ex instanceof AccessDeniedException) {
             resultInfo = ResultInfo.error(ResultCode.PERMISSION_DENIED);
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         } else if (ex instanceof SQLException) {
             resultInfo.setCode(ResultCode.SQL_EXCEPTION.getCode());
         } else if (ex instanceof NullPointerException) {
             resultInfo.setCode(ResultCode.NPE_EXCEPTION.getCode());
-        }else if(ex instanceof InvalidFormatException){
+        } else if (ex instanceof InvalidFormatException) {
             resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
             resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
-        }else if(ex instanceof MismatchedInputException){
+        } else if (ex instanceof MismatchedInputException) {
             resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
             resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
         }
