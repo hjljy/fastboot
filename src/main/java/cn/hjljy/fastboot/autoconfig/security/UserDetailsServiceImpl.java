@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
-import cn.hjljy.fastboot.common.enums.SysUserStatusEnum;
+import cn.hjljy.fastboot.common.enums.StatusEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
@@ -66,7 +66,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private void checkUserInfo(SysUser userInfo, String username) {
-        if(null==userInfo||SysUserStatusEnum.DISABLE.getCode().equals(userInfo.getEnable())){
+        if(null==userInfo|| StatusEnum.DISABLE.getCode().equals(userInfo.getEnable())){
             throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE,username+ResultCode.USER_NOT_FOUND_OR_ENABLE.getMsg());
         }
     }
