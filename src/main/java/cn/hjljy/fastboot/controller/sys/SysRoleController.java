@@ -30,7 +30,7 @@ public class SysRoleController {
     ISysRoleService roleService;
 
     @PostMapping("/list")
-    @PreAuthorize("hasAnyAuthority('[{authority=sys:user:list},{authority=sys:role:list}]')")
+    @PreAuthorize("hasAnyAuthority('{authority=sys:user:list}','{authority=sys:role:list}')")
     @ApiOperation(value = "查询所有角色信息")
     public ResultInfo getSysUserPage(@RequestBody @Validated BaseDto param) {
         return ResultInfo.success(roleService.list(param));
