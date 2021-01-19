@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
+import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.BaseDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
@@ -45,7 +46,12 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
     public List<SysRoleDto> list(BaseDto param) {
         List<SysRoleDto> roleDtoList = new ArrayList<>();
         SysRole role = new SysRole();
-        role.setOrgId(param.getOrgId());
+        Long orgId = param.getOrgId();
+        // 如果没有传机构ID，默认查询本账号所在机构角色信息
+        if(null == orgId){
+            orgId= SecurityUtils.getUserInfo().getOrgId();
+        }
+        role.setOrgId(orgId);
         List<SysRole> roles = selectList(role);
         for (SysRole sysRole : roles) {
             SysRoleDto roleDto =new SysRoleDto();
