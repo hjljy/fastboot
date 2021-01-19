@@ -29,6 +29,11 @@ public class UserInfo extends User {
      * 描述: 用户ID
      **/
     private Long userId;
+
+    /**
+     * 描述: 用户机构ID
+     **/
+    private Long orgId;
     /**
      * 描述: 用户昵称
      **/
@@ -64,6 +69,14 @@ public class UserInfo extends User {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
     }
 
     public String getNickName() {
