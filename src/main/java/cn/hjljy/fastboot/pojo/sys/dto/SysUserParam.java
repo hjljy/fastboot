@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="SysUserParam对象", description="")
-public class SysUserParam extends BaseDto {
+public class SysUserParam extends BaseDto<SysUserDto> {
 
     @ApiModelProperty(value = "用户角色ID")
     private Long roleId;

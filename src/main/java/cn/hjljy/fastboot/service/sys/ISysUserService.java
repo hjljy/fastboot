@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.service.sys;
 
+import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
@@ -53,4 +54,12 @@ public interface ISysUserService extends IService<SysUser> {
      * @param param 用户信息
      */
     void disableSysUser(SysUserParam param);
+
+    /**
+     * 查询用户基础信息，判断是否存在，没有则抛出异常,有就返回用户信息
+     * @param userId 用户ID
+     * @throws BusinessException  异常码 code = USER_NOT_FOUND
+     * @return SysUser 用户信息
+     */
+    SysUser userIfExist (Long userId) throws BusinessException;
 }

@@ -85,10 +85,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     public SysUserDto getUserDetailInfoByUserId(Long userId) {
         SysUserDto userDto = new SysUserDto();
         //1 查询用户基础信息
-        SysUser sysUser = this.getById(userId);
-        if (sysUser == null) {
-            throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
-        }
+        SysUser sysUser = this.userIfExist(userId);
         BeanUtil.copyProperties(sysUser, userDto, "password");
         //2 查询用户角色信息
         List<SysRole> roleInfo = roleService.getUserRoleInfo(userId);
@@ -122,6 +119,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         BeanUtil.copyProperties(dto, user);
         Long userId = SnowFlakeUtil.createID();
         String password = SecurityUtils.encryptPassword(user.getPassword());
+        user.setEnable(0);
         user.setPassword(password);
         user.setId(userId);
         //2 保存用户信息
@@ -134,11 +132,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     @Override
     public void updateSysUserInfo(SysUserDto param) {
         // 1 判断用户是否存在
-        SysUser user = this.getById(param.getId());
-        if (null == user) {
-            throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
-        }
-        SysUser sysUser = new SysUser();
+        SysUser sysUser = userIfExist(param.getId());
         BeanUtil.copyProperties(param, sysUser);
         // 2 更新时，不允许更新用户账号,账号置为null
         sysUser.setUserName(null);
@@ -158,10 +152,17 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     @Override
     public void disableSysUser(SysUserParam param) {
         // 1 判断用户是否存在
-        SysUser user = this.getById(param.getUserId());
+        SysUser user = this.userIfExist(param.getUserId());
+    }
+
+    @Override
+    public SysUser userIfExist(Long userId) throws BusinessException {
+        // 1 判断用户是否存在
+        SysUser user = this.getById(userId);
         if (null == user) {
-            throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
+            throw new BusinessException(ResultCode.USER_NOT_FOUND);
         }
+        return user;
     }
 
     /**

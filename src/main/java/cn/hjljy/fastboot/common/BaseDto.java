@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
  * @since 2020/11/26 18:14
  */
 @Data
-public class BaseDto {
+public class BaseDto<T> {
 
     @ApiModelProperty(value = "机构ID")
     Long orgId=-1L;
@@ -35,7 +35,7 @@ public class BaseDto {
     @ApiModelProperty(value = "请求来源 web,ios,windows,h5,andiron")
     String source="WEB";
 
-    public Page createPage(){
-        return new Page(pageNo, pageNum);
+    public Page<T> createPage(){
+        return new Page<>(pageNo, pageNum);
     }
 }
