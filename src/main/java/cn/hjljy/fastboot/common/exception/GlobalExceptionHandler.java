@@ -16,7 +16,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class GlobalExceptionHandler {
     public ResultInfo errorHandler(HttpServletResponse response, AuthenticationException ex) {
         ex.printStackTrace();
         //默认是用户密码不正确
-        ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_NOT_FOUND_OR_ENABLE.getCode(), ex.getMessage());
+        ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
         Throwable cause = ex.getCause();
         //token 过期处理
         if (cause instanceof InvalidTokenException) {
