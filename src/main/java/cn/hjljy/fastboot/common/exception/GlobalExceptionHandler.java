@@ -3,6 +3,7 @@ package cn.hjljy.fastboot.common.exception;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -119,7 +120,9 @@ public class GlobalExceptionHandler {
         }else if(ex instanceof InvalidFormatException){
             resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
             resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
-            resultInfo.setData(ex.getMessage());
+        }else if(ex instanceof MismatchedInputException){
+            resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
+            resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
         }
         return resultInfo;
     }
