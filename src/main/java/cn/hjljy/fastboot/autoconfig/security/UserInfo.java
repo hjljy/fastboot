@@ -35,10 +35,6 @@ public class UserInfo extends User {
      **/
     private Long orgId;
     /**
-     * 描述: 用户机构ID
-     **/
-    private Long orgId;
-    /**
      * 描述: 用户昵称
      **/
     private String NickName;
@@ -54,9 +50,10 @@ public class UserInfo extends User {
     public UserInfo(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
     }
-    public UserInfo(String username, String password, Long userId,Collection<? extends GrantedAuthority> authorities) {
+
+    public UserInfo(String username, String password, Long userId, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
-        this.userId=userId;
+        this.userId = userId;
     }
 
     public String getEmail() {
@@ -73,14 +70,6 @@ public class UserInfo extends User {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Long getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(Long orgId) {
-        this.orgId = orgId;
     }
 
     public String getNickName() {

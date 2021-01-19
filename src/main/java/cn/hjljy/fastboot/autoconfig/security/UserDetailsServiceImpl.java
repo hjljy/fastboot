@@ -62,6 +62,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         user.setNickName(userInfo.getNickName());
         user.setRoleDtos(roleInfo);
         user.setUserId(userInfo.getId());
+        user.setOrgId(userInfo.getOrgId());
         return user;
     }
 
