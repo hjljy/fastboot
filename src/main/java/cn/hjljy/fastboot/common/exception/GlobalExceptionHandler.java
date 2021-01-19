@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
      * 处理oauth2登录验证异常
      */
     @ExceptionHandler(value = AuthenticationException.class)
-    public ResultInfo errorHandler(AuthenticationException ex) {
+    public ResultInfo errorHandler(HttpServletResponse response, AuthenticationException ex) {
         ex.printStackTrace();
         //默认是用户密码不正确
         ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
@@ -62,11 +62,14 @@ public class GlobalExceptionHandler {
         //token 过期处理
         if (cause instanceof InvalidTokenException) {
             resultInfo = ResultInfo.error(ResultCode.TOKEN_EXPIRED);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
         // 其余非法请求 未携带Token
         if (ex instanceof InsufficientAuthenticationException) {
             resultInfo = ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
+
         return resultInfo;
     }
 
@@ -115,10 +118,10 @@ public class GlobalExceptionHandler {
             resultInfo.setCode(ResultCode.SQL_EXCEPTION.getCode());
         } else if (ex instanceof NullPointerException) {
             resultInfo.setCode(ResultCode.NPE_EXCEPTION.getCode());
-        } else if (ex instanceof InvalidFormatException) {
+        }else if(ex instanceof InvalidFormatException){
             resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
             resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
-        } else if (ex instanceof MismatchedInputException) {
+        }else if(ex instanceof MismatchedInputException){
             resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
             resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
         }
