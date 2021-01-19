@@ -62,12 +62,14 @@ public class GlobalExceptionHandler {
         //token 过期处理
         if (cause instanceof InvalidTokenException) {
             resultInfo = ResultInfo.error(ResultCode.TOKEN_EXPIRED);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
         // 其余非法请求 未携带Token
         if (ex instanceof InsufficientAuthenticationException) {
             resultInfo = ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+
         return resultInfo;
     }
 
@@ -107,12 +109,11 @@ public class GlobalExceptionHandler {
      * 处理其他的所有异常信息
      */
     @ExceptionHandler(value = Exception.class)
-    public ResultInfo errorHandler(HttpServletResponse response, Exception ex) {
+    public ResultInfo errorHandler(Exception ex) {
         ex.printStackTrace();
         ResultInfo resultInfo = ResultInfo.error(ResultCode.ERROR);
         if (ex instanceof AccessDeniedException) {
             resultInfo = ResultInfo.error(ResultCode.PERMISSION_DENIED);
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         } else if (ex instanceof SQLException) {
             resultInfo.setCode(ResultCode.SQL_EXCEPTION.getCode());
         } else if (ex instanceof NullPointerException) {
