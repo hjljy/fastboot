@@ -59,7 +59,7 @@ public class SecurityUtils {
                 return (UserInfo)principal;
             }
         }
-        throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
+        throw new BusinessException(ResultCode.USER_NOT_FOUND);
     }
 
     /**
