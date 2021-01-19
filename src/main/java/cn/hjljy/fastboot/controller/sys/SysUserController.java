@@ -69,7 +69,6 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('{authority=sys:user:update}')")
     @ApiOperation(value = "更新用户信息")
     public ResultInfo updateSysUserInfo(@RequestBody @Validated({Update.class}) SysUserDto param) {
-
         userService.updateSysUserInfo(param);
         return ResultInfo.success();
     }
@@ -78,8 +77,7 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('{authority=sys:user:disable}')")
     @ApiOperation(value = "禁用用户")
     public ResultInfo disableSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
-
-//        userService.disableSysUser(param);
+        userService.disableSysUser(param);
         return ResultInfo.success();
     }
 }

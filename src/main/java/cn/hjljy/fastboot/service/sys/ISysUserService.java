@@ -47,4 +47,10 @@ public interface ISysUserService extends IService<SysUser> {
      * @param param 用户基础信息
      */
     void updateSysUserInfo(SysUserDto param);
+
+    /**
+     * 禁用用户
+     * @param param 用户信息
+     */
+    void disableSysUser(SysUserParam param);
 }

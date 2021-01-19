@@ -32,4 +32,7 @@ public class SysUserParam extends BaseDto {
     @NotBlank(message = "用户ID不能为空",groups = Select.class)
     private Long userId;
 
+    @ApiModelProperty(value = "是否禁用 0是 1否 ")
+    private int enable;
+
 }

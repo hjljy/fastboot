@@ -3,23 +3,16 @@ package cn.hjljy.fastboot.controller.sys;
 
 import cn.hjljy.fastboot.common.BaseDto;
 import cn.hjljy.fastboot.common.result.ResultInfo;
-import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
-import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
-import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
 import cn.hjljy.fastboot.service.sys.ISysRoleService;
-import cn.hjljy.fastboot.service.sys.ISysUserService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * <p>
@@ -37,6 +30,7 @@ public class SysRoleController {
     ISysRoleService roleService;
 
     @PostMapping("/list")
+    @PreAuthorize("hasAnyAuthority('[{authority=sys:user:list},{authority=sys:role:list}]')")
     @ApiOperation(value = "查询所有角色信息")
     public ResultInfo getSysUserPage(@RequestBody @Validated BaseDto param) {
         return ResultInfo.success(roleService.list(param));

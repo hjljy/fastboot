@@ -66,11 +66,11 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     @Override
     public IPage<SysUserDto> getSysUserInfoPage(SysUserParam param) {
         Page<SysUserDto> page = param.createPage();
-        //查询用户基础信息
+        //1 查询用户基础信息
         List<SysUserDto> infoPage = this.baseMapper.getSysUserInfoPage(page, param.getOrgId(), param.getKeywords(), param.getRoleId());
         if (!CollectionUtils.isEmpty(infoPage)) {
             List<Long> userIds = infoPage.stream().map(SysUserDto::getId).collect(Collectors.toList());
-            //查询用户角色信息
+            //2 查询用户角色信息
             List<SysRoleDto> roles = roleService.getUserRoleInfos(userIds);
             infoPage.forEach(n -> {
                 List<SysRoleDto> list = roles.stream().filter(m -> m.getUserId().equals(n.getId())).collect(Collectors.toList());
@@ -84,13 +84,13 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     @Override
     public SysUserDto getUserDetailInfoByUserId(Long userId) {
         SysUserDto userDto = new SysUserDto();
-        //查询用户基础信息
-        SysUser sysUser = this.baseMapper.selectById(userId);
+        //1 查询用户基础信息
+        SysUser sysUser = this.getById(userId);
         if (sysUser == null) {
             throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
         }
         BeanUtil.copyProperties(sysUser, userDto, "password");
-        //查询用户角色信息
+        //2 查询用户角色信息
         List<SysRole> roleInfo = roleService.getUserRoleInfo(userId);
         List<SysRoleDto> roles = new ArrayList<>();
         for (SysRole role : roleInfo) {
@@ -99,7 +99,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
             roles.add(roleDto);
         }
         userDto.setRoles(roles);
-        //查询角色菜单权限信息
+        //3 查询角色菜单权限信息
         List<SysMenu> menuList = menuService.getUserMenuListInfo(userId);
         List<SysMenuDto> menus = new ArrayList<>();
         for (SysMenu menu : menuList) {
@@ -131,8 +131,6 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         this.saveUserRole(roles,userId);
     }
 
-
-
     @Override
     public void updateSysUserInfo(SysUserDto param) {
         // 1 判断用户是否存在
@@ -155,7 +153,15 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         userRoleService.remove(wrapper);
         List<SysRoleDto> roles = param.getRoles();
         this.saveUserRole(roles,param.getId());
+    }
 
+    @Override
+    public void disableSysUser(SysUserParam param) {
+        // 1 判断用户是否存在
+        SysUser user = this.getById(param.getUserId());
+        if (null == user) {
+            throw new BusinessException(ResultCode.USER_NOT_FOUND_OR_ENABLE);
+        }
     }
 
     /**
