@@ -69,6 +69,7 @@ public class TokenConfig {
                 //解析请求当中的token  可以在解析后的map当中获取到上面加密的数据信息
                 Map<String, Object> decode = super.decode(token);
                 Long userId = (Long)decode.get("userId");
+                Long orgId = (Long)decode.get("orgId");
                 String username = (String)decode.get("username");
                 String email = (String)decode.get("email");
                 String nickName = (String)decode.get("nickName");
@@ -87,6 +88,7 @@ public class TokenConfig {
                 userInfo.setNickName(nickName);
                 userInfo.setEmail(email);
                 userInfo.setScope(scope);
+                userInfo.setOrgId(orgId);
                 //需要将解析出来的用户存入全局当中，不然无法转换成自定义的user类
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userInfo,null, grantedAuthorityList);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
