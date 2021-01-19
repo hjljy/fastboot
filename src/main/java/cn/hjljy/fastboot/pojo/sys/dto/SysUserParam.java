@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -29,7 +30,7 @@ public class SysUserParam extends BaseDto<SysUserDto> {
     private Long roleId;
 
     @ApiModelProperty(value = "用户ID")
-    @NotBlank(message = "用户ID不能为空",groups = Select.class)
+    @NotNull(message = "用户ID不能为空",groups = Select.class)
     private Long userId;
 
     @ApiModelProperty(value = "是否禁用 0是 1否 ")
