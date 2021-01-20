@@ -85,7 +85,7 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('{authority=sys:user:del}')")
     @ApiOperation(value = "删除用户")
     public ResultInfo delSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
-        userService.removeById(param.getUserId());
+        userService.removeSysUser(param.getUserId());
         return ResultInfo.success();
     }
 }

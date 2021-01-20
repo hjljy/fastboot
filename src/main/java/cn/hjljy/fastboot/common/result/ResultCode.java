@@ -8,7 +8,7 @@ package cn.hjljy.fastboot.common.result;
 public enum ResultCode {
     //统一返回
     SUCCESS(0, "操作成功"),
-    DEFAULT(1, "操作失败"),
+    DEFAULT(1, "操作失败,不允许的操作"),
     ERROR(2, "服务器异常,请联系管理员"),
 
 

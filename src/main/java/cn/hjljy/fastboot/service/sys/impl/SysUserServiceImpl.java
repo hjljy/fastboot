@@ -131,6 +131,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
 
     @Override
     public void updateSysUserInfo(SysUserDto param) {
+        boolean b = SecurityUtils.getUserId().equals(param.getId());
         // 1 判断用户是否存在
         SysUser sysUser = userIfExist(param.getId());
         BeanUtil.copyProperties(param, sysUser);
@@ -139,26 +140,46 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         // 3 更新时，不允许更新用户密码,密码置为null
         sysUser.setPassword(null);
         sysUser.setUpdateTime(LocalDateTime.now());
-        // 4 更新用户基础信息
+        // 4 判断是否是当前用户，当前用户无法更新机构信息
+        if(b){
+            sysUser.setOrgId(null);
+        }
+        // 5 更新用户基础信息
         this.updateById(sysUser);
-        // 5 更新用户权限信息
-        UpdateWrapper<SysUserRole> wrapper =new UpdateWrapper<>();
-        wrapper.lambda().eq(SysUserRole::getUserId,param.getId());
-        userRoleService.remove(wrapper);
-        List<SysRoleDto> roles = param.getRoles();
-        this.saveUserRole(roles,param.getId());
+        // 6 判断是否是当前用户，当前用户无法更新权限信息
+        if(!b){
+            UpdateWrapper<SysUserRole> wrapper =new UpdateWrapper<>();
+            wrapper.lambda().eq(SysUserRole::getUserId,param.getId());
+            userRoleService.remove(wrapper);
+            List<SysRoleDto> roles = param.getRoles();
+            this.saveUserRole(roles,param.getId());
+        }
     }
 
     @Override
     public void disableSysUser(SysUserParam param) {
+        // 1 判断是否是当前用户，当前用户不支持禁用操作
+        if(SecurityUtils.getUserId().equals(param.getUserId())){
+            throw new BusinessException(ResultCode.DEFAULT,"无法禁用当前登录用户");
+        }
+        // 2 判断用户是否存在
         SysUser user = this.userIfExist(param.getUserId());
         user.setEnable(param.getEnable());
         this.updateById(user);
     }
 
     @Override
+    public void removeSysUser(Long userId) {
+        // 1 判断是否是当前用户，当前用户不支持禁用操作
+        if(SecurityUtils.getUserId().equals(userId)){
+            throw new BusinessException(ResultCode.DEFAULT,"无法禁用当前登录用户");
+        }
+        // 2 直接逻辑删除用户
+        this.removeById(userId);
+    }
+
+    @Override
     public SysUser userIfExist(Long userId) throws BusinessException {
-        // 1 判断用户是否存在
         SysUser user = this.getById(userId);
         if (null == user) {
             throw new BusinessException(ResultCode.USER_NOT_FOUND);

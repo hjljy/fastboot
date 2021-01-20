@@ -62,4 +62,10 @@ public interface ISysUserService extends IService<SysUser> {
      * @return SysUser 用户信息
      */
     SysUser userIfExist (Long userId) throws BusinessException;
+
+    /**
+     * 逻辑删除用户信息
+     * @param userId 删除用户
+     */
+    void removeSysUser(Long userId);
 }

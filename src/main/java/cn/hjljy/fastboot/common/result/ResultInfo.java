@@ -36,11 +36,10 @@ public class ResultInfo {
     }
 
     public static ResultInfo error(String msg) {
-        ResultInfo resultInfo = error(ResultCode.DEFAULT);
+        ResultInfo resultInfo = error(ResultCode.ERROR);
         resultInfo.setMsg(msg);
         return resultInfo;
     }
-
     public static ResultInfo error(ResultCode code) {
         return new ResultInfo(code.getCode(), code.getMsg());
     }
