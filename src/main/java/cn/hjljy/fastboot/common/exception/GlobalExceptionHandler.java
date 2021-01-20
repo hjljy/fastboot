@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -122,6 +123,9 @@ public class GlobalExceptionHandler {
             resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
             resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
         }else if(ex instanceof MismatchedInputException){
+            resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
+            resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
+        }else if(ex instanceof HttpMessageNotReadableException){
             resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
             resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
         }
