@@ -127,9 +127,9 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         user.setEnable(0);
         user.setPassword(password);
         user.setId(userId);
-        //2 保存用户信息
+        //3 保存用户信息
         this.baseMapper.insert(user);
-        //3 保存用户角色信息
+        //4 保存用户角色信息
         this.saveUserRole(dto.getRoleIds(),userId);
     }
 
@@ -139,18 +139,22 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         // 1 判断用户是否存在
         SysUser sysUser = userIfExist(param.getId());
         BeanUtil.copyProperties(param, sysUser);
-        // 2 更新时，不允许更新用户账号,账号置为null
+        // 2 只有超级管理员才能新增管理员类型的账号
+        if(SysUserTypeEnum.ADMIN.name().equals(sysUser.getUserType())&&!SecurityUtils.IsSuperAdmin()){
+            throw new BusinessException(ResultCode.DEFAULT);
+        }
+        // 3 更新时，不允许更新用户账号,账号置为null
         sysUser.setUserName(null);
-        // 3 更新时，不允许更新用户密码,密码置为null
+        // 4 更新时，不允许更新用户密码,密码置为null
         sysUser.setPassword(null);
         sysUser.setUpdateTime(LocalDateTime.now());
-        // 4 判断是否是当前用户，当前用户无法更新机构信息
+        // 5 判断是否是当前用户，当前用户无法更新机构信息
         if(b){
             sysUser.setOrgId(null);
         }
-        // 5 更新用户基础信息
+        // 6 更新用户基础信息
         this.updateById(sysUser);
-        // 6 判断是否是当前用户，当前用户无法更新权限信息
+        // 7 判断是否是当前用户，当前用户无法更新权限信息
         if(!b){
             UpdateWrapper<SysUserRole> wrapper =new UpdateWrapper<>();
             wrapper.lambda().eq(SysUserRole::getUserId,param.getId());

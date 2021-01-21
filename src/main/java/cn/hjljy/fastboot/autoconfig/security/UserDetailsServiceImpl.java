@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.common.enums.StatusEnum;
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,12 +50,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
-        //获取用户信息
+        //1 获取用户信息
         SysUser userInfo= userService.selectByUserName(username);
+        //2 校验用户信息
         checkUserInfo(userInfo,username);
-        //获取角色权限信息
-        List<SysRole> roleInfo = roleService.getUserRoleInfo(userInfo.getId());
-        List<SysMenu> menuListInfo = menuService.getUserMenuListInfo(userInfo.getId());
+        //3 根据用户类型获取用户角色权限信息
+        List<SysRole> roleInfo=new ArrayList<>();;
+        List<SysMenu> menuListInfo;
+        if(SysUserTypeEnum.SUPER_ADMIN.name().equals(userInfo.getUserType())){
+            menuListInfo = menuService.list();
+        }else if(SysUserTypeEnum.ADMIN.name().equals(userInfo.getUserType())){
+            menuListInfo = menuService.getAdminMenuListByOrgId(userInfo.getOrgId());
+        }else {
+            //获取角色权限信息
+            roleInfo = roleService.getUserRoleInfo(userInfo.getId());
+            menuListInfo = menuService.getUserMenuListInfo(userInfo.getId());
+        }
         String[] perms =  menuListInfo.stream().map(SysMenu::getPerms).toArray(String[]::new);
         List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(perms);
         String password = SecurityUtils.encryptPassword(userInfo.getPassword());

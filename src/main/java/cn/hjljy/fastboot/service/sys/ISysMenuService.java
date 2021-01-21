@@ -21,4 +21,11 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @return 用户菜单权限集合
      */
     List<SysMenu> getUserMenuListInfo(Long userId);
+
+    /**
+     * 获取机构管理员菜单权限集合
+     * @param orgId 机构ID
+     * @return 用户菜单权限集合
+     */
+    List<SysMenu> getAdminMenuListByOrgId(Long orgId);
 }

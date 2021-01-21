@@ -29,7 +29,14 @@
         LEFT JOIN sys_user_role ur ON rm.role_id = ur.role_id
         LEFT JOIN sys_role r on r.id = ur.role_id
 		LEFT JOIN sys_user u ON u.id=ur.user_id
-        WHERE u.id	= #{userId}
+        WHERE u.id	= #{userId} and m.status = 0 and rm.status = 0 and u.status = 0 and r.status = 0
+        ORDER BY m.sort;
+    </select>
+    <select id="getAdminMenuListByOrgId" resultType="cn.hjljy.fastboot.pojo.sys.po.SysMenu">
+       SELECT DISTINCT m.*
+        FROM sys_menu m
+        LEFT JOIN sys_org_menu rm ON m.id = rm.menu_id
+        WHERE rm.org_id	= #{orgId} and m.status = 0 and rm.status = 0
         ORDER BY m.sort;
     </select>
 

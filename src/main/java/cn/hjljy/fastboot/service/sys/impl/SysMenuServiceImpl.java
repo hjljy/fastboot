@@ -23,4 +23,9 @@ public class SysMenuServiceImpl extends BaseService<SysMenuMapper, SysMenu> impl
     public List<SysMenu> getUserMenuListInfo(Long userId) {
         return baseMapper.getUserMenuListInfo(userId);
     }
+
+    @Override
+    public List<SysMenu> getAdminMenuListByOrgId(Long orgId) {
+        return baseMapper.getAdminMenuListByOrgId(orgId);
+    }
 }
