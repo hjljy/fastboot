@@ -79,6 +79,9 @@ public class SysUserDto implements Serializable {
     @ApiModelProperty(value = "角色信息")
     private List<SysRoleDto> roles;
 
+    @ApiModelProperty(value = "角色Id集合")
+    private List<Integer> roleIds;
+
     @ApiModelProperty(value = "菜单权限")
     private List<SysMenuDto> menus;
 

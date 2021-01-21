@@ -124,9 +124,8 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         user.setId(userId);
         //2 保存用户信息
         this.baseMapper.insert(user);
-        List<SysRoleDto> roles = dto.getRoles();
         //3 保存用户角色信息
-        this.saveUserRole(roles,userId);
+        this.saveUserRole(dto.getRoleIds(),userId);
     }
 
     @Override
@@ -151,8 +150,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
             UpdateWrapper<SysUserRole> wrapper =new UpdateWrapper<>();
             wrapper.lambda().eq(SysUserRole::getUserId,param.getId());
             userRoleService.remove(wrapper);
-            List<SysRoleDto> roles = param.getRoles();
-            this.saveUserRole(roles,param.getId());
+            this.saveUserRole(param.getRoleIds(),param.getId());
         }
     }
 
@@ -192,12 +190,12 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
      * @param roles 角色信息
      * @param userId 用户ID
      */
-    private void saveUserRole(List<SysRoleDto> roles, Long userId) {
+    private void saveUserRole(List<Integer> roles, Long userId) {
         if (CollectionUtil.isNotEmpty(roles)) {
             List<SysUserRole> userRoles = new ArrayList<>();
-            for (SysRoleDto role : roles) {
+            for (Integer roleId : roles) {
                 SysUserRole userRole = new SysUserRole();
-                userRole.setRoleId(role.getId());
+                userRole.setRoleId(roleId);
                 userRole.setUserId(userId);
                 userRole.setStatus(0);
                 userRoles.add(userRole);
