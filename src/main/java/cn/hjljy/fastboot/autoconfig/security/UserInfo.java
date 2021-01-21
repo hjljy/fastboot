@@ -38,6 +38,16 @@ public class UserInfo extends User {
      * 描述: 用户昵称
      **/
     private String NickName;
+
+    /**
+     * 描述: 用户类型
+     **/
+    private String userType;
+
+    /**
+     * 描述: 用户手机
+     **/
+    private String phone;
     /**
      * 描述: 用户scope
      **/
@@ -46,6 +56,10 @@ public class UserInfo extends User {
      * 描述：用户角色信息
      */
     private List<SysRole> roleDtos;
+    /**
+     * 描述：用户头像
+     */
+    private String avatarUrl;
 
     public UserInfo(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
@@ -102,5 +116,29 @@ public class UserInfo extends User {
 
     public void setOrgId(Long orgId) {
         this.orgId = orgId;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

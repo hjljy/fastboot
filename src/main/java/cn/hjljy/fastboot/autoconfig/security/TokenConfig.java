@@ -74,6 +74,9 @@ public class TokenConfig {
                 String email = (String)decode.get("email");
                 String nickName = (String)decode.get("nickName");
                 String scope = (String)decode.get("scope");
+                String avatarUrl = (String)decode.get("avatarUrl");
+                String userType = (String)decode.get("userType");
+                String phone = (String)decode.get("phone");
                 List<GrantedAuthority> grantedAuthorityList=new ArrayList<>();
                 //注意这里获取到的权限 虽然数据库存的权限是 "sys:menu:add"  但是这里就变成了"{authority=sys:menu:add}" 所以使用@PreAuthorize("hasAuthority('{authority=sys:menu:add}')")
                 Object object = decode.get("authorities");
@@ -89,6 +92,9 @@ public class TokenConfig {
                 userInfo.setEmail(email);
                 userInfo.setScope(scope);
                 userInfo.setOrgId(orgId);
+                userInfo.setAvatarUrl(avatarUrl);
+                userInfo.setUserType(userType);
+                userInfo.setPhone(phone);
                 //需要将解析出来的用户存入全局当中，不然无法转换成自定义的user类
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userInfo,null, grantedAuthorityList);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);

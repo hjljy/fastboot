@@ -59,9 +59,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String password = SecurityUtils.encryptPassword(userInfo.getPassword());
         UserInfo user =new UserInfo(username,password,authorityList);
         user.setEmail(userInfo.getEmail());
+        user.setPhone(userInfo.getPhone());
+        user.setUserType(userInfo.getUserType());
         user.setNickName(userInfo.getNickName());
         user.setRoleDtos(roleInfo);
         user.setUserId(userInfo.getId());
+        user.setAvatarUrl(userInfo.getAvatarUrl());
         user.setOrgId(userInfo.getOrgId());
         return user;
     }
@@ -70,7 +73,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(null==userInfo){
             throw new BusinessException(ResultCode.USER_NOT_FOUND,username+ResultCode.USER_NOT_FOUND.getMsg());
         }else if(StatusEnum.DISABLE.getCode().equals(userInfo.getEnable())){
-            throw new BusinessException(ResultCode.USER_DISABLE,ResultCode.USER_DISABLE.getMsg());
+            throw new BusinessException(ResultCode.USER_DISABLE,username+ResultCode.USER_DISABLE.getMsg());
         }
     }
 }
