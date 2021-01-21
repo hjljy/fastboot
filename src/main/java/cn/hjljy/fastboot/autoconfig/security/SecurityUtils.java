@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -82,11 +83,33 @@ public class SecurityUtils {
         return passwordEncoder.encode(password);
     }
 
+    /**
+     * 获取用户id
+     */
     public static Long getUserId() {
         UserInfo userInfo = getUserInfo();
-        if (userInfo!=null){
-            return userInfo.getUserId();
-        }
-        return null;
+        return userInfo.getUserId();
+    }
+
+    /**
+     * 获取用户类型
+     */
+    public static String getUserType() {
+        UserInfo userInfo = getUserInfo();
+        return userInfo.getUserType();
+    }
+
+    /**
+     * 是否是超级管理员
+     */
+    public static boolean IsSuperAdmin(){
+        return SysUserTypeEnum.SUPER_ADMIN.name().equals(getUserType());
+    }
+
+    /**
+     * 是否是管理员
+     */
+    public static boolean IsAdmin(){
+        return SysUserTypeEnum.ADMIN.name().equals(getUserType());
     }
 }

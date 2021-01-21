@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.common.enums;
+package cn.hjljy.fastboot.common.enums.member;
 
 /**
  * 会员来源枚举

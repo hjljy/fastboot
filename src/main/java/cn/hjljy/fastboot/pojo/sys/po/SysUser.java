@@ -40,7 +40,7 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "用户密码")
     private String password;
     /**
-     * @see
+     * @see cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum
      */
     @ApiModelProperty(value = "用户类型")
     private String userType;

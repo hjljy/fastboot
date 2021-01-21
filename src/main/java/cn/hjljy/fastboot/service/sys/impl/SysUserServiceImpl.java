@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
@@ -117,6 +118,10 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         }
         SysUser user = new SysUser();
         BeanUtil.copyProperties(dto, user);
+        // 2 只有超级管理员才能新增管理员类型的账号
+        if(SysUserTypeEnum.ADMIN.name().equals(user.getUserType())&&!SecurityUtils.IsSuperAdmin()){
+            throw new BusinessException(ResultCode.DEFAULT);
+        }
         Long userId = SnowFlakeUtil.createID();
         String password = SecurityUtils.encryptPassword(user.getPassword());
         user.setEnable(0);

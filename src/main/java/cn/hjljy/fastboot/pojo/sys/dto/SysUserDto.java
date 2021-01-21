@@ -53,6 +53,14 @@ public class SysUserDto implements Serializable {
     @NotBlank(message = "用户密码不能为空",groups = Insert.class)
     @ApiModelProperty(value = "用户密码")
     private String password;
+    /**
+     * @see cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum
+     */
+    @ApiModelProperty(value = "用户类型")
+    private String userType;
+
+    @ApiModelProperty(value = "用户手机")
+    private String phone;
 
     @ApiModelProperty(value = "用户邮箱")
     private String email;
