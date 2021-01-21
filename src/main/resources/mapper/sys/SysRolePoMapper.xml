@@ -22,7 +22,7 @@
 				FROM sys_role r
 				LEFT JOIN sys_user_role ur on r.id = ur.role_id
 				LEFT JOIN sys_user u ON u.id=ur.user_id
-				WHERE u.id	= #{userId} and r.status =0 and ur.status=0 and u.status = 0;
+				WHERE u.id	= #{userId} and r.org_id = #{orgId} and r.status =0 and ur.status=0 and u.status = 0;
     </select>
 
     <select id="selectUserRoleInfoByUserIds" resultType="cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto">

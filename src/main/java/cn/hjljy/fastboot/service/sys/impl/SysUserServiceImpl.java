@@ -25,14 +25,12 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.util.deparser.UpdateDeParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,7 +87,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         SysUser sysUser = this.userIfExist(userId);
         BeanUtil.copyProperties(sysUser, userDto, "password");
         //2 查询用户角色信息
-        List<SysRole> roleInfo = roleService.getUserRoleInfo(userId);
+        List<SysRole> roleInfo = roleService.getUserRoleInfo(userId, sysUser.getUserType(), sysUser.getOrgId());
         List<SysRoleDto> roles = new ArrayList<>();
         for (SysRole role : roleInfo) {
             SysRoleDto roleDto = new SysRoleDto();
@@ -98,7 +96,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         }
         userDto.setRoles(roles);
         //3 查询角色菜单权限信息
-        List<SysMenu> menuList = menuService.getUserMenuListInfo(userId);
+        List<SysMenu> menuList = menuService.getUserMenuListInfo(userId, sysUser.getUserType(), sysUser.getOrgId());
         List<SysMenuDto> menus = new ArrayList<>();
         for (SysMenu menu : menuList) {
             SysMenuDto roleDto = new SysMenuDto();

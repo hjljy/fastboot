@@ -2,14 +2,13 @@ package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.BaseDto;
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import cn.hjljy.fastboot.mapper.sys.SysRoleMapper;
 import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -29,8 +28,12 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
 
 
     @Override
-    public List<SysRole> getUserRoleInfo(Long userId) {
-        List<SysRole> roleDtos = baseMapper.selectUserRoleInfoByUserId(userId);
+    public List<SysRole> getUserRoleInfo(Long userId, String userType, Long orgId) {
+        List<SysRole> roleDtos =new ArrayList<>();
+        //如果是普通账号 查询角色权限信息 如果是其他类型的账号（超级管理员，普通管理员）返回空数组
+        if(SysUserTypeEnum.NORMAL.name().equals(userType)){
+            roleDtos = baseMapper.selectUserRoleInfoByUserId(userId,orgId);
+        }
         return roleDtos;
     }
 

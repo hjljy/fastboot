@@ -17,10 +17,12 @@ import java.util.List;
  */
 public interface ISysRoleService extends IService<SysRole> {
     /**
-     * 获取用户的角色信息
+     * 根据用户ID获取用户的角色信息
      * @param userId 用户ID
+     * @param userType 用户类型
+     * @param orgId 机构ID
      */
-    List<SysRole> getUserRoleInfo(Long userId);
+    List<SysRole> getUserRoleInfo(Long userId, String userType, Long orgId);
     /**
      * 获取用户的角色信息
      * @param userIds 用户ID集合

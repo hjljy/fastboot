@@ -1,6 +1,5 @@
 package cn.hjljy.fastboot.service.sys;
 
-import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,11 +15,12 @@ import java.util.List;
  */
 public interface ISysMenuService extends IService<SysMenu> {
     /**
-     *
-     * @param userId 用户ID
+     * @param userId  用户ID
+     * @param userType 用户类型
+     * @param orgId 机构ID
      * @return 用户菜单权限集合
      */
-    List<SysMenu> getUserMenuListInfo(Long userId);
+    List<SysMenu> getUserMenuListInfo(Long userId, String userType, Long orgId);
 
     /**
      * 获取机构管理员菜单权限集合

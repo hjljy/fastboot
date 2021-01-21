@@ -33,6 +33,8 @@
         u.email,
         u.nick_name,
         u.avatar_url,
+        u.phone,
+        u.user_type,
         u.sex,
         u.birthday,
         u.create_time,

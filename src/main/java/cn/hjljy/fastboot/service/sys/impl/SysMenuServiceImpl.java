@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
-import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import cn.hjljy.fastboot.mapper.sys.SysMenuMapper;
 import cn.hjljy.fastboot.service.sys.ISysMenuService;
@@ -20,7 +20,12 @@ import java.util.List;
 @Service
 public class SysMenuServiceImpl extends BaseService<SysMenuMapper, SysMenu> implements ISysMenuService {
     @Override
-    public List<SysMenu> getUserMenuListInfo(Long userId) {
+    public List<SysMenu> getUserMenuListInfo(Long userId, String userType, Long orgId) {
+        if(SysUserTypeEnum.SUPER_ADMIN.name().equals(userType)){
+            return this.list();
+        }else if(SysUserTypeEnum.ADMIN.name().equals(userType)){
+            return this.getAdminMenuListByOrgId(orgId);
+        }
         return baseMapper.getUserMenuListInfo(userId);
     }
 
