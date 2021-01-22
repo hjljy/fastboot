@@ -19,6 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 全局check_token
+ */
 @Component
 @Slf4j
 public class CheckTokenFilter implements Filter, Ordered {
@@ -42,14 +45,13 @@ public class CheckTokenFilter implements Filter, Ordered {
                    return;
                }
            }
-           log.info("path:{} not allow", path);
            String attribute = request.getHeader(HttpHeaders.AUTHORIZATION);
            String token = attribute.replace(OAuth2AccessToken.BEARER_TYPE, "").trim();
-           log.info(token);
-           ResultInfo entity = restTemplate.getForObject("http://127.0.0.1:8090/oauth/check_token", ResultInfo.class);
+           ResultInfo entity = restTemplate.getForObject("http://127.0.0.1:8090/oauth/check_token?token="+token, ResultInfo.class);
            HttpServletResponse response = (HttpServletResponse)servletResponse;
            if(ResultCode.ERROR.getCode()==entity.getCode()||ResultCode.TOKEN_EXPIRED.getCode()==entity.getCode()){
                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+               log.info("请求：{} 携带的token:{} 过期了",path,token);
            }
        }
         filterChain.doFilter(servletRequest, servletResponse);
