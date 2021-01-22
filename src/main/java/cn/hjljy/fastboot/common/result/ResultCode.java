@@ -25,7 +25,7 @@ public enum ResultCode {
 
     PERMISSION_DENIED(21001,"权限不足，请联系管理员"),
     TOKEN_EXPIRED(21002,"会话已过期, 请重新登录"),
-    TOKEN_NOT_FOUND(21023,"未携带TOKEN,非法请求！"),
+    TOKEN_NOT_FOUND(21003,"未携带TOKEN,非法请求！"),
 
     //会员系统异常码
     MEMBER_NOT_FOUND(40001,"未找到对应的会员信息"),
