@@ -46,6 +46,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(allow.toArray(array)).permitAll()
                 //其余请求都需要验证
                 .anyRequest().authenticated()
+                .and()
+                //默认logout
+                .logout()
+                .logoutUrl("/oauth/logout")
+                //清除会话
+                .invalidateHttpSession(true)
+                //清除授权
+                .clearAuthentication(true)
                 //授权码模式需要
                 .and().httpBasic()
                 //禁用跨站伪造
