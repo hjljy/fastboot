@@ -56,13 +56,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         SysUser userInfo = userService.selectByUserName(username);
         //2 校验用户信息
         checkUserInfo(userInfo, username);
-        //3 根据用户类型获取用户角色权限信息
+        //3 判断用户所属机构是否过期
+        //4 根据用户类型获取用户角色权限信息
         List<SysRole> roleInfo = roleService.getUserRoleInfo(userInfo.getId(), userInfo.getUserType(), userInfo.getOrgId());
         List<SysMenu> menuListInfo = menuService.getUserMenuListInfo(userInfo.getId(), userInfo.getUserType(), userInfo.getOrgId());
-
         String[] perms = menuListInfo.stream().map(SysMenu::getPerms).toArray(String[]::new);
         List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(perms);
         String password = SecurityUtils.encryptPassword(userInfo.getPassword());
+        //5 构建角色账号信息
         UserInfo user = new UserInfo(username, password, authorityList);
         user.setEmail(userInfo.getEmail());
         user.setPhone(userInfo.getPhone());

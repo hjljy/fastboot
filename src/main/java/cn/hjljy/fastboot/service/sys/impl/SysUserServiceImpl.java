@@ -116,10 +116,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         }
         SysUser user = new SysUser();
         BeanUtil.copyProperties(dto, user);
-        // 2 只有超级管理员才能新增管理员类型的账号
-        if(SysUserTypeEnum.ADMIN.name().equals(user.getUserType())&&!SecurityUtils.IsSuperAdmin()){
-            throw new BusinessException(ResultCode.DEFAULT);
-        }
+        user.setUserType(SysUserTypeEnum.NORMAL.name());
         Long userId = SnowFlakeUtil.createID();
         String password = SecurityUtils.encryptPassword(user.getPassword());
         user.setEnable(0);
@@ -137,10 +134,8 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         // 1 判断用户是否存在
         SysUser sysUser = userIfExist(param.getId());
         BeanUtil.copyProperties(param, sysUser);
-        // 2 只有超级管理员才能新增管理员类型的账号
-        if(SysUserTypeEnum.ADMIN.name().equals(sysUser.getUserType())&&!SecurityUtils.IsSuperAdmin()){
-            throw new BusinessException(ResultCode.DEFAULT);
-        }
+        // 2 更新时，不允许更新用户账号类型,类型置为null
+        sysUser.setUserType(SysUserTypeEnum.NORMAL.name());
         // 3 更新时，不允许更新用户账号,账号置为null
         sysUser.setUserName(null);
         // 4 更新时，不允许更新用户密码,密码置为null

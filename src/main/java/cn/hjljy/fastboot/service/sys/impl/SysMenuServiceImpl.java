@@ -23,7 +23,7 @@ public class SysMenuServiceImpl extends BaseService<SysMenuMapper, SysMenu> impl
     public List<SysMenu> getUserMenuListInfo(Long userId, String userType, Long orgId) {
         if(SysUserTypeEnum.SUPER_ADMIN.name().equals(userType)){
             return this.list();
-        }else if(SysUserTypeEnum.ADMIN.name().equals(userType)){
+        }else if(SysUserTypeEnum.SYS_ADMIN.name().equals(userType)||SysUserTypeEnum.ADMIN.name().equals(userType)){
             return this.getAdminMenuListByOrgId(orgId);
         }
         return baseMapper.getUserMenuListInfo(userId);

@@ -107,6 +107,13 @@ public class SecurityUtils {
     }
 
     /**
+     * 是否是系统管理员
+     */
+    public static boolean IsSysAdmin(){
+        return SysUserTypeEnum.SYS_ADMIN.name().equals(getUserType());
+    }
+
+    /**
      * 是否是管理员
      */
     public static boolean IsAdmin(){
