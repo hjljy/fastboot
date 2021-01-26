@@ -41,6 +41,53 @@ spring:
         reset-enable: false
         allow: ""  # 白名单 表示所有
         deny: 192.168.1.12 # 黑名单
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    password: hjljy2021
+    timeout: 3000
+    # Redisson settings  单机模式 配置好后无需再写配置类，已经集成了。官网地址：https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter#spring-boot-starter
+    redisson:
+      config: |
+        singleServerConfig:
+          idleConnectionTimeout: 10000
+          connectTimeout: 10000
+          timeout: 3000
+          retryAttempts: 3
+          retryInterval: 1500
+          password: hjljy2021
+          subscriptionsPerConnection: 5
+          clientName: hjljy
+          address: "redis://127.0.0.1:6379"
+          subscriptionConnectionMinimumIdleSize: 1
+          subscriptionConnectionPoolSize: 50
+          connectionMinimumIdleSize: 32
+          connectionPoolSize: 64
+          database: 1
+          dnsMonitoringInterval: 5000
+        threads: 16
+        nettyThreads: 16
+        codec: !<org.redisson.client.codec.StringCodec> {}
+        transportMode: "NIO"
 server:
   port: 8090
-
+fastboot:
+  oauth2:
+    checkTokenUrl: http://127.0.0.1:8090/oauth/check_token?token=
+  request:
+    allow: # 请求放行地址
+      - /login
+      - /oauth/**
+      - /actuator/**
+      - /v2/api-docs/**
+      - /favicon.ico
+      - /webjars/**
+      - /swagger-resources/**
+      - /druid/**
+      - /css/**
+      - /404.html
+      - /doc.html
+      - /500.html
+      - /html/**
+      - /js/**

@@ -23,8 +23,6 @@ GlobalExceptionHandler: 全局异常处理器，用于处理全局异常的返�
 
 LogAspect: 项目操作日志切面
 
-BindingResultAspect: 项目JSR规范参数验证处理切面（已移除，直接使用全局异常捕捉，减少代码量，不必每个接口都写BindingResult参数）
-
 TaskExecutor: 创建默认线程池，只需要@Autowird 注入就可以使用
 
 CorsFilter :支持跨域CORS请求  需要在启动类上加注解 @EnableCors

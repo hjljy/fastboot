@@ -62,9 +62,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<SysMenu> menuListInfo = menuService.getUserMenuListInfo(userInfo.getId(), userInfo.getUserType(), userInfo.getOrgId());
         String[] perms = menuListInfo.stream().map(SysMenu::getPerms).toArray(String[]::new);
         List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(perms);
-        String password = SecurityUtils.encryptPassword(userInfo.getPassword());
         //5 构建角色账号信息
-        UserInfo user = new UserInfo(username, password, authorityList);
+        UserInfo user = new UserInfo(username, userInfo.getPassword(), authorityList);
         user.setEmail(userInfo.getEmail());
         user.setPhone(userInfo.getPhone());
         user.setUserType(userInfo.getUserType());

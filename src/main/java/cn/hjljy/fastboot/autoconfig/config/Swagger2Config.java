@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastboot.autoconfig.config;
 
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -27,7 +27,7 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 @ConditionalOnProperty(name = "spring.profiles.active", havingValue = "dev")
-public class Swagger2Configuration {
+public class Swagger2Config {
 
     @Bean
     public Docket createRestApi() {

@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastboot.autoconfig.config;
 
 import cn.hjljy.fastboot.autoconfig.annotation.EnableCors;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Configuration
 @ConditionalOnBean(annotation = EnableCors.class)
-public class CorsFilterConfiguration {
+public class CorsFilterConfig {
 
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {

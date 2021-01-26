@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastboot.autoconfig.config;
 
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Configuration
 @EnableTransactionManagement
-public class TransactionConfiguration {
+public class TransactionConfig {
 
     /**
      * 配置全局事务的切点为service层的所有方法  AOP切面表达式 可参考（https://blog.csdn.net/ycf921244819/article/details/106599489）
