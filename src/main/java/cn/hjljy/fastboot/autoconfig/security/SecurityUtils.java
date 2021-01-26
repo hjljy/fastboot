@@ -84,6 +84,18 @@ public class SecurityUtils {
     }
 
     /**
+     * 生成BCryptPasswordEncoder密码
+     *
+     * @param password 密码
+     * @param encodePassword 加密后的密码
+     * @return 是否相同
+     */
+    public static Boolean matchesPassword(String password,String encodePassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(password,encodePassword);
+    }
+
+    /**
      * 获取用户id
      */
     public static Long getUserId() {

@@ -6,6 +6,7 @@ import cn.hjljy.fastboot.common.aspect.validated.Insert;
 import cn.hjljy.fastboot.common.aspect.validated.Select;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
 import cn.hjljy.fastboot.common.result.ResultInfo;
+import cn.hjljy.fastboot.pojo.sys.dto.PasswordParam;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
@@ -86,6 +87,21 @@ public class SysUserController {
     @ApiOperation(value = "删除用户")
     public ResultInfo delSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
         userService.removeSysUser(param.getUserId());
+        return ResultInfo.success();
+    }
+
+    @PostMapping("/resetPassword")
+    @PreAuthorize("hasAuthority('{authority=sys:user:rpwd}')")
+    @ApiOperation(value = "重置用户密码")
+    public ResultInfo resetPassword(@RequestBody @Validated({Select.class}) SysUserParam param) {
+        userService.resetUserPassword(param.getUserId());
+        return ResultInfo.success();
+    }
+
+    @PostMapping("/editPassword")
+    @ApiOperation(value = "修改当前用户密码(无需权限控制)")
+    public ResultInfo editPassword(@RequestBody @Validated({Select.class}) PasswordParam param) {
+        userService.editUserPassword(param);
         return ResultInfo.success();
     }
 }

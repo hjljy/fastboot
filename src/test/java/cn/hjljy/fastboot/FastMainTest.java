@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot;
 
 
+import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
 
 import java.math.BigDecimal;
@@ -19,15 +20,8 @@ import java.util.stream.Collectors;
 public class FastMainTest {
 
     public static void main(String[] args) {
-        String key = "21011220405994385136080";
-        int abs = Math.abs(key.hashCode());
-
-        String numKey = "21011220415185632045839";
-
-        int abs1 = Math.abs(numKey.hashCode());
-
-        System.out.println(abs);
-        System.out.println(abs1);
+        String password = SecurityUtils.encryptPassword("111111");
+        System.out.println(password);
     }
     public static Date str2Date(String date, String f) {
         SimpleDateFormat format = new SimpleDateFormat(f);

@@ -22,6 +22,7 @@ public enum ResultCode {
     USER_DISABLE(20002,"用户被禁用,请联系管理员"),
     USER_EXIST(20003,"用户账号已存在"),
     USER_PASSWORD_WRONG(20004,"用户名或密码错误"),
+    USER_NOT_MATCH(20005,"账号不匹配"),
 
     PERMISSION_DENIED(21001,"权限不足，请联系管理员"),
     TOKEN_EXPIRED(21002,"会话已过期, 请重新登录"),

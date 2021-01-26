@@ -24,8 +24,8 @@ import java.util.Collections;
 @EnableAuthorizationServer
 public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    private static final String CLIENT_ID = "client";  //客户端
-    private static final String CLIENT_SECRET = "123456";   //secret客户端安全码
+    private static final String CLIENT_ID = "fastboot";  //客户端
+    private static final String CLIENT_SECRET = "hjljy2021";   //secret客户端安全码
     private static final String GRANT_TYPE_PASSWORD = "password";   // 密码模式授权模式
     private static final String AUTHORIZATION_CODE = "authorization_code"; //授权码模式  授权码模式使用到了回调地址，是最为复杂的方式，通常网站中经常出现的微博，qq第三方登录，都会采用这个形式。
     private static final String REFRESH_TOKEN = "refresh_token";  //

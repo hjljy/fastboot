@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.controller;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
+import cn.hjljy.fastboot.common.constant.OAuth2Constant;
 import cn.hjljy.fastboot.common.constant.RedisPrefixConstant;
 import cn.hjljy.fastboot.common.enums.StatusEnum;
 import cn.hjljy.fastboot.common.result.ResultCode;
@@ -58,7 +59,7 @@ public class OauthController {
     public ResultInfo token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         String scope = parameters.get("scope");
         if (null == parameters.get("scope")) {
-            return ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
+            parameters.put("scope", OAuth2Constant.SCOPE_BOOT);
         }
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();

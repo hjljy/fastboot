@@ -11,6 +11,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -71,6 +72,16 @@ public class GlobalExceptionHandler {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
 
+        return resultInfo;
+    }
+
+    /**
+     * 处理oauth2登录验证异常
+     */
+    @ExceptionHandler(value = InvalidGrantException.class)
+    public ResultInfo errorHandler(HttpServletResponse response, InvalidGrantException ex) {
+        ex.printStackTrace();
+        ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
         return resultInfo;
     }
 

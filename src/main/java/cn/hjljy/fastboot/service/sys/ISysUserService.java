@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.service.sys;
 
 import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.pojo.sys.dto.PasswordParam;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
@@ -68,4 +69,22 @@ public interface ISysUserService extends IService<SysUser> {
      * @param userId 删除用户
      */
     void removeSysUser(Long userId);
+
+    /**
+     * 重置密码 重置为123456
+     * @param userId 用户ID
+     */
+    void resetUserPassword(Long userId);
+
+    /**
+     * 修改账号密码
+     * @param param 密码参数
+     */
+    void editUserPassword(PasswordParam param);
+
+    /**
+     * 更新用户账号密码
+     * @param sysUser 用户信息
+     */
+    void updateUserPassword(SysUser sysUser);
 }

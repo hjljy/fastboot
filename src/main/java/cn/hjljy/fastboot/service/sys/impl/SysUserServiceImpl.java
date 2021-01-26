@@ -1,15 +1,13 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
+import cn.hjljy.fastboot.common.constant.RedisPrefixConstant;
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.sys.SysUserMapper;
-import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
-import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
-import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
-import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
+import cn.hjljy.fastboot.pojo.sys.dto.*;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
@@ -25,6 +23,8 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RMap;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -54,6 +54,9 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
 
     @Autowired
     ISysMenuService menuService;
+
+    @Autowired
+    RedissonClient redissonClient;
 
     @Override
     public SysUser selectByUserName(String username) {
@@ -125,7 +128,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         //3 保存用户信息
         this.baseMapper.insert(user);
         //4 保存用户角色信息
-        this.saveUserRole(dto.getRoleIds(),userId);
+        this.saveUserRole(dto.getRoleIds(), userId);
     }
 
     @Override
@@ -142,25 +145,25 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         sysUser.setPassword(null);
         sysUser.setUpdateTime(LocalDateTime.now());
         // 5 判断是否是当前用户，当前用户无法更新机构信息
-        if(b){
+        if (b) {
             sysUser.setOrgId(null);
         }
         // 6 更新用户基础信息
         this.updateById(sysUser);
         // 7 判断是否是当前用户，当前用户无法更新权限信息
-        if(!b){
-            UpdateWrapper<SysUserRole> wrapper =new UpdateWrapper<>();
-            wrapper.lambda().eq(SysUserRole::getUserId,param.getId());
+        if (!b) {
+            UpdateWrapper<SysUserRole> wrapper = new UpdateWrapper<>();
+            wrapper.lambda().eq(SysUserRole::getUserId, param.getId());
             userRoleService.remove(wrapper);
-            this.saveUserRole(param.getRoleIds(),param.getId());
+            this.saveUserRole(param.getRoleIds(), param.getId());
         }
     }
 
     @Override
     public void disableSysUser(SysUserParam param) {
         // 1 判断是否是当前用户，当前用户不支持禁用操作
-        if(SecurityUtils.getUserId().equals(param.getUserId())){
-            throw new BusinessException(ResultCode.DEFAULT,"无法禁用当前登录用户");
+        if (SecurityUtils.getUserId().equals(param.getUserId())) {
+            throw new BusinessException(ResultCode.DEFAULT, "无法禁用当前登录用户");
         }
         // 2 判断用户是否存在
         SysUser user = this.userIfExist(param.getUserId());
@@ -171,8 +174,8 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     @Override
     public void removeSysUser(Long userId) {
         // 1 判断是否是当前用户，当前用户不支持禁用操作
-        if(SecurityUtils.getUserId().equals(userId)){
-            throw new BusinessException(ResultCode.DEFAULT,"无法禁用当前登录用户");
+        if (SecurityUtils.getUserId().equals(userId)) {
+            throw new BusinessException(ResultCode.DEFAULT, "无法禁用当前登录用户");
         }
         // 2 直接逻辑删除用户
         this.removeById(userId);
@@ -187,9 +190,42 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         return user;
     }
 
+    @Override
+    public void resetUserPassword(Long userId) {
+        SysUser sysUser = userIfExist(userId);
+        sysUser.setPassword(SecurityUtils.encryptPassword("123456"));
+        this.updateUserPassword(sysUser);
+
+
+    }
+
+    @Override
+    public void editUserPassword(PasswordParam param) {
+        if(!param.getUserId().equals(SecurityUtils.getUserId())){
+            throw new BusinessException(ResultCode.USER_NOT_MATCH);
+        }
+        if (!param.getNewPassword().equals(param.getRPassword())) {
+            throw new BusinessException(ResultCode.USER_NOT_MATCH, "新密码和重复密码不匹配，请检查后重试");
+        }
+        SysUser sysUser = userIfExist(param.getUserId());
+        if (!SecurityUtils.matchesPassword(param.getOldPassword(), sysUser.getPassword())) {
+            throw new BusinessException(ResultCode.USER_NOT_MATCH, "原始密码不正确，请检查后重试");
+        }
+        sysUser.setPassword(SecurityUtils.encryptPassword(param.getNewPassword()));
+        this.updateUserPassword(sysUser);
+    }
+
+    @Override
+    public void updateUserPassword(SysUser sysUser) {
+        this.updateById(sysUser);
+        //重置密码后需要重置登录的token
+        redissonClient.getMap(RedisPrefixConstant.LOGIN_USER_TOKEN + sysUser.getId()).delete();
+    }
+
     /**
      * 保存用户角色信息
-     * @param roles 角色信息
+     *
+     * @param roles  角色信息
      * @param userId 用户ID
      */
     private void saveUserRole(List<Integer> roles, Long userId) {
