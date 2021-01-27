@@ -58,16 +58,15 @@ public class OauthController {
     @PostMapping(value = "/token")
     public ResultInfo token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         String scope = parameters.get("scope");
-        if (null == parameters.get("scope")) {
-            parameters.put("scope", OAuth2Constant.SCOPE_BOOT);
-        }
+        parameters.putIfAbsent("scope", OAuth2Constant.SCOPE_BOOT);
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
-        if (null == token){
+        if (null == token) {
             return ResultInfo.error(ResultCode.TOKEN_NOT_CREATE);
         }
-        Long userId = (Long)(token.getAdditionalInformation().get("userId"));
-        RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.LOGIN_USER_TOKEN+userId);
+        long userId = Long.parseLong(token.getAdditionalInformation().get("userId").toString());
+        long orgId = Long.parseLong(token.getAdditionalInformation().get("orgId").toString());
+        RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.ORG + orgId + ":" + RedisPrefixConstant.LOGIN_USER_TOKEN + userId);
         map.put(scope, token.getValue());
         return ResultInfo.success(token);
     }
@@ -92,7 +91,7 @@ public class OauthController {
         // 删除现有用户的token 如果使用JWTTokenStore 这里是不生效的，没有任何意义的，需要重写这个方法
         tokenStore.removeAccessToken(accessToken);
         // 直接删除redis里面的token 这样在进行check_token的时候就会判断token是否过期
-        RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.LOGIN_USER_TOKEN+ SecurityUtils.getUserId());
+        RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.ORG + SecurityUtils.getUserInfo().getOrgId() + ":" + RedisPrefixConstant.LOGIN_USER_TOKEN + SecurityUtils.getUserId());
         Set<String> scopes = accessToken.getScope();
         map.fastRemove(scopes.toArray());
         return success;
@@ -100,28 +99,30 @@ public class OauthController {
 
     @RequestMapping("/check_token")
     public ResultInfo customCheckToken(@RequestParam("token") String value) {
-        ResultInfo success = ResultInfo.success();
         try {
             // 校验信息
             checkTokenEndpoint.checkToken(value);
             // 自定义校验TOKEN
             OAuth2AccessToken accessToken = tokenStore.readAccessToken(value);
-            Long userId = (Long) accessToken.getAdditionalInformation().get("userId");
+            long userId = Long.parseLong(accessToken.getAdditionalInformation().get("userId").toString());
+            long orgId = Long.parseLong(accessToken.getAdditionalInformation().get("orgId").toString());
+            // 由于JWT生成的token是无法主动过期的，需要自己设置token过期策略（例如生成的token存进redis ,判断token是否一致）
+            RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.ORG + orgId + ":" + RedisPrefixConstant.LOGIN_USER_TOKEN + userId);
+            if (!map.containsValue(value)) {
+                return ResultInfo.error(ResultCode.TOKEN_EXPIRED);
+            }
+            // 判断当前用户是否被删除或者禁用
             SysUser user = userService.getById(userId);
             if (null == user) {
-                success = ResultInfo.error(ResultCode.USER_NOT_FOUND);
+                return ResultInfo.error(ResultCode.USER_NOT_FOUND);
             } else if (StatusEnum.DISABLE.getCode().equals(user.getEnable())) {
-                success = ResultInfo.error(ResultCode.USER_DISABLE);
+                return ResultInfo.error(ResultCode.USER_DISABLE);
             }
-            //TODO 由于JWT生成的token是无法主动过期的，需要自己设置token过期策略（例如生成的token存进redis ,判断token是否一致）
-            RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.LOGIN_USER_TOKEN+ SecurityUtils.getUserId());
-            if (!map.containsValue(value)) {
-                success = ResultInfo.error(ResultCode.TOKEN_EXPIRED);
-            }
+            // TODO 判断用户所属机构是否被禁用
         } catch (InvalidTokenException e) {
-            success = ResultInfo.error(ResultCode.TOKEN_EXPIRED);
+            return ResultInfo.error(ResultCode.TOKEN_EXPIRED);
         }
-        return success;
+        return ResultInfo.success();
     }
 
 

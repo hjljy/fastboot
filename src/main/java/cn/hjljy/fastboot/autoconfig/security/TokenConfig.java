@@ -22,8 +22,6 @@ import java.util.*;
  */
 @Configuration
 public class TokenConfig {
-    /** JWT密钥 */
-    private String signingKey = "fastboot";
 
     /**
      * JWT 令牌转换器
@@ -49,10 +47,12 @@ public class TokenConfig {
                 //将额外的参数信息存入，用于生成token
                 Map<String, Object> data = new HashMap<String, Object>(4){{
                     put("userId", user.getUserId());
+                    put("orgId", user.getOrgId());
                     put("username", user.getUsername());
                     put("email", user.getEmail());
-                    put("roleDtos",user.getRoleDtos());
                     put("nickName", user.getNickName());
+                    put("userType", user.getUserType());
+                    put("phone", user.getPhone());
                     put("authorities", user.getAuthorities());
                     put("scope",scope);
                 }};
@@ -68,8 +68,8 @@ public class TokenConfig {
             protected Map<String, Object> decode(String token) {
                 //解析请求当中的token  可以在解析后的map当中获取到上面加密的数据信息
                 Map<String, Object> decode = super.decode(token);
-                Long userId = (Long)decode.get("userId");
-                Long orgId = (Long)decode.get("orgId");
+                Long userId = Long.parseLong(decode.get("userId").toString());
+                Long orgId = Long.parseLong(decode.get("orgId").toString());
                 String username = (String)decode.get("username");
                 String email = (String)decode.get("email");
                 String nickName = (String)decode.get("nickName");
@@ -103,6 +103,8 @@ public class TokenConfig {
             }
         };
 
+        /** JWT密钥 */
+        String signingKey = "fastboot";
         jwt.setSigningKey(signingKey);
         return jwt;
     }

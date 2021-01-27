@@ -5,5 +5,8 @@ package cn.hjljy.fastboot.common.constant;
  */
 public class RedisPrefixConstant {
     /** 用户token缓存 */
-    public static String LOGIN_USER_TOKEN = "fastboot:login:user:";
+    public static String LOGIN_USER_TOKEN = "login:user:";
+
+    /** 用户token缓存 */
+    public static String ORG = "org:";
 }
