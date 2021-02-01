@@ -35,7 +35,12 @@ public interface ISysOrgService extends IService<SysOrg> {
      * @param orgId 机构ID
      * @return 机构信息
      */
-    List<SysOrg> selectByOrgId(Long orgId);
+    List<SysOrg> selectListByOrgId(Long orgId);
 
-
+    /**
+     * 编辑机构基础信息
+     * @param param 基础信息
+     * @return 是否成功
+     */
+    Boolean editOrgBaseInfo(SysOrgDto param);
 }

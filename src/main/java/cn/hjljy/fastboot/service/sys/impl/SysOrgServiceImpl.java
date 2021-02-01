@@ -38,7 +38,7 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
             list = this.list();
         } else {
             // 2 其他账号返回能看到的机构信息
-            list = this.selectByOrgId(SecurityUtils.getUserInfo().getOrgId());
+            list = this.selectListByOrgId(SecurityUtils.getUserInfo().getOrgId());
         }
         List<Long> userIds = list.stream().map(SysOrg::getAdminUserId).collect(Collectors.toList());
         List<SysUser> users = userService.listByIds(userIds);
@@ -56,6 +56,7 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
         return dtoList;
     }
 
+
     @Override
     public List<SysOrg> selectByUserId(Long userId) {
 
@@ -63,7 +64,7 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
     }
 
     @Override
-    public List<SysOrg> selectByOrgId(Long orgId) {
+    public List<SysOrg> selectListByOrgId(Long orgId) {
         List<SysOrg> list = new ArrayList<>();
         SysOrg org = this.getById(orgId);
         list.add(org);
@@ -71,4 +72,29 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
         return list;
     }
 
+    @Override
+    public Boolean editOrgBaseInfo(SysOrgDto param) {
+        SysOrg org = this.getById(param.getId());
+        org.setName(param.getName());
+        org.setPid(param.getPid());
+        org.setLogo(param.getLogo());
+        org.setDescription(param.getDescription());
+        return this.updateById(org);
+    }
+
+    /**
+     * 转换成树形结构
+     *
+     * @param dtoList
+     */
+    private List<SysOrgDto> change2TreeList(List<SysOrgDto> dtoList) {
+        List<SysOrgDto> list = new ArrayList<>();
+        List<SysOrgDto> dtos = dtoList.stream().filter(n -> n.getPid() == 0).collect(Collectors.toList());
+        list.addAll(dtos);
+        list.forEach(n -> {
+            List<SysOrgDto> children = dtoList.stream().filter(m -> m.getPid().equals(n.getId())).collect(Collectors.toList());
+            n.setChildren(children);
+        });
+        return list;
+    }
 }

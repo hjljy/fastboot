@@ -38,7 +38,7 @@ public class SysUserController {
     JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @PostMapping("/page")
-    @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
+    @PreAuthorize("hasAuthority('{authority=sys:user:page}')")
     @ApiOperation(value = "分页查询用户信息")
     public ResultInfo getSysUserPage(@RequestBody SysUserParam param) {
         return ResultInfo.success(userService.getSysUserInfoPage(param));
@@ -66,8 +66,8 @@ public class SysUserController {
         return ResultInfo.success();
     }
 
-    @PostMapping("/update")
-    @PreAuthorize("hasAuthority('{authority=sys:user:update}')")
+    @PostMapping("/edit")
+    @PreAuthorize("hasAuthority('{authority=sys:user:edit}')")
     @ApiOperation(value = "更新用户信息")
     public ResultInfo updateSysUserInfo(@RequestBody @Validated({Update.class}) SysUserDto param) {
         userService.updateSysUserInfo(param);

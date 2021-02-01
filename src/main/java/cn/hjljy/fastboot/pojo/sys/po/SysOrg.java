@@ -45,6 +45,12 @@ public class SysOrg implements Serializable {
     @ApiModelProperty(value = "机构排序")
     private Integer sort;
 
+    @ApiModelProperty(value = "机构类型 0顶级 1二级")
+    private Integer type;
+
+    @ApiModelProperty(value = "机构描述")
+    private String description;
+
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
