@@ -1,0 +1,4 @@
+[WARN ] [2021-02-05 14:30:07][o.s.s.o.p.t.s.JwtAccessTokenConverter] [302] - Unable to create an RSA verifier from verifierKey (ignoreable if using MAC)
+[WARN ] [2021-02-05 14:57:44][o.s.s.o.p.t.s.JwtAccessTokenConverter] [302] - Unable to create an RSA verifier from verifierKey (ignoreable if using MAC)
+[WARN ] [2021-02-05 17:36:17][o.s.s.o.p.t.s.JwtAccessTokenConverter] [302] - Unable to create an RSA verifier from verifierKey (ignoreable if using MAC)
+[WARN ] [2021-02-05 17:50:12][o.s.s.o.p.t.s.JwtAccessTokenConverter] [302] - Unable to create an RSA verifier from verifierKey (ignoreable if using MAC)

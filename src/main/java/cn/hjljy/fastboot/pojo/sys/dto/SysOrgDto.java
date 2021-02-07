@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.pojo.sys.dto;
 
 import java.time.LocalDateTime;
 
+import cn.hjljy.fastboot.common.BaseDto;
 import cn.hjljy.fastboot.common.aspect.validated.Select;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 
@@ -26,7 +27,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysOrgDto对象", description = "")
-public class SysOrgDto implements Serializable {
+public class SysOrgDto extends BaseDto<SysOrgDto> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,6 +41,12 @@ public class SysOrgDto implements Serializable {
     @NotNull(message = "机构名称不能为空", groups = Select.class)
     @ApiModelProperty(value = "机构名称")
     private String name;
+
+    @ApiModelProperty(value = "机构地址")
+    private String address;
+
+    @ApiModelProperty(value = "机构联系电话")
+    private String phone;
 
     @ApiModelProperty(value = "机构logo")
     private String logo;

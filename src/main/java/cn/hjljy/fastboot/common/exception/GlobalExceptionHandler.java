@@ -5,8 +5,10 @@ import cn.hjljy.fastboot.common.result.ResultInfo;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -126,19 +128,12 @@ public class GlobalExceptionHandler {
         ResultInfo resultInfo = ResultInfo.error(ResultCode.ERROR);
         if (ex instanceof AccessDeniedException) {
             resultInfo = ResultInfo.error(ResultCode.PERMISSION_DENIED);
-        } else if (ex instanceof SQLException) {
-            resultInfo.setCode(ResultCode.SQL_EXCEPTION.getCode());
+        } else if (ex instanceof SQLException || ex instanceof BadSqlGrammarException || ex instanceof DataIntegrityViolationException) {
+            resultInfo = ResultInfo.error(ResultCode.SQL_EXCEPTION);
         } else if (ex instanceof NullPointerException) {
-            resultInfo.setCode(ResultCode.NPE_EXCEPTION.getCode());
-        }else if(ex instanceof InvalidFormatException){
-            resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
-            resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
-        }else if(ex instanceof MismatchedInputException){
-            resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
-            resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
-        }else if(ex instanceof HttpMessageNotReadableException){
-            resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
-            resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
+            resultInfo = ResultInfo.error(ResultCode.NPE_EXCEPTION);
+        }else if(ex instanceof InvalidFormatException || ex instanceof MismatchedInputException ||ex instanceof HttpMessageNotReadableException){
+            resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
         }
         return resultInfo;
     }

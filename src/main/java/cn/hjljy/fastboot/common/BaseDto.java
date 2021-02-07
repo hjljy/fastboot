@@ -14,9 +14,6 @@ import javax.validation.constraints.NotNull;
 @Data
 public class BaseDto<T> {
 
-    @ApiModelProperty(value = "机构ID")
-    Long orgId=-1L;
-
     @ApiModelProperty(value = "查询关键字")
     String keywords;
 

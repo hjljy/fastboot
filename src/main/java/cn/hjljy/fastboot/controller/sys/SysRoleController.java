@@ -3,6 +3,7 @@ package cn.hjljy.fastboot.controller.sys;
 
 import cn.hjljy.fastboot.common.BaseDto;
 import cn.hjljy.fastboot.common.result.ResultInfo;
+import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +33,7 @@ public class SysRoleController {
     @PostMapping("/list")
     @PreAuthorize("hasAnyAuthority('{authority=sys:user:list}','{authority=sys:role:list}')")
     @ApiOperation(value = "查询所有角色信息")
-    public ResultInfo getSysUserPage(@RequestBody @Validated BaseDto param) {
+    public ResultInfo getSysUserPage(@RequestBody @Validated SysRoleDto param) {
         return ResultInfo.success(roleService.list(param));
     }
 }

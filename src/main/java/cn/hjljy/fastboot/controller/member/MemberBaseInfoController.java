@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-11-26
  */
 @RestController
-@RequestMapping("/v1/member")
+@RequestMapping("/v1/member/baseInfo")
 @Api(value = "会员列表", tags = "会员列表信息")
 public class MemberBaseInfoController {
 

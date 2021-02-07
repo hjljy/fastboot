@@ -78,6 +78,8 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
         org.setName(param.getName());
         org.setPid(param.getPid());
         org.setLogo(param.getLogo());
+        org.setPhone(param.getPhone());
+        org.setAddress(param.getAddress());
         org.setDescription(param.getDescription());
         return this.updateById(org);
     }

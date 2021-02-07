@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Id;
 
 /**
  * <p>
@@ -25,6 +26,7 @@ public class SysOrg implements Serializable {
 
     private static final long serialVersionUID=1L;
 
+    @ApiModelProperty(value = "机构ID")
     private Long id;
 
     @ApiModelProperty(value = "父级机构ID")
@@ -32,6 +34,12 @@ public class SysOrg implements Serializable {
 
     @ApiModelProperty(value = "机构名称")
     private String name;
+
+    @ApiModelProperty(value = "机构地址")
+    private String address;
+
+    @ApiModelProperty(value = "机构联系电话")
+    private String phone;
 
     @ApiModelProperty(value = "机构logo")
     private String logo;

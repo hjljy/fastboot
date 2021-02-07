@@ -46,7 +46,7 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public List<SysRoleDto> list(BaseDto param) {
+    public List<SysRoleDto> list(SysRoleDto param) {
         List<SysRoleDto> roleDtoList = new ArrayList<>();
         SysRole role = new SysRole();
         Long orgId = param.getOrgId();

@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
+import cn.hjljy.fastboot.common.BaseDto;
 import cn.hjljy.fastboot.common.aspect.validated.Insert;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
@@ -30,7 +31,7 @@ import javax.validation.constraints.Size;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="SysUserPoDto对象", description="")
-public class SysUserDto implements Serializable {
+public class SysUserDto extends BaseDto<SysUserDto> implements Serializable {
 
     private static final long serialVersionUID=1L;
 

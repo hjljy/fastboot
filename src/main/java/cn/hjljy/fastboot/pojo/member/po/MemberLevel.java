@@ -1,12 +1,15 @@
 package cn.hjljy.fastboot.pojo.member.po;
 
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Id;
 
 /**
  * <p>
@@ -23,6 +26,7 @@ public class MemberLevel implements Serializable {
 
     private static final long serialVersionUID=1L;
 
+    @TableId
     @ApiModelProperty(value = "等级ID")
     private Long levelId;
 
@@ -55,7 +59,7 @@ public class MemberLevel implements Serializable {
 
     @ApiModelProperty(value = "是否禁用 0否 1是")
     @TableLogic
-    private Boolean status;
+    private Integer status;
 
 
 }

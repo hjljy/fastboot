@@ -34,5 +34,5 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param param  查询参数
      * @return List<SysRoleDto> 角色信息集合
      */
-    List<SysRoleDto> list(BaseDto param);
+    List<SysRoleDto> list(SysRoleDto param);
 }
