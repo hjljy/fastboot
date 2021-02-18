@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.pojo.member.dto;
 
 import java.time.LocalDateTime;
 
+import cn.hjljy.fastboot.common.aspect.validated.Update;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -30,6 +31,7 @@ public class MemberBaseInfoDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "会员ID")
+    @NotNull(message = "会员ID不能为空",groups = Update.class)
     private Long memberId;
 
     @ApiModelProperty(value = "会员所属机构ID")

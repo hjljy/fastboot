@@ -38,7 +38,7 @@ public class SysUserController {
     JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @PostMapping("/page")
-    @PreAuthorize("hasAuthority('{authority=sys:user:page}')")
+    @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
     @ApiOperation(value = "分页查询用户信息")
     public ResultInfo getSysUserPage(@RequestBody SysUserParam param) {
         return ResultInfo.success(userService.getSysUserInfoPage(param));
