@@ -1,0 +1,1 @@
+[WARN ] [2021-02-24 16:42:06][o.s.s.o.p.t.s.JwtAccessTokenConverter] [302] - Unable to create an RSA verifier from verifierKey (ignoreable if using MAC)
