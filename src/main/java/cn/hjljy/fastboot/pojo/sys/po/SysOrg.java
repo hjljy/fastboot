@@ -44,6 +44,9 @@ public class SysOrg implements Serializable {
     @ApiModelProperty(value = "机构logo")
     private String logo;
 
+    /**
+     * @see cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum
+     */
     @ApiModelProperty(value = "机构状态")
     private String orgState;
 
@@ -64,9 +67,6 @@ public class SysOrg implements Serializable {
 
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
-
-    @ApiModelProperty(value = "是否启用 0是 1否(默认)")
-    private Integer enable;
 
     @ApiModelProperty(value = "是否删除  0否(默认) 1是")
     @TableLogic

@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
+import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import cn.hjljy.fastboot.mapper.sys.SysMenuMapper;
 import cn.hjljy.fastboot.service.sys.ISysMenuService;
@@ -33,4 +34,5 @@ public class SysMenuServiceImpl extends BaseService<SysMenuMapper, SysMenu> impl
     public List<SysMenu> getAdminMenuListByOrgId(Long orgId) {
         return baseMapper.getAdminMenuListByOrgId(orgId);
     }
+
 }

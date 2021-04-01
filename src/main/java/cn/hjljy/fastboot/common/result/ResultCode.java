@@ -30,6 +30,8 @@ public enum ResultCode {
     TOKEN_NOT_CREATE(21004,"TOKEN未生成,请稍后再试"),
 
     ORG_NOT_FOUND(22001,"机构不存在"),
+    ORG_DISABLE(22002,"机构被禁用,请联系管理员"),
+    ORG_EXPIRED(22003,"机构已过期,请联系管理员"),
 
     //会员系统异常码
     MEMBER_NOT_FOUND(40001,"未找到对应的会员信息"),

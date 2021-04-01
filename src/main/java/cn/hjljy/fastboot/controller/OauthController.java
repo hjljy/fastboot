@@ -1,7 +1,7 @@
 package cn.hjljy.fastboot.controller;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
-import cn.hjljy.fastboot.common.constant.OAuth2Constant;
+import cn.hjljy.fastboot.common.constant.Oauth2Constant;
 import cn.hjljy.fastboot.common.constant.RedisPrefixConstant;
 import cn.hjljy.fastboot.common.enums.StatusEnum;
 import cn.hjljy.fastboot.common.result.ResultCode;
@@ -62,7 +62,7 @@ public class OauthController {
     @ApiOperation(value = "登录接口，获取token")
     public ResultInfo<OAuth2AccessToken> token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         String scope = parameters.get("scope");
-        parameters.putIfAbsent("scope", OAuth2Constant.SCOPE_BOOT);
+        parameters.putIfAbsent("scope", Oauth2Constant.SCOPE_BOOT);
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
         if (null == token) {

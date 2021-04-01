@@ -32,10 +32,16 @@ public class SysOrgController {
     ISysOrgService orgService;
 
     @GetMapping("/list")
-    @PreAuthorize("hasAnyAuthority('{authority=sys:user:list}','{authority=sys:role:list}','{authority=sys:org:list}')")
-    @ApiOperation(value = "根据token查询用户机构信息(非树形结构)")
+    @ApiOperation(value = "根据token查询所有机构基础信息(非树形结构)")
     public ResultInfo<List<SysOrgDto>> getOrgListByUser() {
         return new ResultInfo<List<SysOrgDto>>().success( orgService.getOrgListByUser());
+    }
+
+    @GetMapping("/info/{orgId}")
+    @PreAuthorize("hasAnyAuthority('{authority=sys:org:info}')")
+    @ApiOperation(value = "根据orgId查询机构详细信息")
+    public ResultInfo<SysOrgDto> getOrgInfoById(@PathVariable Long orgId) {
+        return new ResultInfo<SysOrgDto>().success( orgService.getOrgInfoById(orgId));
     }
 
     @PostMapping("/edit")
@@ -54,9 +60,9 @@ public class SysOrgController {
 
     @PostMapping("/disable")
     @PreAuthorize("hasAnyAuthority('{authority=sys:org:disable}')")
-    @ApiOperation(value = "禁用机构")
+    @ApiOperation(value = "禁用/启用，机构")
     public ResultInfo<Boolean> disableOrg(@RequestBody @Validated({Select.class}) SysOrgParam param) {
-        return new ResultInfo<Boolean>().success( orgService.disableOrg(param.getId(),param.getEnable()));
+        return new ResultInfo<Boolean>().success( orgService.disableOrg(param.getId(),param.getOrgState()));
     }
 
 }

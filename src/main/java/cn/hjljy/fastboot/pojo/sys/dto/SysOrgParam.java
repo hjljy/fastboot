@@ -32,6 +32,9 @@ public class SysOrgParam extends BaseDto<SysOrgParam> implements Serializable {
     @ApiModelProperty(value = "机构ID")
     private Long id;
 
-    @ApiModelProperty(value = "是否启用 0是 1否 ")
-    private int enable;
+    /**
+     * @see cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum
+     */
+    @ApiModelProperty(value = "机构状态 EXPERIENCE 体验中。USING 使用中。EXPIRE 过期 ，DISABLE 禁用 ")
+    private String orgState;
 }

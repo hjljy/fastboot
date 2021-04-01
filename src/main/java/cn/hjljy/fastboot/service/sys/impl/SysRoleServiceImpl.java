@@ -29,12 +29,12 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
 
     @Override
     public List<SysRole> getUserRoleInfo(Long userId, String userType, Long orgId) {
-        List<SysRole> roleDtos =new ArrayList<>();
-        //如果是普通账号 查询角色权限信息 如果是其他类型的账号（超级管理员，普通管理员）返回空数组
-        if(SysUserTypeEnum.NORMAL.name().equals(userType)){
-            roleDtos = baseMapper.selectUserRoleInfoByUserId(userId,orgId);
+        List<SysRole> roleDos = new ArrayList<>();
+        //如果是普通账号 查询角色权限信息 如果是管理员账号（超级管理员，机构管理员 直接返回空数组）
+        if (SysUserTypeEnum.NORMAL.name().equals(userType)) {
+            roleDos = baseMapper.selectUserRoleInfoByUserId(userId, orgId);
         }
-        return roleDtos;
+        return roleDos;
     }
 
     @Override
@@ -51,14 +51,14 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
         SysRole role = new SysRole();
         Long orgId = param.getOrgId();
         // 如果没有传机构ID，默认查询本账号所在机构角色信息
-        if(null == orgId){
-            orgId= SecurityUtils.getUserInfo().getOrgId();
+        if (null == orgId) {
+            orgId = SecurityUtils.getUserInfo().getOrgId();
         }
         role.setOrgId(orgId);
         List<SysRole> roles = selectList(role);
         for (SysRole sysRole : roles) {
-            SysRoleDto roleDto =new SysRoleDto();
-            BeanUtil.copyProperties(sysRole,roleDto);
+            SysRoleDto roleDto = new SysRoleDto();
+            BeanUtil.copyProperties(sysRole, roleDto);
             roleDtoList.add(roleDto);
         }
         return roleDtoList;

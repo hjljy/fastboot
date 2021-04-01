@@ -1,13 +1,16 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.common.enums.StatusEnum;
+import cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum;
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
+import cn.hjljy.fastboot.pojo.sys.po.SysOrg;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import cn.hjljy.fastboot.service.sys.ISysMenuService;
+import cn.hjljy.fastboot.service.sys.ISysOrgService;
 import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     ISysRoleService roleService;
     @Autowired
     ISysMenuService menuService;
+    @Autowired
+    ISysOrgService orgService;
 
     /**
      * 这里根据传进来的用户账号进行用户信息的构建
@@ -56,7 +61,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         SysUser userInfo = userService.selectByUserName(username);
         //2 校验用户信息
         checkUserInfo(userInfo, username);
-        //3 判断用户所属机构是否过期
+        //3 判断用户所属机构是否过期,启用
+        SysOrg sysOrg = orgService.orgIfExist(userInfo.getOrgId());
+        checkOrgInfo(sysOrg);
         //4 根据用户类型获取用户角色权限信息
         List<SysRole> roleInfo = roleService.getUserRoleInfo(userInfo.getId(), userInfo.getUserType(), userInfo.getOrgId());
         List<SysMenu> menuListInfo = menuService.getUserMenuListInfo(userInfo.getId(), userInfo.getUserType(), userInfo.getOrgId());
@@ -73,6 +80,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         user.setAvatarUrl(userInfo.getAvatarUrl());
         user.setOrgId(userInfo.getOrgId());
         return user;
+    }
+
+    private void checkOrgInfo(SysOrg sysOrg) {
+        if(SysOrgStateEnum.DISABLE.name().equals(sysOrg.getOrgState())){
+            throw new BusinessException(ResultCode.ORG_DISABLE);
+        }else if(SysOrgStateEnum.EXPIRE.name().equals(sysOrg.getOrgState())){
+            throw new BusinessException(ResultCode.ORG_EXPIRED);
+        }
     }
 
     private void checkUserInfo(SysUser userInfo, String username) {

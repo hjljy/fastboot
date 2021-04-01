@@ -18,7 +18,7 @@
     </sql>
 
     <select id="selectUserRoleInfoByUserId" resultType="cn.hjljy.fastboot.pojo.sys.po.SysRole">
-           SELECT r.*
+           SELECT DISTINCT r.*
 				FROM sys_role r
 				LEFT JOIN sys_user_role ur on r.id = ur.role_id
 				LEFT JOIN sys_user u ON u.id=ur.user_id

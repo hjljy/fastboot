@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
+import cn.hjljy.fastboot.common.constant.Constant;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.pojo.sys.dto.SysOrgDto;
@@ -98,9 +99,9 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
     }
 
     @Override
-    public Boolean disableOrg(Long orgId, int enable) {
+    public Boolean disableOrg(Long orgId, String orgStatus) {
         SysOrg org = this.orgIfExist(orgId);
-        org.setEnable(enable);
+        org.setOrgState(orgStatus);
         org.setUpdateTime(LocalDateTime.now());
         return updateById(org);
     }
@@ -114,19 +115,21 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
         return org;
     }
 
-    /**
-     * 转换成树形结构
-     *
-     * @param dtoList
-     */
-    private List<SysOrgDto> change2TreeList(List<SysOrgDto> dtoList) {
-        List<SysOrgDto> list = new ArrayList<>();
-        List<SysOrgDto> dtos = dtoList.stream().filter(n -> n.getPid() == 0).collect(Collectors.toList());
-        list.addAll(dtos);
-        list.forEach(n -> {
-            List<SysOrgDto> children = dtoList.stream().filter(m -> m.getPid().equals(n.getId())).collect(Collectors.toList());
-            n.setChildren(children);
-        });
-        return list;
+    @Override
+    public SysOrgDto getOrgInfoById(Long orgId) {
+        SysOrg org = this.orgIfExist(orgId);
+        SysOrgDto dto = new SysOrgDto();
+        BeanUtil.copyProperties(org, dto);
+        //1 判断是否绑定机构管理员账号
+        if(!Constant.LONG_NOT_EXIST.equals(dto.getAdminUserId())){
+            Long userId = dto.getAdminUserId();
+            SysUser user = userService.getById(userId);
+            dto.setAdminPhone(user.getPhone());
+            dto.setAdminNickName(user.getNickName());
+        }
+        //2 获取子机构信息
+
+        //3 获取机构的菜单权限信息
+        return null;
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-02-23
  */
 @RestController
-@RequestMapping("/member-upv-record")
+@RequestMapping("/member/upv/record")
 public class MemberUpvRecordController {
 
 }

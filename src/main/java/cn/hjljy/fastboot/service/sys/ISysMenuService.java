@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.service.sys;
 
+import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -28,4 +29,5 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @return 用户菜单权限集合
      */
     List<SysMenu> getAdminMenuListByOrgId(Long orgId);
+
 }

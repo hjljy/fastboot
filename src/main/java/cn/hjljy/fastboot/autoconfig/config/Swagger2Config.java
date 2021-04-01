@@ -67,6 +67,8 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("全部接口API")
                 .description("系统全部接口API文档")
+                .termsOfServiceUrl("http://www.hjljy.cn/")
+                .contact(getContact())
                 .version("1.0")
                 .build();
     }
@@ -75,6 +77,9 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("系统管理模块api")
                 .description("sys下所有api接口")
+                .title("swagger RESTful APIs")
+                .termsOfServiceUrl("http://www.hjljy.cn/")
+                .contact(getContact())
                 .version("1.0")
                 .build();
     }
@@ -95,8 +100,6 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("会员管理模块api")
                 .description("member下所有api接口")
-                .title("swagger RESTful APIs")
-                .description("swagger RESTful APIs")
                 .termsOfServiceUrl("http://www.hjljy.cn/")
                 .contact(getContact())
                 .version("1.0")
