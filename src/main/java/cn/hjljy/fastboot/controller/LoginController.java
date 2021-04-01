@@ -3,6 +3,7 @@ package cn.hjljy.fastboot.controller;
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.autoconfig.security.UserInfo;
 import cn.hjljy.fastboot.common.result.ResultInfo;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import java.util.Map;
  * @since : 2020/9/11 18:19
  */
 @RestController
+@Api(value = "登录接口（已废弃）", tags = "登录接口（已废弃）")
 public class LoginController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -33,9 +35,9 @@ public class LoginController {
      **/
     @Deprecated
     @PostMapping(value = "login")
-    public ResultInfo login(@RequestBody Map<String,String> params)  {
+    public ResultInfo<UserInfo> login(@RequestBody Map<String,String> params)  {
         UserInfo userInfo = SecurityUtils.login(params.get("username"), params.get("password"), authenticationManager);
-        return new ResultInfo(userInfo);
+        return new ResultInfo<>(userInfo);
     }
 
 }

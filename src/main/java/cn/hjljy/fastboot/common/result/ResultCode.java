@@ -29,6 +29,8 @@ public enum ResultCode {
     TOKEN_NOT_FOUND(21003,"未携带TOKEN,非法请求！"),
     TOKEN_NOT_CREATE(21004,"TOKEN未生成,请稍后再试"),
 
+    ORG_NOT_FOUND(22001,"机构不存在"),
+
     //会员系统异常码
     MEMBER_NOT_FOUND(40001,"未找到对应的会员信息"),
     MEMBER_EXIST(40002,"会员已存在"),

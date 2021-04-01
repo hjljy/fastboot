@@ -8,35 +8,30 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
- * @since 2020-11-09
+ * @since 2021-01-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="SysUserParam对象", description="")
-public class SysUserParam extends BaseDto<SysUserDto> {
+@ApiModel(value = "SysOrgParam对象", description = "")
+public class SysOrgParam extends BaseDto<SysOrgParam> implements Serializable {
 
-    @ApiModelProperty(value = "用户角色ID")
-    private Long roleId;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "用户机构ID")
-    private Long orgId;
-
-    @ApiModelProperty(value = "用户ID")
-    @NotNull(message = "用户ID不能为空",groups = Select.class)
-    private Long userId;
+    @NotNull(message = "用户ID不能为空", groups = Select.class)
+    @ApiModelProperty(value = "机构ID")
+    private Long id;
 
     @ApiModelProperty(value = "是否启用 0是 1否 ")
     private int enable;
-
 }

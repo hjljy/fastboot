@@ -94,7 +94,7 @@ public class SysUserDto extends BaseDto<SysUserDto> implements Serializable {
     @ApiModelProperty(value = "菜单权限")
     private List<SysMenuDto> menus;
 
-    @ApiModelProperty(value = "是否禁用  0否(默认) 1是")
+    @ApiModelProperty(value = "是否启用  0是(默认) 1否")
     private Integer enable;
 
 

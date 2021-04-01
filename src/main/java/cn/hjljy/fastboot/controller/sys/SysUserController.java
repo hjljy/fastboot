@@ -10,6 +10,7 @@ import cn.hjljy.fastboot.pojo.sys.dto.PasswordParam;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,69 +41,69 @@ public class SysUserController {
     @PostMapping("/page")
     @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
     @ApiOperation(value = "分页查询用户信息")
-    public ResultInfo getSysUserPage(@RequestBody SysUserParam param) {
-        return ResultInfo.success(userService.getSysUserInfoPage(param));
+    public ResultInfo<IPage<SysUserDto>> getSysUserPage(@RequestBody SysUserParam param) {
+        return new ResultInfo<IPage<SysUserDto>>().success(userService.getSysUserInfoPage(param));
     }
 
     @GetMapping("/token/info")
     @ApiOperation(value = "根据token查询用户详细信息")
-    public ResultInfo getSysUserInfoByToken() {
+    public ResultInfo<SysUserDto> getSysUserInfoByToken() {
         Long userId = SecurityUtils.getUserId();
-        return ResultInfo.success(userService.getUserDetailInfoByUserId(userId));
+        return new ResultInfo<SysUserDto>().success(userService.getUserDetailInfoByUserId(userId));
     }
 
     @GetMapping("/info")
     @ApiOperation(value = "根据ID查询用户详细信息")
     @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
-    public ResultInfo getSysUserInfo(@Validated({Select.class}) SysUserParam param) {
-        return ResultInfo.success(userService.getUserDetailInfoByUserId(param.getUserId()));
+    public ResultInfo<SysUserDto> getSysUserInfo(@Validated({Select.class}) SysUserParam param) {
+        return new ResultInfo<SysUserDto>().success(userService.getUserDetailInfoByUserId(param.getUserId()));
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('{authority=sys:user:add}')")
     @ApiOperation(value = "新增用户")
-    public ResultInfo addSysUserInfo(@RequestBody @Validated({Insert.class}) SysUserDto param) {
+    public ResultInfo<Object> addSysUserInfo(@RequestBody @Validated({Insert.class}) SysUserDto param) {
         userService.addSysUserInfo(param);
-        return ResultInfo.success();
+        return new ResultInfo<>();
     }
 
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('{authority=sys:user:edit}')")
     @ApiOperation(value = "更新用户信息")
-    public ResultInfo updateSysUserInfo(@RequestBody @Validated({Update.class}) SysUserDto param) {
+    public ResultInfo<Object> updateSysUserInfo(@RequestBody @Validated({Update.class}) SysUserDto param) {
         userService.updateSysUserInfo(param);
-        return ResultInfo.success();
+        return new ResultInfo<>();
     }
 
     @PostMapping("/disable")
     @PreAuthorize("hasAuthority('{authority=sys:user:disable}')")
     @ApiOperation(value = "禁用用户")
-    public ResultInfo disableSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
+    public ResultInfo<Object> disableSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
         userService.disableSysUser(param);
-        return ResultInfo.success();
+        return new ResultInfo<>();
     }
 
     @PostMapping("/del")
     @PreAuthorize("hasAuthority('{authority=sys:user:del}')")
     @ApiOperation(value = "删除用户")
-    public ResultInfo delSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
+    public ResultInfo<Object> delSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
         userService.removeSysUser(param.getUserId());
-        return ResultInfo.success();
+        return new ResultInfo<>();
     }
 
     @PostMapping("/resetPassword")
     @PreAuthorize("hasAuthority('{authority=sys:user:rpwd}')")
     @ApiOperation(value = "重置用户密码")
-    public ResultInfo resetPassword(@RequestBody @Validated({Select.class}) SysUserParam param) {
+    public ResultInfo<Object> resetPassword(@RequestBody @Validated({Select.class}) SysUserParam param) {
         userService.resetUserPassword(param.getUserId());
-        return ResultInfo.success();
+        return new ResultInfo<>();
     }
 
     @PostMapping("/editPassword")
     @ApiOperation(value = "修改当前用户密码(无需权限控制)")
-    public ResultInfo editPassword(@RequestBody @Validated({Select.class}) PasswordParam param) {
+    public ResultInfo<Object> editPassword(@RequestBody @Validated({Select.class}) PasswordParam param) {
         userService.editUserPassword(param);
-        return ResultInfo.success();
+        return new ResultInfo<>();
     }
 }
 

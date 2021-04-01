@@ -31,9 +31,9 @@ public class MemberUpvController {
     @GetMapping("/info/{orgId}")
     @ApiOperation(value = "查询机构所有会员成长值变化规则")
     @PreAuthorize("hasAnyAuthority('{authority=member:upv:info}')")
-    public ResultInfo getByOrg(@PathVariable(value = "orgId", required = false) String orgId) {
+    public ResultInfo<MemberUpvDto> getByOrg(@PathVariable(value = "orgId", required = false) String orgId) {
         MemberUpvDto upvDto = memberUpvService.getByOrgId(orgId);
-        ResultInfo success = ResultInfo.success(memberUpvService.getByOrgId(orgId));
+        ResultInfo<MemberUpvDto> success = new ResultInfo<>(upvDto);
         if (null == upvDto) {
             success.setMsg("当前未设置成长值变化规则");
         }
@@ -43,8 +43,8 @@ public class MemberUpvController {
     @PostMapping("/edit")
     @ApiOperation(value = "编辑机构所有会员成长值变化规则")
     @PreAuthorize("hasAnyAuthority('{authority=member:upv:edit}')")
-    public ResultInfo edit(@RequestBody @Validated MemberUpvDto dto) {
-        return ResultInfo.success(memberUpvService.editUpv(dto));
+    public ResultInfo<Boolean> edit(@RequestBody @Validated MemberUpvDto dto) {
+        return new ResultInfo<>(memberUpvService.editUpv(dto));
     }
 }
 

@@ -43,4 +43,26 @@ public interface ISysOrgService extends IService<SysOrg> {
      * @return 是否成功
      */
     Boolean editOrgBaseInfo(SysOrgDto param);
+
+    /**
+     * 删除机构信息
+     * @param orgId 机构ID
+     * @return 是否成功
+     */
+    Boolean deleteOrgByOrgId(Long orgId);
+
+    /**
+     * 启用/禁用 机构
+     * @param orgId 机构ID
+     * @param enable  0 启用 1禁用
+     * @return 操作结果
+     */
+    Boolean disableOrg(Long orgId, int enable);
+
+    /**
+     * 根据ID获取机构信息 判断机构是否存在
+     * @param orgId 机构ID
+     * @return 机构信息  没有返回异常   如需返回null  请使用getById方法
+     */
+    SysOrg orgIfExist(Long orgId);
 }

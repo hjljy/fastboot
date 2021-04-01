@@ -69,7 +69,7 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "是否禁用  0否(默认) 1是")
+    @ApiModelProperty(value = "是否启用  0是(默认) 1否")
     private Integer enable;
 
     @ApiModelProperty(value = "是否删除  0否(默认) 1是")

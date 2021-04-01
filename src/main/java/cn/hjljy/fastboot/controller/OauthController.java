@@ -8,6 +8,8 @@ import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
@@ -31,6 +33,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/oauth")
+@Api(value = "登录接口", tags = "登录接口")
 public class OauthController {
     @Autowired
     TokenEndpoint tokenEndpoint;
@@ -56,30 +59,32 @@ public class OauthController {
      * @throws Exception 登录异常
      */
     @PostMapping(value = "/token")
-    public ResultInfo token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
+    @ApiOperation(value = "登录接口，获取token")
+    public ResultInfo<OAuth2AccessToken> token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         String scope = parameters.get("scope");
         parameters.putIfAbsent("scope", OAuth2Constant.SCOPE_BOOT);
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
         if (null == token) {
-            return ResultInfo.error(ResultCode.TOKEN_NOT_CREATE);
+            return new ResultInfo<OAuth2AccessToken>().error(ResultCode.TOKEN_NOT_CREATE);
         }
         long userId = Long.parseLong(token.getAdditionalInformation().get("userId").toString());
         long orgId = Long.parseLong(token.getAdditionalInformation().get("orgId").toString());
         RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.ORG + orgId + ":" + RedisPrefixConstant.LOGIN_USER_TOKEN + userId);
         map.put(scope, token.getValue());
-        return ResultInfo.success(token);
+        return new ResultInfo<OAuth2AccessToken>().success(token);
     }
 
     /**
-     * 登录操作处理
+     * 登录退出操作处理
      *
      * @param token token
      * @return 操作结果
      */
     @RequestMapping("/logout")
-    public ResultInfo logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token) {
-        ResultInfo success = ResultInfo.success();
+    @ApiOperation(value = "登录退出接口")
+    public ResultInfo<Object> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token) {
+        ResultInfo<Object> success = new ResultInfo<>();
         if (StringUtils.isEmpty(token)) {
             return success;
         }
@@ -98,7 +103,8 @@ public class OauthController {
     }
 
     @RequestMapping("/check_token")
-    public ResultInfo customCheckToken(@RequestParam("token") String value) {
+    @ApiOperation(value = "token校验接口")
+    public ResultInfo<Object> customCheckToken(@RequestParam("token") String value) {
         try {
             // 校验信息
             checkTokenEndpoint.checkToken(value);
@@ -109,20 +115,20 @@ public class OauthController {
             // 由于JWT生成的token是无法主动过期的，需要自己设置token过期策略（例如生成的token存进redis ,判断token是否一致）
             RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.ORG + orgId + ":" + RedisPrefixConstant.LOGIN_USER_TOKEN + userId);
             if (!map.containsValue(value)) {
-                return ResultInfo.error(ResultCode.TOKEN_EXPIRED);
+                return new ResultInfo<>().error(ResultCode.TOKEN_EXPIRED);
             }
             // 判断当前用户是否被删除或者禁用
             SysUser user = userService.getById(userId);
             if (null == user) {
-                return ResultInfo.error(ResultCode.USER_NOT_FOUND);
+                return new ResultInfo<>().error(ResultCode.USER_NOT_FOUND);
             } else if (StatusEnum.DISABLE.getCode().equals(user.getEnable())) {
-                return ResultInfo.error(ResultCode.USER_DISABLE);
+                return new ResultInfo<>().error(ResultCode.USER_DISABLE);
             }
             // TODO 判断用户所属机构是否被禁用
         } catch (InvalidTokenException e) {
-            return ResultInfo.error(ResultCode.TOKEN_EXPIRED);
+            return new ResultInfo<>().error(ResultCode.TOKEN_EXPIRED);
         }
-        return ResultInfo.success();
+        return new ResultInfo<>();
     }
 
 

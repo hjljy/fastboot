@@ -5,7 +5,7 @@ spring:
       name: 数据源名称
       driver-class-name: com.mysql.jdbc.Driver
       username: root
-      password: 123456
+      password: root
       url: jdbc:mysql://127.0.0.1:3306/springboot?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
       # 连接池的配置信息
       # 初始化大小，最小，最大

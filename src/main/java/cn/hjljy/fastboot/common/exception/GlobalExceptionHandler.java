@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
      * 处理请求方法不匹配异常
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResultInfo requestMethodNoSuch(HttpRequestMethodNotSupportedException ex) {
+    public ResultInfo<Object> requestMethodNoSuch(HttpRequestMethodNotSupportedException ex) {
         ex.printStackTrace();
         return ResultInfo.error(ResultCode.REQUEST_METHOD_EXCEPTION.getCode(), ex.getMessage());
     }
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
      * 处理security登录验证异常
      */
     @ExceptionHandler(value = BadCredentialsException.class)
-    public ResultInfo errorHandler(BadCredentialsException ex) {
+    public ResultInfo<Object> errorHandler(BadCredentialsException ex) {
         ex.printStackTrace();
         return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
     }
@@ -58,19 +58,19 @@ public class GlobalExceptionHandler {
      * 处理oauth2登录验证异常
      */
     @ExceptionHandler(value = AuthenticationException.class)
-    public ResultInfo errorHandler(HttpServletResponse response, AuthenticationException ex) {
+    public ResultInfo<Object> errorHandler(HttpServletResponse response, AuthenticationException ex) {
         ex.printStackTrace();
         //默认是用户密码不正确
-        ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
+        ResultInfo<Object> resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
         Throwable cause = ex.getCause();
         //token 过期处理
         if (cause instanceof InvalidTokenException) {
-            resultInfo = ResultInfo.error(ResultCode.TOKEN_EXPIRED);
+            resultInfo = new ResultInfo<>().error(ResultCode.TOKEN_EXPIRED);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
         // 其余非法请求 未携带Token
         if (ex instanceof InsufficientAuthenticationException) {
-            resultInfo = ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
+            resultInfo = new ResultInfo<>().error(ResultCode.TOKEN_NOT_FOUND);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
 
@@ -81,17 +81,16 @@ public class GlobalExceptionHandler {
      * 处理oauth2登录验证异常
      */
     @ExceptionHandler(value = InvalidGrantException.class)
-    public ResultInfo errorHandler(HttpServletResponse response, InvalidGrantException ex) {
+    public ResultInfo<Object> errorHandler(InvalidGrantException ex) {
         ex.printStackTrace();
-        ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
-        return resultInfo;
+        return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
     }
 
     /**
      * 处理参数类型异常信息
      */
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResultInfo errorHandler(IllegalArgumentException ex) {
+    public ResultInfo<Object> errorHandler(IllegalArgumentException ex) {
         return ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION.getCode(), ex.getMessage());
     }
 
@@ -99,9 +98,9 @@ public class GlobalExceptionHandler {
      * 处理参数数据格式异常信息
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResultInfo errorHandler(MethodArgumentNotValidException ex) {
+    public ResultInfo<Object> errorHandler(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
-        ResultInfo resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
+        ResultInfo<Object> resultInfo = new ResultInfo<>().error(ResultCode.PARAMETERS_EXCEPTION);
         List<ObjectError> errors = result.getAllErrors();
         List<String> msg = new ArrayList<>();
         for (ObjectError error : errors) {
@@ -115,7 +114,7 @@ public class GlobalExceptionHandler {
      * 处理业务抛出的异常信息
      */
     @ExceptionHandler(value = BusinessException.class)
-    public ResultInfo errorHandler(BusinessException ex) {
+    public ResultInfo<Object> errorHandler(BusinessException ex) {
         return ResultInfo.error(ex.getCode(), ex.getMessage());
     }
 
@@ -123,17 +122,17 @@ public class GlobalExceptionHandler {
      * 处理其他的所有异常信息
      */
     @ExceptionHandler(value = Exception.class)
-    public ResultInfo errorHandler(Exception ex) {
+    public ResultInfo<Object> errorHandler(Exception ex) {
         ex.printStackTrace();
-        ResultInfo resultInfo = ResultInfo.error(ResultCode.ERROR);
+        ResultInfo<Object> resultInfo = new ResultInfo<>().error(ResultCode.ERROR);
         if (ex instanceof AccessDeniedException) {
-            resultInfo = ResultInfo.error(ResultCode.PERMISSION_DENIED);
+            resultInfo = new ResultInfo<>().error(ResultCode.PERMISSION_DENIED);
         } else if (ex instanceof SQLException || ex instanceof BadSqlGrammarException || ex instanceof DataIntegrityViolationException) {
-            resultInfo = ResultInfo.error(ResultCode.SQL_EXCEPTION);
+            resultInfo = new ResultInfo<>().error(ResultCode.SQL_EXCEPTION);
         } else if (ex instanceof NullPointerException) {
-            resultInfo = ResultInfo.error(ResultCode.NPE_EXCEPTION);
-        }else if(ex instanceof InvalidFormatException || ex instanceof MismatchedInputException ||ex instanceof HttpMessageNotReadableException){
-            resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
+            resultInfo = new ResultInfo<>().error(ResultCode.NPE_EXCEPTION);
+        } else if (ex instanceof MismatchedInputException || ex instanceof HttpMessageNotReadableException) {
+            resultInfo = new ResultInfo<>().error(ResultCode.PARAMETERS_EXCEPTION);
         }
         return resultInfo;
     }

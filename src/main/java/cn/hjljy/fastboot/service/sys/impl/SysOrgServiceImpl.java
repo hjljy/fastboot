@@ -1,6 +1,8 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
+import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.pojo.sys.dto.SysOrgDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysOrg;
 import cn.hjljy.fastboot.mapper.sys.SysOrgMapper;
@@ -8,10 +10,12 @@ import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import cn.hjljy.fastboot.service.sys.ISysOrgService;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
+import cn.hutool.core.bean.BeanException;
 import cn.hutool.core.bean.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,7 +70,7 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
     @Override
     public List<SysOrg> selectListByOrgId(Long orgId) {
         List<SysOrg> list = new ArrayList<>();
-        SysOrg org = this.getById(orgId);
+        SysOrg org = this.orgIfExist(orgId);
         list.add(org);
         list.addAll(this.selectList(SysOrg.builder().pid(orgId).build()));
         return list;
@@ -74,14 +78,40 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
 
     @Override
     public Boolean editOrgBaseInfo(SysOrgDto param) {
-        SysOrg org = this.getById(param.getId());
+        SysOrg org = this.orgIfExist(param.getId());
         org.setName(param.getName());
         org.setPid(param.getPid());
         org.setLogo(param.getLogo());
         org.setPhone(param.getPhone());
         org.setAddress(param.getAddress());
         org.setDescription(param.getDescription());
+        org.setUpdateTime(LocalDateTime.now());
         return this.updateById(org);
+    }
+
+    @Override
+    public Boolean deleteOrgByOrgId(Long orgId) {
+        //删除机构
+        this.removeById(orgId);
+        //todo 机构相关的信息是否一并删除
+        return true;
+    }
+
+    @Override
+    public Boolean disableOrg(Long orgId, int enable) {
+        SysOrg org = this.orgIfExist(orgId);
+        org.setEnable(enable);
+        org.setUpdateTime(LocalDateTime.now());
+        return updateById(org);
+    }
+
+    @Override
+    public SysOrg orgIfExist(Long orgId) {
+        SysOrg org = this.getById(orgId);
+        if(null==org){
+            throw new BusinessException(ResultCode.ORG_NOT_FOUND);
+        }
+        return org;
     }
 
     /**
