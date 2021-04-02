@@ -9,5 +9,5 @@ public class Constant {
     /**
      * 数据库当中字段类型为bigint时，不存在数据的默认值
      */
-    public static Long LONG_NOT_EXIST = 0L;
+    public static Long LONG_NOT_EXIST = -1L;
 }

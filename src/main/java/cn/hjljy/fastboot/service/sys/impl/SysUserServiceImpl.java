@@ -222,6 +222,30 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         redissonClient.getMap(RedisPrefixConstant.LOGIN_USER_TOKEN + sysUser.getId()).delete();
     }
 
+    @Override
+    public void bindPhone(String phone) {
+        Long userId = SecurityUtils.getUserId();
+        SysUser sysUser = userIfExist(userId);
+        if(phone.equals(sysUser.getPhone())){
+            throw new BusinessException(ResultCode.DEFAULT,"请输入新的电话号码");
+        }
+        List<SysUser>  users = this.selectByPhone(phone);
+        long count = users.stream().filter(n -> !n.getId().equals(userId)).count();
+        if(count>0){
+            throw new BusinessException();
+        }
+        sysUser.setPhone(phone);
+        sysUser.setUpdateTime(LocalDateTime.now());
+        updateById(sysUser);
+    }
+
+    @Override
+    public List<SysUser> selectByPhone(String phone) {
+        SysUser po = new SysUser();
+        po.setPhone(phone);
+        return selectList(po);
+    }
+
     /**
      * 保存用户角色信息
      *

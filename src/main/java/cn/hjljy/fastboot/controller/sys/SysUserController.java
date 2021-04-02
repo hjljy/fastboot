@@ -7,6 +7,7 @@ import cn.hjljy.fastboot.common.aspect.validated.Select;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.sys.dto.PasswordParam;
+import cn.hjljy.fastboot.pojo.sys.dto.PhoneParam;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
@@ -103,6 +104,13 @@ public class SysUserController {
     @ApiOperation(value = "修改当前用户密码(无需权限控制)")
     public ResultInfo<Object> editPassword(@RequestBody @Validated({Select.class}) PasswordParam param) {
         userService.editUserPassword(param);
+        return ResultInfo.success();
+    }
+
+    @PostMapping("/bindPhone")
+    @ApiOperation(value = "当前用户账号绑定手机号(无需权限控制)")
+    public ResultInfo<Object> editPhone(@RequestBody  @Validated({Select.class}) PhoneParam param) {
+        userService.bindPhone(param.getPhone());
         return ResultInfo.success();
     }
 }

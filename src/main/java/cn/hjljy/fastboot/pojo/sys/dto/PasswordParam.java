@@ -20,21 +20,21 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="PasswordParam对象", description="")
-public class PasswordParam extends BaseDto<SysUserDto> {
+public class PasswordParam {
 
-    @ApiModelProperty(value = "用户ID")
+    @ApiModelProperty(value = "用户ID",required = true)
     @NotNull(message = "用户ID不能为空",groups = Select.class)
     private Long userId;
 
-    @ApiModelProperty(value = "旧密码")
+    @ApiModelProperty(value = "旧密码",required = true)
     @NotNull(message = "旧密码不能为空",groups = Select.class)
     private String oldPassword;
 
-    @ApiModelProperty(value = "新密码")
+    @ApiModelProperty(value = "新密码",required = true)
     @NotNull(message = "新密码不能为空",groups = Select.class)
     private String newPassword;
 
-    @ApiModelProperty(value = "重复密码")
+    @ApiModelProperty(value = "重复密码",required = true)
     @NotNull(message = "重复密码不能为空",groups = Select.class)
     private String rPassword;
 

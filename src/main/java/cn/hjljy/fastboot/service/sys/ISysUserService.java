@@ -8,6 +8,8 @@ import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -87,4 +89,17 @@ public interface ISysUserService extends IService<SysUser> {
      * @param sysUser 用户信息
      */
     void updateUserPassword(SysUser sysUser);
+
+    /**
+     * 当前用户绑定手机号码
+     * @param phone 手机号码
+     */
+    void bindPhone(String phone);
+
+    /**
+     * 根据手机号查询用户基础信息
+     * @param phone 手机号码
+     * @return sysUser 用户信息集合
+     */
+    List<SysUser> selectByPhone(String phone);
 }
