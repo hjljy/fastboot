@@ -35,7 +35,7 @@ public class SysRoleController {
     @PreAuthorize("hasAnyAuthority('{authority=sys:user:list}','{authority=sys:role:list}')")
     @ApiOperation(value = "查询所有角色信息")
     public ResultInfo<List<SysRoleDto>> getSysUserPage(@RequestBody @Validated SysRoleDto param) {
-        return new ResultInfo<List<SysRoleDto>>().success(roleService.list(param));
+        return ResultInfo.success(roleService.list(param));
     }
 }
 

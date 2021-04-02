@@ -87,4 +87,7 @@ public class SysOrgDto extends BaseDto<SysOrgDto> implements Serializable {
     @ApiModelProperty(value = "子机构")
     private List<SysOrgDto> children;
 
+    @ApiModelProperty(value = "机构菜单权限")
+    private List<SysMenuDto> menuList;
+
 }

@@ -42,6 +42,9 @@ public class SysMenuDto implements Serializable {
     @ApiModelProperty(value = "菜单排序")
     private Integer sort;
 
+    /**
+     * @see cn.hjljy.fastboot.common.enums.sys
+     */
     @ApiModelProperty(value = "菜单渠道 1 web 2 app 3 api")
     private Integer menuChannel;
 

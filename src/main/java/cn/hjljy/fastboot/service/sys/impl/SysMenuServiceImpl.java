@@ -20,19 +20,20 @@ import java.util.List;
  */
 @Service
 public class SysMenuServiceImpl extends BaseService<SysMenuMapper, SysMenu> implements ISysMenuService {
+
     @Override
     public List<SysMenu> getUserMenuListInfo(Long userId, String userType, Long orgId) {
         if(SysUserTypeEnum.SUPER_ADMIN.name().equals(userType)){
             return this.list();
         }else if(SysUserTypeEnum.SYS_ADMIN.name().equals(userType)||SysUserTypeEnum.ADMIN.name().equals(userType)){
-            return this.getAdminMenuListByOrgId(orgId);
+            return this.getOrgMenuListByOrgId(orgId);
         }
         return baseMapper.getUserMenuListInfo(userId);
     }
 
     @Override
-    public List<SysMenu> getAdminMenuListByOrgId(Long orgId) {
-        return baseMapper.getAdminMenuListByOrgId(orgId);
+    public List<SysMenu> getOrgMenuListByOrgId(Long orgId) {
+        return baseMapper.getOrgMenuListByOrgId(orgId);
     }
 
 }

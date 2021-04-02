@@ -42,21 +42,21 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
     @ApiOperation(value = "分页查询用户信息")
     public ResultInfo<IPage<SysUserDto>> getSysUserPage(@RequestBody SysUserParam param) {
-        return new ResultInfo<IPage<SysUserDto>>().success(userService.getSysUserInfoPage(param));
+        return ResultInfo.success(userService.getSysUserInfoPage(param));
     }
 
     @GetMapping("/token/info")
     @ApiOperation(value = "根据token查询用户详细信息")
     public ResultInfo<SysUserDto> getSysUserInfoByToken() {
         Long userId = SecurityUtils.getUserId();
-        return new ResultInfo<SysUserDto>().success(userService.getUserDetailInfoByUserId(userId));
+        return ResultInfo.success(userService.getUserDetailInfoByUserId(userId));
     }
 
     @GetMapping("/info")
     @ApiOperation(value = "根据ID查询用户详细信息")
     @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
     public ResultInfo<SysUserDto> getSysUserInfo(@Validated({Select.class}) SysUserParam param) {
-        return new ResultInfo<SysUserDto>().success(userService.getUserDetailInfoByUserId(param.getUserId()));
+        return ResultInfo.success(userService.getUserDetailInfoByUserId(param.getUserId()));
     }
 
     @PostMapping("/add")
@@ -64,7 +64,7 @@ public class SysUserController {
     @ApiOperation(value = "新增用户")
     public ResultInfo<Object> addSysUserInfo(@RequestBody @Validated({Insert.class}) SysUserDto param) {
         userService.addSysUserInfo(param);
-        return new ResultInfo<>();
+        return ResultInfo.success();
     }
 
     @PostMapping("/edit")
@@ -72,7 +72,7 @@ public class SysUserController {
     @ApiOperation(value = "更新用户信息")
     public ResultInfo<Object> updateSysUserInfo(@RequestBody @Validated({Update.class}) SysUserDto param) {
         userService.updateSysUserInfo(param);
-        return new ResultInfo<>();
+        return ResultInfo.success();
     }
 
     @PostMapping("/disable")
@@ -80,7 +80,7 @@ public class SysUserController {
     @ApiOperation(value = "禁用用户")
     public ResultInfo<Object> disableSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
         userService.disableSysUser(param);
-        return new ResultInfo<>();
+        return ResultInfo.success();
     }
 
     @PostMapping("/del")
@@ -88,7 +88,7 @@ public class SysUserController {
     @ApiOperation(value = "删除用户")
     public ResultInfo<Object> delSysUser(@RequestBody @Validated({Select.class}) SysUserParam param) {
         userService.removeSysUser(param.getUserId());
-        return new ResultInfo<>();
+        return ResultInfo.success();
     }
 
     @PostMapping("/resetPassword")
@@ -96,14 +96,14 @@ public class SysUserController {
     @ApiOperation(value = "重置用户密码")
     public ResultInfo<Object> resetPassword(@RequestBody @Validated({Select.class}) SysUserParam param) {
         userService.resetUserPassword(param.getUserId());
-        return new ResultInfo<>();
+        return ResultInfo.success();
     }
 
     @PostMapping("/editPassword")
     @ApiOperation(value = "修改当前用户密码(无需权限控制)")
     public ResultInfo<Object> editPassword(@RequestBody @Validated({Select.class}) PasswordParam param) {
         userService.editUserPassword(param);
-        return new ResultInfo<>();
+        return ResultInfo.success();
     }
 }
 

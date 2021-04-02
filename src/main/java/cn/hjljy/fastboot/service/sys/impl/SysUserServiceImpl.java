@@ -173,9 +173,9 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
 
     @Override
     public void removeSysUser(Long userId) {
-        // 1 判断是否是当前用户，当前用户不支持禁用操作
+        // 1 判断是否是当前用户，当前用户不支持删除操作
         if (SecurityUtils.getUserId().equals(userId)) {
-            throw new BusinessException(ResultCode.DEFAULT, "无法禁用当前登录用户");
+            throw new BusinessException(ResultCode.DEFAULT, "无法删除当前登录用户");
         }
         // 2 直接逻辑删除用户
         this.removeById(userId);

@@ -36,21 +36,25 @@ public class ResultInfo<T> {
         this.msg = msg;
     }
 
-    public ResultInfo<T> error(String msg) {
+    public static <T> ResultInfo<T> error(String msg) {
         ResultInfo<T> resultInfo = error(ResultCode.ERROR);
         resultInfo.setMsg(msg);
         return resultInfo;
     }
 
-    public ResultInfo<T> error(ResultCode code) {
+    public static <T> ResultInfo<T> error(ResultCode code) {
         return new ResultInfo<>(code.getCode(), code.getMsg());
     }
 
-    public ResultInfo<T> success(T data) {
+    public static <T> ResultInfo<T> success(T data) {
         return new ResultInfo<>(data);
     }
 
-    public static ResultInfo<Object> error(int code, String message) {
+    public static <T> ResultInfo<T> success() {
+        return new ResultInfo<>();
+    }
+
+    public static <T> ResultInfo<T> error(int code, String message) {
         return new ResultInfo<>(code, message);
     }
 

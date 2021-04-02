@@ -66,13 +66,13 @@ public class OauthController {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
         if (null == token) {
-            return new ResultInfo<OAuth2AccessToken>().error(ResultCode.TOKEN_NOT_CREATE);
+            return ResultInfo.error(ResultCode.TOKEN_NOT_CREATE);
         }
         long userId = Long.parseLong(token.getAdditionalInformation().get("userId").toString());
         long orgId = Long.parseLong(token.getAdditionalInformation().get("orgId").toString());
         RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.ORG + orgId + ":" + RedisPrefixConstant.LOGIN_USER_TOKEN + userId);
         map.put(scope, token.getValue());
-        return new ResultInfo<OAuth2AccessToken>().success(token);
+        return ResultInfo.success(token);
     }
 
     /**
@@ -115,20 +115,20 @@ public class OauthController {
             // 由于JWT生成的token是无法主动过期的，需要自己设置token过期策略（例如生成的token存进redis ,判断token是否一致）
             RMap<Object, Object> map = redissonClient.getMap(RedisPrefixConstant.ORG + orgId + ":" + RedisPrefixConstant.LOGIN_USER_TOKEN + userId);
             if (!map.containsValue(value)) {
-                return new ResultInfo<>().error(ResultCode.TOKEN_EXPIRED);
+                return ResultInfo.error(ResultCode.TOKEN_EXPIRED);
             }
             // 判断当前用户是否被删除或者禁用
             SysUser user = userService.getById(userId);
             if (null == user) {
-                return new ResultInfo<>().error(ResultCode.USER_NOT_FOUND);
+                return ResultInfo.error(ResultCode.USER_NOT_FOUND);
             } else if (StatusEnum.DISABLE.getCode().equals(user.getEnable())) {
-                return new ResultInfo<>().error(ResultCode.USER_DISABLE);
+                return ResultInfo.error(ResultCode.USER_DISABLE);
             }
             // TODO 判断用户所属机构是否被禁用
         } catch (InvalidTokenException e) {
-            return new ResultInfo<>().error(ResultCode.TOKEN_EXPIRED);
+            return ResultInfo.error(ResultCode.TOKEN_EXPIRED);
         }
-        return new ResultInfo<>();
+        return ResultInfo.success();
     }
 
 

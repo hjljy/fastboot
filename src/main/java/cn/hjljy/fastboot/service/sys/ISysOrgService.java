@@ -62,14 +62,21 @@ public interface ISysOrgService extends IService<SysOrg> {
     /**
      * 根据ID获取机构基础信息 判断机构是否存在
      * @param orgId 机构ID
-     * @return 机构信息  没有返回异常   如需返回null  请使用getById方法
+     * @return 机构信息  没有返回机构不存在异常    如需返回null  请使用getById方法
      */
     SysOrg orgIfExist(Long orgId);
 
     /**
      * 根据ID获取机构详细信息
      * @param orgId 机构ID
-     * @return 机构信息  没有返回异常   如需返回null  请使用getById方法
+     * @return 机构信息  没有返回机构不存在异常
      */
     SysOrgDto getOrgInfoById(Long orgId);
+
+    /**
+     * 获取机构的子机构数据（不包含孙子机构）
+     * @param orgId 机构ID
+     * @return 子机构信息
+     */
+    List<SysOrg> getChildrenOrgListByOrgId(Long orgId);
 }

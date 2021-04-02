@@ -2,7 +2,6 @@ package cn.hjljy.fastboot.common.exception;
 
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -65,12 +64,12 @@ public class GlobalExceptionHandler {
         Throwable cause = ex.getCause();
         //token 过期处理
         if (cause instanceof InvalidTokenException) {
-            resultInfo = new ResultInfo<>().error(ResultCode.TOKEN_EXPIRED);
+            resultInfo = ResultInfo.error(ResultCode.TOKEN_EXPIRED);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
         // 其余非法请求 未携带Token
         if (ex instanceof InsufficientAuthenticationException) {
-            resultInfo = new ResultInfo<>().error(ResultCode.TOKEN_NOT_FOUND);
+            resultInfo = ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
 
@@ -100,7 +99,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResultInfo<Object> errorHandler(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
-        ResultInfo<Object> resultInfo = new ResultInfo<>().error(ResultCode.PARAMETERS_EXCEPTION);
+        ResultInfo<Object> resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
         List<ObjectError> errors = result.getAllErrors();
         List<String> msg = new ArrayList<>();
         for (ObjectError error : errors) {
@@ -124,15 +123,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResultInfo<Object> errorHandler(Exception ex) {
         ex.printStackTrace();
-        ResultInfo<Object> resultInfo = new ResultInfo<>().error(ResultCode.ERROR);
+        ResultInfo<Object> resultInfo = ResultInfo.error(ResultCode.ERROR);
         if (ex instanceof AccessDeniedException) {
-            resultInfo = new ResultInfo<>().error(ResultCode.PERMISSION_DENIED);
+            resultInfo = ResultInfo.error(ResultCode.PERMISSION_DENIED);
         } else if (ex instanceof SQLException || ex instanceof BadSqlGrammarException || ex instanceof DataIntegrityViolationException) {
-            resultInfo = new ResultInfo<>().error(ResultCode.SQL_EXCEPTION);
+            resultInfo = ResultInfo.error(ResultCode.SQL_EXCEPTION);
         } else if (ex instanceof NullPointerException) {
-            resultInfo = new ResultInfo<>().error(ResultCode.NPE_EXCEPTION);
+            resultInfo = ResultInfo.error(ResultCode.NPE_EXCEPTION);
         } else if (ex instanceof MismatchedInputException || ex instanceof HttpMessageNotReadableException) {
-            resultInfo = new ResultInfo<>().error(ResultCode.PARAMETERS_EXCEPTION);
+            resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
         }
         return resultInfo;
     }

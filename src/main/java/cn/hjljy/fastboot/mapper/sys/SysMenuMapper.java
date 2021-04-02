@@ -24,9 +24,9 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
     List<SysMenu> getUserMenuListInfo(@Param("userId") Long userId);
 
     /**
-     * 查询机构管理员菜单集合
+     * 查询机构菜单集合
      * @param orgId 机构ID
-     * @return
+     * @return 查询机构菜单集合
      */
-    List<SysMenu> getAdminMenuListByOrgId(@Param("orgId") Long orgId);
+    List<SysMenu> getOrgMenuListByOrgId(@Param("orgId") Long orgId);
 }

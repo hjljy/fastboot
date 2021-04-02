@@ -34,35 +34,35 @@ public class SysOrgController {
     @GetMapping("/list")
     @ApiOperation(value = "根据token查询所有机构基础信息(非树形结构)")
     public ResultInfo<List<SysOrgDto>> getOrgListByUser() {
-        return new ResultInfo<List<SysOrgDto>>().success( orgService.getOrgListByUser());
+        return ResultInfo.success( orgService.getOrgListByUser());
     }
 
     @GetMapping("/info/{orgId}")
     @PreAuthorize("hasAnyAuthority('{authority=sys:org:info}')")
     @ApiOperation(value = "根据orgId查询机构详细信息")
     public ResultInfo<SysOrgDto> getOrgInfoById(@PathVariable Long orgId) {
-        return new ResultInfo<SysOrgDto>().success( orgService.getOrgInfoById(orgId));
+        return ResultInfo.success( orgService.getOrgInfoById(orgId));
     }
 
     @PostMapping("/edit")
     @PreAuthorize("hasAnyAuthority('{authority=sys:org:edit}')")
     @ApiOperation(value = "编辑机构")
     public ResultInfo<Boolean> editOrg(@RequestBody @Validated({Select.class})  SysOrgDto param) {
-        return new ResultInfo<Boolean>().success(orgService.editOrgBaseInfo(param));
+        return ResultInfo.success(orgService.editOrgBaseInfo(param));
     }
 
     @PostMapping("/del/{orgId}")
     @PreAuthorize("hasAnyAuthority('{authority=sys:org:del}')")
     @ApiOperation(value = "删除机构")
     public ResultInfo<Boolean> delOrg(@PathVariable Long orgId ) {
-        return new ResultInfo<Boolean>().success( orgService.deleteOrgByOrgId(orgId));
+        return ResultInfo.success( orgService.deleteOrgByOrgId(orgId));
     }
 
     @PostMapping("/disable")
     @PreAuthorize("hasAnyAuthority('{authority=sys:org:disable}')")
     @ApiOperation(value = "禁用/启用，机构")
     public ResultInfo<Boolean> disableOrg(@RequestBody @Validated({Select.class}) SysOrgParam param) {
-        return new ResultInfo<Boolean>().success( orgService.disableOrg(param.getId(),param.getOrgState()));
+        return ResultInfo.success( orgService.disableOrg(param.getId(),param.getOrgState()));
     }
 
 }

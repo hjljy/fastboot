@@ -32,7 +32,7 @@
         WHERE u.id	= #{userId} and m.status = 0 and rm.status = 0 and u.status = 0 and r.status = 0
         ORDER BY m.sort;
     </select>
-    <select id="getAdminMenuListByOrgId" resultType="cn.hjljy.fastboot.pojo.sys.po.SysMenu">
+    <select id="getOrgMenuListByOrgId" resultType="cn.hjljy.fastboot.pojo.sys.po.SysMenu">
        SELECT DISTINCT m.*
         FROM sys_menu m
         LEFT JOIN sys_org_menu rm ON m.id = rm.menu_id
