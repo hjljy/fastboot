@@ -36,20 +36,17 @@ public class CorsFilterConfig {
         config.addAllowedOrigin("*");
 
         // 可以设置允许部分请求头信息
-//        List<String> headers = Arrays.asList("Authorization",  "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Content-Type", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers");
-//        config.setAllowedHeaders(headers);
+        List<String> headers = Arrays.asList("Authorization",  "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Content-Type", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers");
+        config.setAllowedHeaders(headers);
         // 设置为允许所有请求头信息
         config.addAllowedHeader("*");
 
         // 可以设置只支持部分请求方式
-//        List<String> methods =  Arrays.asList("GET","POST","HEAD","OPTIONS","PUT");
-//        config.setAllowedMethods(methods);
+        List<String> methods =  Arrays.asList("GET","POST","HEAD","OPTIONS","PUT");
+        config.setAllowedMethods(methods);
         // 设置为支持所有请求方式
         config.addAllowedMethod("*");
 
-
-        // 可以设置部分请求路径才可以进行访问
-//        source.registerCorsConfiguration("/cors/**",config);
         // 设置所有的请求路径都可以访问
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));

@@ -13,6 +13,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+/**
+ * @author yichaofan
+ */
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
@@ -54,7 +57,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         String[] array = new String[allow.size()];
         //注册TestInterceptor拦截器
         InterceptorRegistration registration = registry.addInterceptor(getCheckTokenInterceptor());
-        registration.excludePathPatterns(allow.toArray(array));                  // 不拦截的路径
-        registration.addPathPatterns("/**");                      //所有路径都被拦截
+        //不拦截的路径
+        registration.excludePathPatterns(allow.toArray(array));
+        //所有路径都被拦截
+        registration.addPathPatterns("/**");
     }
 }

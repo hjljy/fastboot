@@ -62,7 +62,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     public SysUser selectByUserName(String username) {
         SysUser po = new SysUser();
         po.setUserName(username);
-        return selectOne(po);
+        return this.selectOne(po);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         SysUser user = new SysUser();
         BeanUtil.copyProperties(dto, user);
         user.setUserType(SysUserTypeEnum.NORMAL.name());
-        Long userId = SnowFlakeUtil.createID();
+        Long userId = SnowFlakeUtil.createId();
         String password = SecurityUtils.encryptPassword(user.getPassword());
         user.setEnable(0);
         user.setPassword(password);
@@ -143,7 +143,6 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         sysUser.setUserName(null);
         // 4 更新时，不允许更新用户密码,密码置为null
         sysUser.setPassword(null);
-        sysUser.setUpdateTime(LocalDateTime.now());
         // 5 判断是否是当前用户，当前用户无法更新机构信息
         if (b) {
             sysUser.setOrgId(null);
@@ -217,7 +216,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
 
     @Override
     public void updateUserPassword(SysUser sysUser) {
-        this.updateById(sysUser);
+        baseMapper.updateById(sysUser);
         //重置密码后需要重置登录的token
         redissonClient.getMap(RedisPrefixConstant.LOGIN_USER_TOKEN + sysUser.getId()).delete();
     }
@@ -227,16 +226,15 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         Long userId = SecurityUtils.getUserId();
         SysUser sysUser = userIfExist(userId);
         if(phone.equals(sysUser.getPhone())){
-            throw new BusinessException(ResultCode.DEFAULT,"请输入新的电话号码");
+            throw new BusinessException(ResultCode.DEFAULT,"新号码与旧号码不能相同");
         }
         List<SysUser>  users = this.selectByPhone(phone);
         long count = users.stream().filter(n -> !n.getId().equals(userId)).count();
         if(count>0){
-            throw new BusinessException();
+            throw new BusinessException(ResultCode.DEFAULT,"一个手机号码只能绑定一个账号");
         }
         sysUser.setPhone(phone);
-        sysUser.setUpdateTime(LocalDateTime.now());
-        updateById(sysUser);
+        baseMapper.updateById(sysUser);
     }
 
     @Override

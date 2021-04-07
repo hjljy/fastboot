@@ -81,7 +81,7 @@ public class TokenConfig {
                 //注意这里获取到的权限 虽然数据库存的权限是 "sys:menu:add"  但是这里就变成了"{authority=sys:menu:add}" 所以使用@PreAuthorize("hasAuthority('{authority=sys:menu:add}')")
                 Object object = decode.get("authorities");
                 if (object instanceof ArrayList<?>) {
-                    for (Object o : (List<?>) object) {
+                    for (Object o : (ArrayList<?>) object) {
                         LinkedHashMap<String,String> authority = LinkedHashMap.class.cast(o);
                         SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getOrDefault("authority", "N/A"));
                         grantedAuthorityList.add(grantedAuthority);
@@ -102,8 +102,6 @@ public class TokenConfig {
                 return decode;
             }
         };
-
-        /** JWT密钥 */
         String signingKey = "fastboot";
         jwt.setSigningKey(signingKey);
         return jwt;

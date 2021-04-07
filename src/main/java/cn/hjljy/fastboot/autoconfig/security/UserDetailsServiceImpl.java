@@ -2,7 +2,6 @@ package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.common.enums.StatusEnum;
 import cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum;
-import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
@@ -20,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -102,7 +102,7 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
         level.setUpdateTime(LocalDateTime.now());
         level.setUpdateUser(userId);
         level.setCreateUser(userId);
-        level.setLevelId(SnowFlakeUtil.createID());
+        level.setLevelId(SnowFlakeUtil.createId());
         return this.baseMapper.insert(level);
     }
 

@@ -37,7 +37,7 @@ public class UserInfo extends User {
     /**
      * 描述: 用户昵称
      **/
-    private String NickName;
+    private String nickName;
 
     /**
      * 描述: 用户类型
@@ -87,11 +87,11 @@ public class UserInfo extends User {
     }
 
     public String getNickName() {
-        return NickName;
+        return nickName;
     }
 
     public void setNickName(String nickName) {
-        NickName = nickName;
+        this.nickName = nickName;
     }
 
     public String getScope() {

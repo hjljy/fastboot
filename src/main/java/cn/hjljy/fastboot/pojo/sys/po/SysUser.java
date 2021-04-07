@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.pojo.sys.po;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
@@ -65,9 +66,11 @@ public class SysUser implements Serializable {
     private String description;
 
     @ApiModelProperty(value = "创建时间")
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "更新时间")
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "是否启用  0是(默认) 1否")

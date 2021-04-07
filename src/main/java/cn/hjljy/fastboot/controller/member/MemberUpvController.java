@@ -1,14 +1,11 @@
 package cn.hjljy.fastboot.controller.member;
 
 
-import cn.hjljy.fastboot.common.aspect.validated.Update;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.member.dto.MemberUpvDto;
-import cn.hjljy.fastboot.pojo.member.po.MemberUpv;
 import cn.hjljy.fastboot.service.member.IMemberUpvService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +25,7 @@ public class MemberUpvController {
     @Autowired
     IMemberUpvService memberUpvService;
 
-    @GetMapping("/info/{orgId}")
+    @GetMapping("/{orgId}/info")
     @ApiOperation(value = "查询机构所有会员成长值变化规则")
     @PreAuthorize("hasAnyAuthority('{authority=member:upv:info}')")
     public ResultInfo<MemberUpvDto> getByOrg(@PathVariable(value = "orgId", required = false) String orgId) {

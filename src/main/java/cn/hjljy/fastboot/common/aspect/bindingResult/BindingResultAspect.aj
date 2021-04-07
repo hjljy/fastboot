@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author yichaofan
  * @since 2020/6/5 18:04
- * @apiNote 
- * @see cn.hjljy.fastboot.common.exception.GlobalExceptionHandler#errorHandler(HttpServletRequest, MethodArgumentNotValidException)
+ * @apiNote  已废弃，直接使用全局异常进行捕捉返回比较方便  详见下面的说明
+ * @see cn.hjljy.fastboot.common.exception.GlobalExceptionHandler#errorHandler(MethodArgumentNotValidException) (HttpServletRequest, MethodArgumentNotValidException)
  */
-//@Aspect
-//@Component
 @Deprecated
 public class BindingResultAspect {
 
@@ -24,7 +22,7 @@ public class BindingResultAspect {
      * 环绕切面  切点是controller层所有带有BindingResult 参数的方法。
      * @param joinPoint 切点
      * @param bindingResult  JSR参数校验结果类
-     * @return
+     * @return Object
      * @throws Throwable
      * TODO 设置controller层所在位置
      */
@@ -32,7 +30,7 @@ public class BindingResultAspect {
     public Object validateParam(ProceedingJoinPoint joinPoint, BindingResult bindingResult) throws Throwable {
         Object obj;
         if (bindingResult.hasErrors()) {
-            ResultInfo error = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
+            ResultInfo<Boolean> error = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
             error.setMsg(bindingResult.getAllErrors().toString());
             return error;
         } else {

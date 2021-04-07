@@ -1,6 +1,5 @@
 package cn.hjljy.fastboot.common.aspect.log;
 
-import cn.hjljy.fastboot.common.result.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -47,10 +46,7 @@ public class LogAspect {
         //需要执行切面 不捕捉异常信息直接抛出
         Object result = point.proceed();
         long runTime = System.currentTimeMillis() - start;
-        if(result instanceof ResultInfo){
-            ResultInfo resultInfo =(ResultInfo) result;
-            log.info("\r\n操作用时：{}毫秒\r\n返回结果:{}",runTime,resultInfo.getMsg());
-        }
+        log.info("\r\n操作用时：{}毫秒\r\n返回结果:{}",runTime,result.toString());
         return result;
 
     }
@@ -62,7 +58,7 @@ public class LogAspect {
      * @return String
      */
     private String handlerParameter(ProceedingJoinPoint point) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(16);
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         Log log = methodSignature.getMethod().getAnnotation(Log.class);
         String[] parameterNames = methodSignature.getParameterNames();

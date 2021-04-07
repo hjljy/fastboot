@@ -13,17 +13,20 @@ public class SnowFlakeUtil {
 
     /**
      * 每一部分占用的位数
+     * SEQUENCE_BIT  序列号占用的位数
+     * MACHINE_BIT  机器标识占用的位数
+     * DATACENTER_BIT 数据中心占用的位数
      */
-    private final static long SEQUENCE_BIT = 12; //序列号占用的位数
-    private final static long MACHINE_BIT = 5;   //机器标识占用的位数
-    private final static long DATACENTER_BIT = 5;//数据中心占用的位数
+    private final static long SEQUENCE_BIT = 12;
+    private final static long MACHINE_BIT = 5;
+    private final static long DATACENTER_BIT = 5;
 
     /**
      * 每一部分的最大值
      */
-    private final static long MAX_DATACENTER_NUM = -1L ^ (-1L << DATACENTER_BIT);
-    private final static long MAX_MACHINE_NUM = -1L ^ (-1L << MACHINE_BIT);
-    private final static long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
+    private final static long MAX_DATACENTER_NUM = 31L;
+    private final static long MAX_MACHINE_NUM = 31L;
+    private final static long MAX_SEQUENCE = 4095L;
 
     /**
      * 每一部分向左的位移
@@ -32,10 +35,22 @@ public class SnowFlakeUtil {
     private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
     private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
 
-    private long datacenterId;  //数据中心
-    private long machineId;     //机器标识
-    private long sequence = 0L; //序列号
-    private long lastStmp = -1L;//上一次时间戳
+    /**
+     * 数据中心
+     */
+    private final long datacenterId;
+    /**
+     * 数据中心
+     */
+    private final long machineId;
+    /**
+     * 序列号
+     */
+    private long sequence = 0L;
+    /**
+     * 上一次时间戳
+     */
+    private long lastStmp = -1L;
 
     /**
      *
@@ -56,7 +71,7 @@ public class SnowFlakeUtil {
     /**
      * 产生下一个ID
      *
-     * @return
+     * @return  ID
      */
     public synchronized long nextId() {
         long currStmp = getNewstmp();
@@ -78,10 +93,10 @@ public class SnowFlakeUtil {
 
         lastStmp = currStmp;
 
-        return (currStmp - START_STMP) << TIMESTMP_LEFT //时间戳部分
-                | datacenterId << DATACENTER_LEFT       //数据中心部分
-                | machineId << MACHINE_LEFT             //机器标识部分
-                | sequence;                             //序列号部分
+        return (currStmp - START_STMP) << TIMESTMP_LEFT
+                | datacenterId << DATACENTER_LEFT
+                | machineId << MACHINE_LEFT
+                | sequence;
     }
 
     private long getNextMill() {
@@ -96,25 +111,23 @@ public class SnowFlakeUtil {
         return System.currentTimeMillis();
     }
 
-    public static Long createID(){
+    public static Long createId(){
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(1, 2);
-        long nextId = snowFlake.nextId();
-        return nextId;
+        return snowFlake.nextId();
     }
-    public static String createCardID(String pre){
+    public static String createCardId(String pre){
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(5, 7);
-        String cardId = pre+snowFlake.nextId();
-        return cardId;
+        return pre+snowFlake.nextId();
     }
-    public static String createStringID(){
+    public static String createStringId(){
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(1, 5);
-        String cardId = Long.toString(snowFlake.nextId());
-        return cardId;
+        return Long.toString(snowFlake.nextId());
     }
     public static void main(String[] args) {
         //如果分布式部署项目，这里的参数建议设置独立的
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(2, 3);
-        for (int i = 0; i < (1 << 12); i++) {
+        int n = 12;
+        for (int i = 0; i < (1 << n); i++) {
             System.out.println(snowFlake.nextId());
         }
 

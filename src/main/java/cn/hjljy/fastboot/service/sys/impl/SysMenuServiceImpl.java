@@ -1,11 +1,10 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
-import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
-import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import cn.hjljy.fastboot.mapper.sys.SysMenuMapper;
-import cn.hjljy.fastboot.service.sys.ISysMenuService;
+import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import cn.hjljy.fastboot.service.BaseService;
+import cn.hjljy.fastboot.service.sys.ISysMenuService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

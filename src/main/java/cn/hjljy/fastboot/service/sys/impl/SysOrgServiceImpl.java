@@ -44,7 +44,7 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
     public List<SysOrgDto> getOrgListByUser() {
         List<SysOrgDto> dtoList = new ArrayList<>();
         List<SysOrg> list;
-        if (SecurityUtils.IsSuperAdmin()) {
+        if (SecurityUtils.isSuperAdmin()) {
             // 1 超级管理员返回所有机构
             list = this.list();
         } else {

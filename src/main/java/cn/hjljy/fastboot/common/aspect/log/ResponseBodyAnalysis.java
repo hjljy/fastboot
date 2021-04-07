@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
@@ -37,9 +38,9 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
      * @return the body that was passed in or a modified (possibly new) instance
      */
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType,
-                                  MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request,
-                                  ServerHttpResponse response) {
+    public Object beforeBodyWrite(Object body, @NonNull MethodParameter returnType,
+                                  @NonNull MediaType selectedContentType, @NonNull Class selectedConverterType, @NonNull ServerHttpRequest request,
+                                  @NonNull ServerHttpResponse response) {
         try {
             StringBuilder sb = new StringBuilder();
             sb.append("\n请求访问地址：{}");
@@ -71,7 +72,7 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
      * 如果要beforeBodyWrite方法生效，必须返回true
      */
     @Override
-    public boolean supports(MethodParameter arg0, Class arg1) {
+    public boolean supports(@NonNull MethodParameter arg0,@NonNull  Class arg1) {
         return true;
     }
 }

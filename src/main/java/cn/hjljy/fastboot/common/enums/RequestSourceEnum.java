@@ -5,6 +5,9 @@ package cn.hjljy.fastboot.common.enums;
  * @author yichaofan
  */
 public enum RequestSourceEnum {
+    /**
+     * 请求来源
+     * */
     IOS,
     WEB,
     WINDOWS,

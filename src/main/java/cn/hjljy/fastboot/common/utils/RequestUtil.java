@@ -5,8 +5,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
+/**
+ * @author yichaofan
+ */
 public class RequestUtil {
 
     /**
@@ -18,7 +21,7 @@ public class RequestUtil {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
+            reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
@@ -44,8 +47,6 @@ public class RequestUtil {
      * @return token字符串
      */
     public static String getToken(HttpServletRequest request){
-        String authorization = request.getHeader("Authorization");
-        String token = authorization.substring("Bearer".length()).trim();
-        return token;
+        return request.getHeader("Authorization").substring("Bearer".length()).trim();
     }
 }

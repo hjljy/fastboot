@@ -114,21 +114,21 @@ public class SecurityUtils {
     /**
      * 是否是超级管理员
      */
-    public static boolean IsSuperAdmin(){
+    public static boolean isSuperAdmin(){
         return SysUserTypeEnum.SUPER_ADMIN.name().equals(getUserType());
     }
 
     /**
      * 是否是系统管理员
      */
-    public static boolean IsSysAdmin(){
+    public static boolean isSysAdmin(){
         return SysUserTypeEnum.SYS_ADMIN.name().equals(getUserType());
     }
 
     /**
      * 是否是管理员
      */
-    public static boolean IsAdmin(){
+    public static boolean isAdmin(){
         return SysUserTypeEnum.ADMIN.name().equals(getUserType());
     }
 }

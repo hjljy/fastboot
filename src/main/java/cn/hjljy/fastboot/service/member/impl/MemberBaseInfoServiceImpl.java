@@ -53,7 +53,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     public int addMember(MemberBaseInfoDto dto) {
         MemberBaseInfo info = new MemberBaseInfo();
         BeanUtil.copyProperties(dto, info);
-        Long memberId = SnowFlakeUtil.createID();
+        Long memberId = SnowFlakeUtil.createId();
         //判断是否重复注册
         checkMemberBaseInfo(dto.getOrgId(), dto.getMemberPhone(), dto.getMemberCard(), memberId);
         //处理默认信息
@@ -81,7 +81,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         }
         //未设置会员卡号，默认随机生成会员卡号
         if (StringUtils.isEmpty(dto.getMemberCard())) {
-            info.setMemberCard(SnowFlakeUtil.createStringID());
+            info.setMemberCard(SnowFlakeUtil.createStringId());
         }
         //处理新增的信息
         info.setMemberId(memberId);

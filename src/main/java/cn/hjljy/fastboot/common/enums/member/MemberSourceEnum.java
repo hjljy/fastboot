@@ -2,9 +2,19 @@ package cn.hjljy.fastboot.common.enums.member;
 
 /**
  * 会员来源枚举
+ * @author yichoafan
  */
 public enum MemberSourceEnum {
-    OLD, //老会员导入
-    NORMAL, //正常添加
-    INVITED  //被邀请
+    /**
+     * 老会员注入
+     */
+    OLD,
+    /**
+     * 正常添加
+     */
+    NORMAL,
+    /**
+     * 被邀请
+     */
+    INVITED
 }

@@ -1,30 +1,26 @@
 package cn.hjljy.fastboot.autoconfig.Interceptor;
 
 import cn.hjljy.fastboot.autoconfig.config.FastBootConfig;
+import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.common.utils.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.beans.Encoder;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
+ * @author hjljy
  * 全局check_token
  */
 @Component
@@ -41,10 +37,13 @@ public class CheckTokenInterceptor  implements HandlerInterceptor {
     String checkTokenUrl;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) throws Exception {
         String attribute = request.getHeader(HttpHeaders.AUTHORIZATION);
         String token = attribute.replace(OAuth2AccessToken.BEARER_TYPE, "").trim();
         ResultInfo entity = restTemplate.getForObject(checkTokenUrl+token, ResultInfo.class);
+        if(null ==entity){
+            throw new BusinessException(ResultCode.DEFAULT,"服务器繁忙,请稍后尝试");
+        }
         if(ResultCode.SUCCESS.getCode()==entity.getCode()){
            return true;
         }

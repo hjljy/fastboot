@@ -2,8 +2,12 @@ package cn.hjljy.fastboot.common.enums;
 
 /**
  * 状态枚举
+ * @author hjljy
  */
 public enum StatusEnum {
+    /**
+     * 状态枚举
+     */
     ENABLE(0, "启用"),
     DISABLE(1, "禁用");
 

@@ -2,8 +2,12 @@ package cn.hjljy.fastboot.common.enums;
 
 /**
  * 性别枚举
+ * @author hjljy
  */
 public enum SexEnum {
+    /**
+     * 性别枚举
+     */
     DEFAULT(-1, "保密"),
     WOMAN(0, "女"),
     MAN(1, "男");

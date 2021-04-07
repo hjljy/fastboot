@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Configuration
 @EnableResourceServer
-public class OAuth2ResourceConfiguration extends ResourceServerConfigurerAdapter {
+public class Oauth2ResourceConfiguration extends ResourceServerConfigurerAdapter {
     @Autowired
     FastBootConfig fastBootConfig;
     @Autowired

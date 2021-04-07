@@ -7,6 +7,9 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * @author hjljy
+ */
 public class RequestBodyFilter implements Filter {
     @Override
     public void destroy() {
