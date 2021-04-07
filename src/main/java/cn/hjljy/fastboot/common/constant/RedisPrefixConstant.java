@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.common.constant;
 
 /**
  * redis key 常量集合
+ * @author hjljy
  */
 public class RedisPrefixConstant {
     /** 用户token缓存 */
