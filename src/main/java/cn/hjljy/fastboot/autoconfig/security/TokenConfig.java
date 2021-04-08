@@ -25,11 +25,12 @@ public class TokenConfig {
 
     /**
      * JWT 令牌转换器
+     *
      * @return 返回jwt处理器
      */
     @Bean("jwtAccessTokenConverter")
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter jwt = new JwtAccessTokenConverter(){
+        JwtAccessTokenConverter jwt = new JwtAccessTokenConverter() {
             /**
              * 用户信息JWT加密
              */
@@ -40,12 +41,12 @@ public class TokenConfig {
                 UserInfo user = (UserInfo) authentication.getUserAuthentication().getPrincipal();
                 Set<String> tokenScope = token.getScope();
                 String scopeTemp = " ";
-                if(tokenScope!=null&&tokenScope.size()>0){
-                    scopeTemp=tokenScope.iterator().next();
+                if (tokenScope != null && tokenScope.size() > 0) {
+                    scopeTemp = tokenScope.iterator().next();
                 }
-                String scope =scopeTemp;
+                String scope = scopeTemp;
                 //将额外的参数信息存入，用于生成token
-                Map<String, Object> data = new HashMap<String, Object>(4){{
+                Map<String, Object> data = new HashMap<String, Object>(4) {{
                     put("userId", user.getUserId());
                     put("orgId", user.getOrgId());
                     put("username", user.getUsername());
@@ -54,7 +55,7 @@ public class TokenConfig {
                     put("userType", user.getUserType());
                     put("phone", user.getPhone());
                     put("authorities", user.getAuthorities());
-                    put("scope",scope);
+                    put("scope", scope);
                 }};
                 //自定义TOKEN包含的信息
                 token.setAdditionalInformation(data);
@@ -70,24 +71,35 @@ public class TokenConfig {
                 Map<String, Object> decode = super.decode(token);
                 Long userId = Long.parseLong(decode.get("userId").toString());
                 Long orgId = Long.parseLong(decode.get("orgId").toString());
-                String username = (String)decode.get("username");
-                String email = (String)decode.get("email");
-                String nickName = (String)decode.get("nickName");
-                String scope = (String)decode.get("scope");
-                String avatarUrl = (String)decode.get("avatarUrl");
-                String userType = (String)decode.get("userType");
-                String phone = (String)decode.get("phone");
-                List<GrantedAuthority> grantedAuthorityList=new ArrayList<>();
+                String username = (String) decode.get("username");
+                String email = (String) decode.get("email");
+                String nickName = (String) decode.get("nickName");
+                String scope = (String) decode.get("scope");
+                String avatarUrl = (String) decode.get("avatarUrl");
+                String userType = (String) decode.get("userType");
+                String phone = (String) decode.get("phone");
+                List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
                 //注意这里获取到的权限 虽然数据库存的权限是 "sys:menu:add"  但是这里就变成了"{authority=sys:menu:add}" 所以使用@PreAuthorize("hasAuthority('{authority=sys:menu:add}')")
-                Object object = decode.get("authorities");
-                if (object instanceof ArrayList<?>) {
-                    for (Object o : (ArrayList<?>) object) {
-                        LinkedHashMap<String,String> authority = LinkedHashMap.class.cast(o);
-                        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getOrDefault("authority", "N/A"));
-                        grantedAuthorityList.add(grantedAuthority);
+
+                Object authorities = decode.get("authorities");
+                if (authorities instanceof List<?>) {
+                    List<?> list = (List<?>) authorities;
+                    for (Object o : list) {
+                        if (o instanceof LinkedHashMap<?, ?>) {
+                            LinkedHashMap<?, ?> map = (LinkedHashMap<?, ?>) o;
+                            Class<?> keyClass = map.entrySet().stream().findFirst().map(entry -> entry.getKey().getClass()).orElse(null);
+                            if (String.class.equals(keyClass)) {
+                                Object authority = map.get("authority");
+                                if (authority instanceof String) {
+                                    String auth = (String) authority;
+                                    SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(auth);
+                                    grantedAuthorityList.add(grantedAuthority);
+                                }
+                            }
+                        }
                     }
                 }
-                UserInfo userInfo =new UserInfo(username,"N/A",userId, grantedAuthorityList);
+                UserInfo userInfo = new UserInfo(username, "N/A", userId, grantedAuthorityList);
                 userInfo.setNickName(nickName);
                 userInfo.setEmail(email);
                 userInfo.setScope(scope);
@@ -96,9 +108,9 @@ public class TokenConfig {
                 userInfo.setUserType(userType);
                 userInfo.setPhone(phone);
                 //需要将解析出来的用户存入全局当中，不然无法转换成自定义的user类
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userInfo,null, grantedAuthorityList);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userInfo, null, grantedAuthorityList);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                decode.put("user_name",userInfo);
+                decode.put("user_name", userInfo);
                 return decode;
             }
         };

@@ -19,12 +19,12 @@ import java.util.List;
 
 /**
  * @author 海加尔金鹰 www.hjljy.cn
- * @apiNote websecurtiy权限校验处理
+ * @apiNote webSecurity权限校验处理
  * @since 2020/9/9 0:20
  **/
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true,jsr250Enabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired

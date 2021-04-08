@@ -1,7 +1,6 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
-import cn.hjljy.fastboot.common.BaseDto;
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;

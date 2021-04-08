@@ -63,7 +63,7 @@ public class Oauth2ServerConfiguration extends AuthorizationServerConfigurerAdap
                 //允许授权类型
                 .authorizedGrantTypes(Oauth2Constant.AUTHORIZATION_CODE, Oauth2Constant.GRANT_TYPE, Oauth2Constant.REFRESH_TOKEN, Oauth2Constant.GRANT_TYPE_PASSWORD, Oauth2Constant.IMPLICIT)
                 //允许授权范围
-                .scopes(Oauth2Constant.SCOPE_WEB,Oauth2Constant.SCOPE_IOS, Oauth2Constant.SCOPE_ANDROID, Oauth2Constant.SCOPE_BOOT)
+                .scopes(Oauth2Constant.SCOPE_WEB, Oauth2Constant.SCOPE_IOS, Oauth2Constant.SCOPE_ANDROID, Oauth2Constant.SCOPE_BOOT)
                 //客户端可以使用的权限
                 .authorities("ROLE_CLIENT")
                 //secret客户端安全码

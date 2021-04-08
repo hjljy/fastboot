@@ -102,7 +102,7 @@ public class JacksonUtil {
     /**
      * json字符串转换为map
      */
-    public static Map<String,Object> json2map(String jsonString) throws Exception {
+    public static Map<String, Object> json2map(String jsonString) throws Exception {
         Map<String, Map<String, Object>> map = MAPPER.readValue(jsonString, new TypeReference<Map<String, Map<String, Object>>>() {
         });
         Map<String, Object> result = new HashMap<>(16);
@@ -153,7 +153,7 @@ public class JacksonUtil {
      * @param clazz 自定义对象的class对象
      * @return 自定义对象
      */
-    public static <T> T map2pojo(Map<String,T> map, Class<T> clazz) {
+    public static <T> T map2pojo(Map<String, T> map, Class<T> clazz) {
         return MAPPER.convertValue(map, clazz);
     }
 }

@@ -7,12 +7,10 @@ import org.aspectj.lang.annotation.Around;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * @author yichaofan
  * @since 2020/6/5 18:04
- * @apiNote  已废弃，直接使用全局异常进行捕捉返回比较方便  详见下面的说明
+ * @apiNote 已废弃，直接使用全局异常进行捕捉返回比较方便  详见下面的说明
  * @see cn.hjljy.fastboot.common.exception.GlobalExceptionHandler#errorHandler(MethodArgumentNotValidException) (HttpServletRequest, MethodArgumentNotValidException)
  */
 @Deprecated

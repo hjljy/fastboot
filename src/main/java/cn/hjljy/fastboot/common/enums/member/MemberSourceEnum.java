@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.common.enums.member;
 
 /**
  * 会员来源枚举
+ *
  * @author yichoafan
  */
 public enum MemberSourceEnum {

@@ -1,7 +1,6 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
 import cn.hjljy.fastboot.common.BaseDto;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -20,10 +19,10 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="SysRolePoDto对象", description="")
+@ApiModel(value = "SysRolePoDto对象")
 public class SysRoleDto extends BaseDto<SysRoleDto> implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "角色ID")
     private Integer id;

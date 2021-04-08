@@ -3,26 +3,21 @@ package cn.hjljy.fastboot.pojo.sys.dto;
 import cn.hjljy.fastboot.common.BaseDto;
 import cn.hjljy.fastboot.common.aspect.validated.Insert;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
-import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import java.io.Serializable;
-import java.util.List;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -30,20 +25,20 @@ import javax.validation.constraints.Size;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="SysUserPoDto对象", description="")
+@ApiModel(value = "SysUserPoDto对象")
 public class SysUserDto extends BaseDto<SysUserDto> implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "用户ID")
-    @NotNull(message = "用户账号ID不能为空",groups = Update.class)
+    @NotNull(message = "用户账号ID不能为空", groups = Update.class)
     private Long id;
 
     @NotNull(message = "用户机构不能为空")
     @ApiModelProperty(value = "用户机构ID")
     private Long orgId;
 
-    @NotBlank(message = "用户账号不能为空",groups = Insert.class)
+    @NotBlank(message = "用户账号不能为空", groups = Insert.class)
     @ApiModelProperty(value = "用户账号")
     private String userName;
 
@@ -51,7 +46,7 @@ public class SysUserDto extends BaseDto<SysUserDto> implements Serializable {
     @ApiModelProperty(value = "用户昵称")
     private String nickName;
 
-    @NotBlank(message = "用户密码不能为空",groups = Insert.class)
+    @NotBlank(message = "用户密码不能为空", groups = Insert.class)
     @ApiModelProperty(value = "用户密码")
     private String password;
     /**
@@ -75,7 +70,7 @@ public class SysUserDto extends BaseDto<SysUserDto> implements Serializable {
     @ApiModelProperty(value = "出生日期")
     private LocalDateTime birthday;
 
-    @Size(max=260,message = "用户描述过长，请简单描述")
+    @Size(max = 260, message = "用户描述过长，请简单描述")
     @ApiModelProperty(value = "用户描述")
     private String description;
 
@@ -96,8 +91,6 @@ public class SysUserDto extends BaseDto<SysUserDto> implements Serializable {
 
     @ApiModelProperty(value = "是否启用  0是(默认) 1否")
     private Integer enable;
-
-
 
 
 }

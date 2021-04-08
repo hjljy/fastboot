@@ -36,30 +36,29 @@ public class MemberBaseInfoController {
     @PostMapping("/page")
     @PreAuthorize("hasAnyAuthority('{authority=member:info:list}')")
     @ApiOperation(value = "分页查询会员信息")
-    public ResultInfo getMemberBaseInfoPageList(@RequestBody @Validated MemberBaseInfoParam param) {
-        IPage<MemberBaseInfoDto> list = memberBaseInfoService.getMemberBaseInfoPageList(param.getOrgId(), param.getKeywords(), param.getLevelId(), param.getPageNo(), param.getPageNum());
-        return new ResultInfo(list);
+    public ResultInfo<IPage<MemberBaseInfoDto>> getMemberBaseInfoPageList(@RequestBody @Validated MemberBaseInfoParam param) {
+        return ResultInfo.success(memberBaseInfoService.getMemberBaseInfoPageList(param.getOrgId(), param.getKeywords(), param.getLevelId(), param.getPageNo(), param.getPageNum()));
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasAnyAuthority('{authority=member:info:add}')")
     @ApiOperation(value = "新增会员信息")
-    public ResultInfo addMember(@RequestBody @Validated MemberBaseInfoDto dto) {
-        return new ResultInfo(memberBaseInfoService.addMember(dto));
+    public ResultInfo<Integer> addMember(@RequestBody @Validated MemberBaseInfoDto dto) {
+        return ResultInfo.success(memberBaseInfoService.addMember(dto));
     }
 
     @PostMapping("/edit")
     @PreAuthorize("hasAnyAuthority('{authority=member:info:edit}')")
     @ApiOperation(value = "编辑会员信息")
-    public ResultInfo editMember(@RequestBody @Validated({Update.class}) MemberBaseInfoDto dto) {
-        return new ResultInfo(memberBaseInfoService.editMember(dto));
+    public ResultInfo<Boolean> editMember(@RequestBody @Validated({Update.class}) MemberBaseInfoDto dto) {
+        return ResultInfo.success(memberBaseInfoService.editMember(dto));
     }
 
     @PostMapping("/del")
     @PreAuthorize("hasAnyAuthority('{authority=member:info:del}')")
     @ApiOperation(value = "删除会员信息")
-    public ResultInfo delMember(@RequestBody @Validated({Update.class}) MemberBaseInfoParam param) {
-        return new ResultInfo(memberBaseInfoService.delMember(param.getMemberId()));
+    public ResultInfo<Boolean> delMember(@RequestBody @Validated({Update.class}) MemberBaseInfoParam param) {
+        return ResultInfo.success(memberBaseInfoService.delMember(param.getMemberId()));
     }
 }
 

@@ -1,7 +1,6 @@
 package cn.hjljy.fastboot.controller.demo;
 
 
-
 import cn.hjljy.fastboot.autoconfig.security.UserInfo;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
@@ -15,7 +14,7 @@ import cn.hjljy.fastboot.pojo.dto.DemoPoDto;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -27,8 +26,8 @@ public class DemoController {
 
     @PostMapping("/t1")
     @PreAuthorize("hasAuthority('{authority=sys:menu:add}')")
-    public String getDemo(String name){
-        if(SecurityContextHolder.getContext() == null) {
+    public String getDemo(String name) {
+        if (SecurityContextHolder.getContext() == null) {
             return null;
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -37,8 +36,9 @@ public class DemoController {
 //        return ResultInfo.success(userInfo);
         return userInfo.toString();
     }
+
     @PostMapping("/t2")
-    public String getT2(@RequestBody SysUser user){
+    public String getT2(@RequestBody SysUser user) {
         return user.getUserName();
     }
 }

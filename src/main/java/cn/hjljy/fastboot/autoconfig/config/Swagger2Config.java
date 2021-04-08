@@ -59,8 +59,8 @@ public class Swagger2Config {
                 .globalOperationParameters(pars);
     }
 
-    private Contact getContact(){
-        return new Contact("hjljy","https://www.hjljy.cn","hjljy@outlook.com");
+    private Contact getContact() {
+        return new Contact("hjljy", "https://www.hjljy.cn", "hjljy@outlook.com");
     }
 
     private ApiInfo apiInfo() {

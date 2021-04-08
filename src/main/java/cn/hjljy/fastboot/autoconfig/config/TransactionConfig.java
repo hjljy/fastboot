@@ -88,7 +88,7 @@ public class TransactionConfig {
     }
 
     /**
-     *  设置切面
+     * 设置切面
      */
     @Bean
     public Advisor txAdviceAdvisor() {

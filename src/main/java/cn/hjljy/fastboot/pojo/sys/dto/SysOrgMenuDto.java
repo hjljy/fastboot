@@ -1,15 +1,12 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-
-import java.io.Serializable;
-
+import cn.hjljy.fastboot.common.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -22,12 +19,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysOrgMenuDto对象")
-public class SysOrgMenuDto implements Serializable {
+public class SysOrgMenuDto extends BaseDto<SysOrgMenuDto> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty(value = "机构ID")
@@ -35,10 +30,5 @@ public class SysOrgMenuDto implements Serializable {
 
     @ApiModelProperty(value = "菜单ID")
     private Integer menuId;
-
-    @ApiModelProperty(value = "状态")
-    @TableLogic
-    private Integer status;
-
 
 }

@@ -25,7 +25,7 @@ import java.io.PrintWriter;
  */
 @Component
 @Slf4j
-public class CheckTokenInterceptor  implements HandlerInterceptor {
+public class CheckTokenInterceptor implements HandlerInterceptor {
 
     @Autowired
     FastBootConfig fastBootConfig;
@@ -40,12 +40,12 @@ public class CheckTokenInterceptor  implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) throws Exception {
         String attribute = request.getHeader(HttpHeaders.AUTHORIZATION);
         String token = attribute.replace(OAuth2AccessToken.BEARER_TYPE, "").trim();
-        ResultInfo entity = restTemplate.getForObject(checkTokenUrl+token, ResultInfo.class);
-        if(null ==entity){
-            throw new BusinessException(ResultCode.DEFAULT,"服务器繁忙,请稍后尝试");
+        ResultInfo<?> entity = restTemplate.getForObject(checkTokenUrl + token, ResultInfo.class);
+        if (null == entity) {
+            throw new BusinessException(ResultCode.DEFAULT, "服务器繁忙,请稍后尝试");
         }
-        if(ResultCode.SUCCESS.getCode()==entity.getCode()){
-           return true;
+        if (ResultCode.SUCCESS.getCode() == entity.getCode()) {
+            return true;
         }
         String result = JacksonUtil.obj2String(entity);
         response.setContentType("text/html;charset=utf-8");

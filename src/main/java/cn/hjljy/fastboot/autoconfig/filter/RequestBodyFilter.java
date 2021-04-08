@@ -23,10 +23,10 @@ public class RequestBodyFilter implements Filter {
 
 
         if (request instanceof HttpServletRequest) {
-            HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
             String method = httpServletRequest.getMethod();
-            String contentType = httpServletRequest.getContentType()==null?"":httpServletRequest.getContentType();
-            if(HttpMethod.POST.name().equals(method)&&!contentType.equals(MediaType.MULTIPART_FORM_DATA_VALUE)){
+            String contentType = httpServletRequest.getContentType() == null ? "" : httpServletRequest.getContentType();
+            if (HttpMethod.POST.name().equals(method) && !contentType.equals(MediaType.MULTIPART_FORM_DATA_VALUE)) {
                 requestWrapper = new RequestReaderHttpServletRequestWrapper((HttpServletRequest) request);
             }
 

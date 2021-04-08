@@ -29,7 +29,7 @@ public class FastBootConfig {
         this.request = request;
     }
 
-    public List<String> getRequestAllow(){
+    public List<String> getRequestAllow() {
         return request.get("allow");
     }
 }

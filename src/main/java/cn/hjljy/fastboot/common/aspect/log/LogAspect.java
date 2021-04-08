@@ -14,8 +14,8 @@ import java.util.Map;
 
 /**
  * @author yichaofan
- * @since  2020/6/4 17:47
  * @apiNote 项目操作日志切面
+ * @since 2020/6/4 17:47
  */
 @Aspect
 @Component
@@ -41,12 +41,12 @@ public class LogAspect {
         String className = point.getTarget().getClass().getName();
         String methodName = point.getSignature().getName();
         // TODO  可以根据实际需求将操作日志信息记录到数据库当中，例如 mongodb
-        log.info("\r\n操作类名：{}\r\n操作方法：{}\r\n操作参数：{}", className,methodName,handlerParameter(point));
+        log.info("\r\n操作类名：{}\r\n操作方法：{}\r\n操作参数：{}", className, methodName, handlerParameter(point));
         long start = System.currentTimeMillis();
         //需要执行切面 不捕捉异常信息直接抛出
         Object result = point.proceed();
         long runTime = System.currentTimeMillis() - start;
-        log.info("\r\n操作用时：{}毫秒\r\n返回结果:{}",runTime,result.toString());
+        log.info("\r\n操作用时：{}毫秒\r\n返回结果:{}", runTime, result.toString());
         return result;
 
     }
@@ -67,14 +67,14 @@ public class LogAspect {
             Object params = args[i];
             String name = parameterNames[i];
             //如果参数是request 不记录
-            if(params instanceof ServletRequest){
+            if (params instanceof ServletRequest) {
                 continue;
             }
-            map.put(name,params);
+            map.put(name, params);
         }
         if (log != null) {
-            map.put("logDesc",log.description());
-            map.put("logType",log.type());
+            map.put("logDesc", log.description());
+            map.put("logType", log.type());
         }
         return map.toString();
     }

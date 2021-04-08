@@ -147,7 +147,7 @@
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            background-image:url("/MLOG.png") ;
+            background-image: url("/MLOG.png");
             top: 70px;
             left: 50%;
             margin-left: -100px;
@@ -386,7 +386,7 @@
 
     //自动居中title
     var name_c = document.getElementById("title")
-    name=name_c.innerHTML.split("");
+    name = name_c.innerHTML.split("");
     name_c.innerHTML = ""
     for (i = 0; i < name.length; i++)
         if (name[i] != ",")
@@ -409,7 +409,7 @@
         let data = new FormData()
         data.append("email", user.value)
         data.append("password", passwd.value)
-        request.onreadystatechange = function() {
+        request.onreadystatechange = function () {
             if (this.readyState == 4) {
                 callback.call(this, this.response)
                 //console.log(this.responseText)
@@ -417,6 +417,7 @@
         }
         request.send(data)
     }
+
     //注册按钮
     function signin() {
         let status = document.getElementById("status").getElementsByTagName("i")
@@ -436,7 +437,7 @@
             else if (passwd.value != con_pass.value)
                 hit.innerHTML = "两次密码不相等"
             else if (passwd.value = con_pass.value) {
-                submit(function(res) {
+                submit(function (res) {
                     if (res == "exist")
                         hit.innerHTML = "该账号已存在"
                     else if (res == true) {
@@ -449,6 +450,7 @@
             hint()
         }
     }
+
     //登录按钮
     function login(callback) {
         if (onoff) {
@@ -458,14 +460,14 @@
             let data = new FormData();
             data.append("email", user.value);
             data.append("password", passwd.value)
-            request.onreadystatechange = function() {
+            request.onreadystatechange = function () {
                 if (this.readyState == 4) {
-                   let result= JSON.parse(this.responseText);
-                   if(result.code==0){
-                       window.location.href=result.data;
-                   }else{
-                       hint();
-                   }
+                    let result = JSON.parse(this.responseText);
+                    if (result.code == 0) {
+                        window.location.href = result.data;
+                    } else {
+                        hint();
+                    }
 
                 }
             }

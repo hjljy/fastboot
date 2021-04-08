@@ -1,8 +1,12 @@
 package cn.hjljy.fastboot.pojo.sys.po;
 
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableLogic;
+
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
@@ -12,7 +16,7 @@ import org.springframework.data.annotation.Id;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -21,10 +25,11 @@ import org.springframework.data.annotation.Id;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@ApiModel(value="SysOrg对象", description="")
+@ApiModel(value = "SysOrg对象")
+@TableName("sys_org")
 public class SysOrg implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "机构ID")
     private Long id;

@@ -53,9 +53,8 @@ public class SnowFlakeUtil {
     private long lastStmp = -1L;
 
     /**
-     *
      * @param datacenterId 数据中心
-     * @param machineId 机器标识
+     * @param machineId    机器标识
      */
     public SnowFlakeUtil(long datacenterId, long machineId) {
         if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
@@ -71,7 +70,7 @@ public class SnowFlakeUtil {
     /**
      * 产生下一个ID
      *
-     * @return  ID
+     * @return ID
      */
     public synchronized long nextId() {
         long currStmp = getNewstmp();
@@ -111,18 +110,21 @@ public class SnowFlakeUtil {
         return System.currentTimeMillis();
     }
 
-    public static Long createId(){
+    public static Long createId() {
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(1, 2);
         return snowFlake.nextId();
     }
-    public static String createCardId(String pre){
+
+    public static String createCardId(String pre) {
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(5, 7);
-        return pre+snowFlake.nextId();
+        return pre + snowFlake.nextId();
     }
-    public static String createStringId(){
+
+    public static String createStringId() {
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(1, 5);
         return Long.toString(snowFlake.nextId());
     }
+
     public static void main(String[] args) {
         //如果分布式部署项目，这里的参数建议设置独立的
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(2, 3);

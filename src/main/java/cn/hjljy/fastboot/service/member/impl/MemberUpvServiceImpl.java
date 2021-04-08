@@ -6,7 +6,6 @@ import cn.hjljy.fastboot.mapper.member.MemberUpvMapper;
 import cn.hjljy.fastboot.service.member.IMemberUpvService;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -26,7 +25,7 @@ public class MemberUpvServiceImpl extends BaseService<MemberUpvMapper, MemberUpv
         Assert.notNull(orgId, "机构ID不能为空");
         MemberUpv upv = baseMapper.selectById(orgId);
         //如果存在就直接返回
-        if(null!=upv){
+        if (null != upv) {
             MemberUpvDto dto = new MemberUpvDto();
             BeanUtil.copyProperties(upv, dto);
             return dto;
@@ -39,7 +38,7 @@ public class MemberUpvServiceImpl extends BaseService<MemberUpvMapper, MemberUpv
     public Boolean editUpv(MemberUpvDto dto) {
         MemberUpv memberUpv = baseMapper.selectById(dto.getOrgId());
         //如果存在规则就更新
-        if(null!=memberUpv){
+        if (null != memberUpv) {
             BeanUtil.copyProperties(dto, memberUpv);
             return this.updateById(memberUpv);
         }

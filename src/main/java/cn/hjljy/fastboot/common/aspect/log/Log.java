@@ -4,8 +4,8 @@ import java.lang.annotation.*;
 
 /**
  * @author yichaofan
- * @since  2020/6/4 17:47
  * @apiNote 项目操作日志注解
+ * @since 2020/6/4 17:47
  */
 @Target({ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -15,6 +15,7 @@ public @interface Log {
      * 描述
      */
     String description() default "";
+
     /**
      * 日志类型
      */

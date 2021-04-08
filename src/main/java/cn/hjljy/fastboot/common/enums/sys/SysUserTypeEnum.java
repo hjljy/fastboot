@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.common.enums.sys;
 
 /**
  * 用户类型枚举
+ *
  * @author yichaofan
  */
 public enum SysUserTypeEnum {

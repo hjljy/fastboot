@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -17,10 +17,11 @@ import org.apache.ibatis.annotations.Param;
 public interface MemberBaseInfoMapper extends BaseMapper<MemberBaseInfo> {
     /**
      * 分页查询数据
-     * @param orgId  机构ID
-     * @param keywords  关键字
+     *
+     * @param orgId    机构ID
+     * @param keywords 关键字
      * @param levelId  等级ID
      * @return 会员列表信息
      */
-    IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(IPage<MemberBaseInfoDto> page, @Param("orgId") Long orgId,@Param("keywords") String keywords,@Param("levelId") Long levelId);
+    IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(IPage<MemberBaseInfoDto> page, @Param("orgId") Long orgId, @Param("keywords") String keywords, @Param("levelId") Long levelId);
 }

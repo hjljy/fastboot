@@ -4,15 +4,16 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysRoleMenu">
-        <id column="id" property="id" />
-        <result column="role_id" property="roleId" />
-        <result column="menu_id" property="menuId" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="menu_id" property="menuId"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, role_id, menu_id, status
+        id
+        , role_id, menu_id, status
     </sql>
 
 </mapper>

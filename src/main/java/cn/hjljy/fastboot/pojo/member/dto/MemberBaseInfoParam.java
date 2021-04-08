@@ -4,6 +4,7 @@ import cn.hjljy.fastboot.common.BaseDto;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,8 +13,9 @@ import javax.validation.constraints.NotNull;
  * @apiNote 会员list接口实体
  * @since 2020/11/26 18:18
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class MemberBaseInfoParam extends BaseDto {
+public class MemberBaseInfoParam extends BaseDto<MemberBaseInfoDto> {
 
     @ApiModelProperty(value = "会员等级Id 0表示全部")
     private Long levelId;
@@ -23,6 +25,6 @@ public class MemberBaseInfoParam extends BaseDto {
     private Long orgId;
 
     @ApiModelProperty(value = "会员ID")
-    @NotNull(message = "机构ID不能为空",groups = Update.class)
+    @NotNull(message = "机构ID不能为空", groups = Update.class)
     private Long memberId;
 }

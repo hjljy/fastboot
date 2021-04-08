@@ -85,8 +85,9 @@ public interface IMemberLevelService extends IService<MemberLevel> {
 
     /**
      * 重置机构的默认会员等级
+     *
      * @param userId 操作人ID
-     * @param orgId 机构ID
+     * @param orgId  机构ID
      */
     void resetDefaultLevel(Long userId, Long orgId);
 }

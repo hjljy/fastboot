@@ -35,7 +35,7 @@ public class LoginController {
      **/
     @Deprecated
     @PostMapping(value = "login")
-    public ResultInfo<UserInfo> login(@RequestBody Map<String,String> params)  {
+    public ResultInfo<UserInfo> login(@RequestBody Map<String, String> params) {
         UserInfo userInfo = SecurityUtils.login(params.get("username"), params.get("password"), authenticationManager);
         return new ResultInfo<>(userInfo);
     }

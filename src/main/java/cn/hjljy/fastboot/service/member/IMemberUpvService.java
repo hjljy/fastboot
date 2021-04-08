@@ -16,6 +16,7 @@ public interface IMemberUpvService extends IService<MemberUpv> {
 
     /**
      * 获取机构的会员成长值扣减计算规则
+     *
      * @param orgId 机构id
      * @return 返回扣减计算规则
      */
@@ -23,6 +24,7 @@ public interface IMemberUpvService extends IService<MemberUpv> {
 
     /**
      * 编辑机构会员成长值扣减计算规则
+     *
      * @param dto 更新信息
      * @return 返回更新结果
      */

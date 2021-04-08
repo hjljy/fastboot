@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -22,9 +22,9 @@ public class SysMenuServiceImpl extends BaseService<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> getUserMenuListInfo(Long userId, String userType, Long orgId) {
-        if(SysUserTypeEnum.SUPER_ADMIN.name().equals(userType)){
+        if (SysUserTypeEnum.SUPER_ADMIN.name().equals(userType)) {
             return this.list();
-        }else if(SysUserTypeEnum.SYS_ADMIN.name().equals(userType)||SysUserTypeEnum.ADMIN.name().equals(userType)){
+        } else if (SysUserTypeEnum.SYS_ADMIN.name().equals(userType) || SysUserTypeEnum.ADMIN.name().equals(userType)) {
             return this.getOrgMenuListByOrgId(orgId);
         }
         return baseMapper.getUserMenuListInfo(userId);

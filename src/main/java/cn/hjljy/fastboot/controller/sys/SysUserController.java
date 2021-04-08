@@ -104,16 +104,16 @@ public class SysUserController {
     @ApiOperation(value = "修改当前用户密码(无需权限控制)")
     public ResultInfo<Object> editPassword(@RequestBody @Validated({Select.class}) PasswordParam param) {
         userService.editUserPassword(param);
-        ResultInfo<Object> resultInfo =new ResultInfo<>();
+        ResultInfo<Object> resultInfo = new ResultInfo<>();
         resultInfo.setMsg("修改账号密码成功，请重新登录");
         return resultInfo;
     }
 
     @PostMapping("/bindPhone")
     @ApiOperation(value = "当前用户账号绑定手机号(无需权限控制)")
-    public ResultInfo<Object> editPhone(@RequestBody  @Validated({Select.class}) PhoneParam param) {
+    public ResultInfo<Object> editPhone(@RequestBody @Validated({Select.class}) PhoneParam param) {
         userService.bindPhone(param.getPhone());
-        ResultInfo<Object> resultInfo =new ResultInfo<>();
+        ResultInfo<Object> resultInfo = new ResultInfo<>();
         resultInfo.setMsg("关联手机号码成功，请重新登录");
         return resultInfo;
     }

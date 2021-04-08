@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.common.enums;
 
 /**
  * 状态枚举
+ *
  * @author hjljy
  */
 public enum StatusEnum {

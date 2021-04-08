@@ -45,6 +45,7 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
 
     /**
      * 编辑会员信息
+     *
      * @param dto 会员信息
      * @return 是否成功
      */

@@ -14,15 +14,20 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, sort, create_time, update_time, status
+        id
+        , name, sort, create_time, update_time, status
     </sql>
 
     <select id="selectUserRoleInfoByUserId" resultType="cn.hjljy.fastboot.pojo.sys.po.SysRole">
-           SELECT DISTINCT r.*
-				FROM sys_role r
-				LEFT JOIN sys_user_role ur on r.id = ur.role_id
-				LEFT JOIN sys_user u ON u.id=ur.user_id
-				WHERE u.id	= #{userId} and r.org_id = #{orgId} and r.status =0 and ur.status=0 and u.status = 0;
+        SELECT DISTINCT r.*
+        FROM sys_role r
+                 LEFT JOIN sys_user_role ur on r.id = ur.role_id
+                 LEFT JOIN sys_user u ON u.id = ur.user_id
+        WHERE u.id = #{userId}
+          and r.org_id = #{orgId}
+          and r.status = 0
+          and ur.status = 0
+          and u.status = 0;
     </select>
 
     <select id="selectUserRoleInfoByUserIds" resultType="cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto">

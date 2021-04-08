@@ -24,7 +24,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     /**
      * 处理RequestBody 流数据无法多次读取的问题
-     *
      */
     @Bean
     public FilterRegistrationBean<RequestBodyFilter> setLogServiceFilter() {
@@ -48,7 +47,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     *
      * 注入全局校验check_token拦截器
      */
     @Override

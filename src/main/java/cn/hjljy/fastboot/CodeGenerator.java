@@ -11,8 +11,6 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import org.apache.commons.lang3.StringUtils;
-
-import javax.naming.Name;
 import java.util.*;
 
 /**
@@ -35,9 +33,6 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("海加尔金鹰（www.hjljy.cn）");
         gc.setOpen(false);
-        //设置实体类后缀
-        //gc.setEntityName("%sPo");
-        //实体属性 Swagger2 注解
         gc.setSwagger2(true);
         gc.setBaseColumnList(true);
         gc.setBaseResultMap(true);
@@ -55,19 +50,19 @@ public class CodeGenerator {
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(null);
         String scanner = scanner("请输入整体业务包名");
-        String modelName = StringUtils.isBlank(scanner) ? "" : "."+scanner;
+        String modelName = StringUtils.isBlank(scanner) ? "" : "." + scanner;
         //moduleName是整体分模块
 
         pc.setParent("cn.hjljy.fastboot");
-        pc.setMapper("mapper"+modelName);
-        pc.setService("service"+modelName);
-        pc.setServiceImpl("service"+modelName+".impl");
-        pc.setEntity("pojo"+modelName+".po");
-        pc.setController("controller"+modelName);
+        pc.setMapper("mapper" + modelName);
+        pc.setService("service" + modelName);
+        pc.setServiceImpl("service" + modelName + ".impl");
+        pc.setEntity("pojo" + modelName + ".po");
+        pc.setController("controller" + modelName);
         mpg.setPackageInfo(pc);
 
 
-        String dtoPath = pc.getParent() + ".pojo"+modelName+".dto";
+        String dtoPath = pc.getParent() + ".pojo" + modelName + ".dto";
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         // 不输出默认的XML 默认生成的xml在mapper层里面
@@ -95,7 +90,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/java/cn/hjljy/fastboot/pojo/"+scanner+"/dto/" +
+                return projectPath + "/src/main/java/cn/hjljy/fastboot/pojo/" + scanner + "/dto/" +
                         tableInfo.getEntityName() + "Dto" + StringPool.DOT_JAVA;
             }
         });
@@ -135,9 +130,7 @@ public class CodeGenerator {
      */
     public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
-        StringBuilder help = new StringBuilder();
-        help.append("请输入" + tip + "：");
-        System.out.println(help.toString());
+        System.out.println("请输入" + tip + "：");
         if (scanner.hasNext()) {
             String ipt = scanner.next();
             if (StringUtils.isNotEmpty(ipt)) {

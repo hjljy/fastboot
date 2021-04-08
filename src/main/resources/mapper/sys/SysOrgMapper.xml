@@ -4,20 +4,21 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysOrg">
-        <id column="id" property="id" />
-        <result column="pid" property="pid" />
-        <result column="name" property="name" />
-        <result column="logo" property="logo" />
-        <result column="admin_user_id" property="adminUserId" />
-        <result column="sort" property="sort" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="logo" property="logo"/>
+        <result column="admin_user_id" property="adminUserId"/>
+        <result column="sort" property="sort"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, pid, name, logo, admin_user_id, sort, create_time, update_time, status
+        id
+        , pid, name, logo, admin_user_id, sort, create_time, update_time, status
     </sql>
 
 </mapper>

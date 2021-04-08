@@ -72,7 +72,7 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
      * 如果要beforeBodyWrite方法生效，必须返回true
      */
     @Override
-    public boolean supports(@NonNull MethodParameter arg0,@NonNull  Class arg1) {
+    public boolean supports(@NonNull MethodParameter arg0, @NonNull Class arg1) {
         return true;
     }
 }

@@ -4,32 +4,34 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo">
-        <id column="member_id" property="memberId" />
-        <result column="org_id" property="orgId" />
-        <result column="member_sex" property="memberSex" />
-        <result column="member_name" property="memberName" />
-        <result column="member_phone" property="memberPhone" />
-        <result column="member_birth" property="memberBirth" />
-        <result column="level_id" property="levelId" />
-        <result column="balance" property="balance" />
-        <result column="gen_balance" property="genBalance" />
-        <result column="member_card" property="memberCard" />
-        <result column="member_Integral" property="memberIntegral" />
-        <result column="growth_value" property="growthValue" />
-        <result column="remark" property="remark" />
-        <result column="create_time" property="createTime" />
-        <result column="create_user" property="createUser" />
-        <result column="update_time" property="updateTime" />
-        <result column="update_user" property="updateUser" />
-        <result column="status" property="status" />
+        <id column="member_id" property="memberId"/>
+        <result column="org_id" property="orgId"/>
+        <result column="member_sex" property="memberSex"/>
+        <result column="member_name" property="memberName"/>
+        <result column="member_phone" property="memberPhone"/>
+        <result column="member_birth" property="memberBirth"/>
+        <result column="level_id" property="levelId"/>
+        <result column="balance" property="balance"/>
+        <result column="gen_balance" property="genBalance"/>
+        <result column="member_card" property="memberCard"/>
+        <result column="member_Integral" property="memberIntegral"/>
+        <result column="growth_value" property="growthValue"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        member_id, org_id, member_sex, membr_name, member_phone, member_birth, level_id, balance, gen_balance, member_card, member_Integral, growth_value, remark, create_time, create_user, update_time, update_user, status
+        member_id
+        , org_id, member_sex, membr_name, member_phone, member_birth, level_id, balance, gen_balance, member_card, member_Integral, growth_value, remark, create_time, create_user, update_time, update_user, status
     </sql>
     <select id="getMemberBaseInfoPageList" resultType="cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto">
-        select <include refid="Base_Column_List"></include>
+        select
+        <include refid="Base_Column_List"></include>
         from member_base_info
         where org_id=#{orgId}
         <if test="keywords !=null and keywords !=''">

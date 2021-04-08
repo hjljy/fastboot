@@ -23,13 +23,11 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -200,7 +198,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
 
     @Override
     public void editUserPassword(PasswordParam param) {
-        if(!param.getUserId().equals(SecurityUtils.getUserId())){
+        if (!param.getUserId().equals(SecurityUtils.getUserId())) {
             throw new BusinessException(ResultCode.USER_NOT_MATCH);
         }
         if (!param.getNewPassword().equals(param.getRPassword())) {
@@ -225,13 +223,13 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     public void bindPhone(String phone) {
         Long userId = SecurityUtils.getUserId();
         SysUser sysUser = userIfExist(userId);
-        if(phone.equals(sysUser.getPhone())){
-            throw new BusinessException(ResultCode.DEFAULT,"新号码与旧号码不能相同");
+        if (phone.equals(sysUser.getPhone())) {
+            throw new BusinessException(ResultCode.DEFAULT, "新号码与旧号码不能相同");
         }
-        List<SysUser>  users = this.selectByPhone(phone);
+        List<SysUser> users = this.selectByPhone(phone);
         long count = users.stream().filter(n -> !n.getId().equals(userId)).count();
-        if(count>0){
-            throw new BusinessException(ResultCode.DEFAULT,"一个手机号码只能绑定一个账号");
+        if (count > 0) {
+            throw new BusinessException(ResultCode.DEFAULT, "一个手机号码只能绑定一个账号");
         }
         sysUser.setPhone(phone);
         baseMapper.updateById(sysUser);

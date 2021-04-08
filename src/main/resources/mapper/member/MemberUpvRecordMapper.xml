@@ -4,19 +4,20 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.member.po.MemberUpvRecord">
-        <id column="id" property="id" />
-        <result column="member_id" property="memberId" />
-        <result column="type" property="type" />
-        <result column="operation_type" property="operationType" />
-        <result column="growth_value" property="growthValue" />
-        <result column="remark" property="remark" />
-        <result column="create_time" property="createTime" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="member_id" property="memberId"/>
+        <result column="type" property="type"/>
+        <result column="operation_type" property="operationType"/>
+        <result column="growth_value" property="growthValue"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, member_id, type, operation_type, growth_value, remark, create_time, status
+        id
+        , member_id, type, operation_type, growth_value, remark, create_time, status
     </sql>
 
 </mapper>

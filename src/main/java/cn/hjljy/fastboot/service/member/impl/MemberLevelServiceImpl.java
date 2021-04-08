@@ -94,7 +94,7 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
             this.resetDefaultLevel(userId, dto.getOrgId());
         }
         //3 保存新的会员等级
-        if(level.getLevelOrder()==1){
+        if (level.getLevelOrder() == 1) {
             //第一会员等级所需成长值默认为0
             level.setUpgradeGrowthValue(0);
         }

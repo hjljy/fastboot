@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.common.enums;
 
 /**
  * 性别枚举
+ *
  * @author hjljy
  */
 public enum SexEnum {

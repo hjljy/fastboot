@@ -4,25 +4,26 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.sys.po.SysUser">
-        <id column="id" property="id" />
-        <result column="user_name" property="userName" />
-        <result column="nick_name" property="nickName" />
-        <result column="password" property="password" />
-        <result column="email" property="email" />
-        <result column="org_id" property="orgId" />
-        <result column="avatar_url" property="avatarUrl" />
-        <result column="sex" property="sex" />
-        <result column="birthday" property="birthday" />
-        <result column="description" property="description" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="enable" property="enable" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="org_id" property="orgId"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="sex" property="sex"/>
+        <result column="birthday" property="birthday"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="enable" property="enable"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_name, nick_name, password, emali, avatar_url, sex, birthday, description, create_time, update_time, enable, status
+        id
+        , user_name, nick_name, password, emali, avatar_url, sex, birthday, description, create_time, update_time, enable, status
     </sql>
     <select id="getSysUserInfoPage" resultType="cn.hjljy.fastboot.pojo.sys.dto.SysUserDto">
         select
@@ -42,14 +43,14 @@
         u.enable,
         u.description
         from sys_user u
-        left join sys_user_role ur  ON u.id  = ur.user_id
+        left join sys_user_role ur ON u.id = ur.user_id
         left join sys_role r ON ur.role_id = r.id
         WHERE u.org_id =#{orgId} and u.status = 0
         <if test="roleId != null ">
             and ur.role_id =#{roleId}
         </if>
         <if test="keywords != null and keywords != ''">
-            AND  (u.nick_name like CONCAT("%",#{keywords},"%")  OR u.user_name like CONCAT("%",#{keywords},"%"))
+            AND (u.nick_name like CONCAT("%",#{keywords},"%") OR u.user_name like CONCAT("%",#{keywords},"%"))
         </if>
         order by u.create_time
     </select>

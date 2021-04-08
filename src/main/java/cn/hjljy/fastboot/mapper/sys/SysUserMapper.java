@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -20,11 +20,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /**
      * 分页查询用户信息(未包含用户角色信息)
-     * @param page 分页
-     * @param orgId 机构ID
+     *
+     * @param page     分页
+     * @param orgId    机构ID
      * @param keywords 关键字
-     * @param roleId 角色ID
-     * @return
+     * @param roleId   角色ID
+     * @return 用户信息
      */
-    List<SysUserDto> getSysUserInfoPage(Page<SysUserDto> page, @Param("orgId") Long orgId,@Param("keywords") String keywords,@Param("roleId") Long roleId);
+    List<SysUserDto> getSysUserInfoPage(Page<SysUserDto> page, @Param("orgId") Long orgId, @Param("keywords") String keywords, @Param("roleId") Long roleId);
 }

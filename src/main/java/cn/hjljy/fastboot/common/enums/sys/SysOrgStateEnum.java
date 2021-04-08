@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.common.enums.sys;
 
 /**
  * 机构状态枚举类
+ *
  * @author yichaofan
  */
 
