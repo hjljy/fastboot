@@ -7,7 +7,7 @@ package cn.hjljy.fastboot.common.constant;
  */
 public class Constant {
     /**
-     * 数据库当中字段类型为bigint时，不存在数据的默认值
+     * 数据库当中字段类型为bigint时，不存在数据的默认值  表示无数据
      */
     public static Long LONG_NOT_EXIST = -1L;
 }

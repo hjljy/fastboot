@@ -2,8 +2,11 @@ package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.constant.Constant;
+import cn.hjljy.fastboot.common.constant.RedisPrefixConstant;
+import cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum;
 import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
+import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.sys.SysOrgMapper;
 import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysOrgDto;
@@ -15,8 +18,10 @@ import cn.hjljy.fastboot.service.sys.ISysMenuService;
 import cn.hjljy.fastboot.service.sys.ISysOrgService;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import cn.hutool.core.bean.BeanUtil;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,12 +45,15 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
     @Autowired
     ISysMenuService menuService;
 
+    @Autowired
+    RedissonClient redissonClient;
+
     @Override
     public List<SysOrgDto> getOrgListByUser() {
         List<SysOrgDto> dtoList = new ArrayList<>();
         List<SysOrg> list;
-        if (SecurityUtils.isSuperAdmin()) {
-            // 1 超级管理员返回所有机构
+        if (SecurityUtils.isSuperAdmin() || SecurityUtils.isInsideUser()) {
+            // 1 超级管理员以及内部人员返回所有机构
             list = this.list();
         } else {
             // 2 其他账号返回能看到的机构信息
@@ -87,27 +95,70 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
     public Boolean editOrgBaseInfo(SysOrgDto param) {
         SysOrg org = this.orgIfExist(param.getId());
         org.setName(param.getName());
-        org.setPid(param.getPid());
         org.setLogo(param.getLogo());
         org.setPhone(param.getPhone());
         org.setAddress(param.getAddress());
         org.setDescription(param.getDescription());
         org.setUpdateTime(LocalDateTime.now());
+        org.setExpirationTime(param.getExpirationTime());
+        //如果当前改变机构状态，并且将机构状态设置成未使用,
+        if (!org.getOrgState().equals(param.getOrgState()) && SysOrgStateEnum.isUsing(param.getOrgState())) {
+            //1 清除掉登录token缓存
+            redissonClient.getMap(RedisPrefixConstant.ORG + org.getId()).clear();
+            //2 停用掉所有子机构
+            this.stopChildrenOrg(org.getId());
+        }
+        //更新机构信息
         return this.updateById(org);
     }
 
     @Override
-    public Boolean deleteOrgByOrgId(Long orgId) {
-        //删除机构
-        this.removeById(orgId);
-        //todo 机构相关的信息是否一并删除
-        return true;
+    @Transactional(rollbackFor = Exception.class)
+    public void stopChildrenOrg(Long pid) {
+        LocalDateTime updateTime = LocalDateTime.now();
+        List<SysOrg> list = getChildrenOrgListByOrgId(pid);
+        for (SysOrg org : list) {
+            //1 清除掉登录token缓存
+            redissonClient.getMap(RedisPrefixConstant.ORG + org.getId()).clear();
+            //2 停用掉所有子机构
+            this.stopChildrenOrg(org.getId());
+            //3 停用自己
+            org.setOrgState(SysOrgStateEnum.DISABLE.name());
+            org.setUpdateTime(updateTime);
+            updateById(org);
+        }
     }
 
     @Override
-    public Boolean disableOrg(Long orgId, String orgStatus) {
-        SysOrg org = this.orgIfExist(orgId);
-        org.setOrgState(orgStatus);
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean deleteOrgByOrgId(Long orgId) {
+        if (orgId.equals(SecurityUtils.getOrgId())) {
+            throw new BusinessException(ResultCode.DEFAULT,"无法删除自己所属的机构");
+        }
+        //删除子级机构
+        this.deleteChildrenOrg(orgId);
+        //删除机构
+        //1 清除掉登录token缓存
+        redissonClient.getMap(RedisPrefixConstant.ORG + orgId).clear();
+        return this.removeById(orgId);
+    }
+
+    @Override
+    public void deleteChildrenOrg(Long pid) {
+        List<SysOrg> list = getChildrenOrgListByOrgId(pid);
+        if (list.size() > 0) {
+            for (SysOrg sysOrg : list) {
+                deleteChildrenOrg(sysOrg.getId());
+            }
+            List<Long> ids = list.stream().map(SysOrg::getId).collect(Collectors.toList());
+            removeByIds(ids);
+        }
+    }
+
+    @Override
+    public Boolean bindAdmin(Long orgId, Long userId) {
+        SysOrg org = orgIfExist(orgId);
+        org.setAdminUserId(userId);
         org.setUpdateTime(LocalDateTime.now());
         return updateById(org);
     }
@@ -158,5 +209,15 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
     public List<SysOrg> getChildrenOrgListByOrgId(Long orgId) {
         SysOrg sysOrg = SysOrg.builder().pid(orgId).status(0).build();
         return this.selectList(sysOrg);
+    }
+
+    @Override
+    public Boolean addOrg(SysOrgDto param) {
+        SysOrg org = SysOrg.builder().build();
+        BeanUtil.copyProperties(param, org);
+        org.setId(SnowFlakeUtil.createId());
+        org.setCreateTime(LocalDateTime.now());
+        org.setAdminUserId(Constant.LONG_NOT_EXIST);
+        return save(org);
     }
 }

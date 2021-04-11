@@ -6,10 +6,7 @@ import cn.hjljy.fastboot.common.aspect.validated.Insert;
 import cn.hjljy.fastboot.common.aspect.validated.Select;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
 import cn.hjljy.fastboot.common.result.ResultInfo;
-import cn.hjljy.fastboot.pojo.sys.dto.PasswordParam;
-import cn.hjljy.fastboot.pojo.sys.dto.PhoneParam;
-import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
-import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
+import cn.hjljy.fastboot.pojo.sys.dto.*;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
@@ -19,6 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -53,11 +52,17 @@ public class SysUserController {
         return ResultInfo.success(userService.getUserDetailInfoByUserId(userId));
     }
 
-    @GetMapping("/info")
+    @GetMapping("/token/list/{orgId}")
+    @ApiOperation(value = "根据token查询机构所有用户信息")
+    public ResultInfo<List<SysUserVo>> getSysUserSimpleInfoListByToken(@PathVariable(required = false) Long orgId) {
+        return ResultInfo.success(userService.getUserSimpleInfoList(orgId));
+    }
+
+    @GetMapping("/info/{userId}")
     @ApiOperation(value = "根据ID查询用户详细信息")
     @PreAuthorize("hasAuthority('{authority=sys:user:list}')")
-    public ResultInfo<SysUserDto> getSysUserInfo(@Validated({Select.class}) SysUserParam param) {
-        return ResultInfo.success(userService.getUserDetailInfoByUserId(param.getUserId()));
+    public ResultInfo<SysUserDto> getSysUserInfo(@PathVariable Long userId) {
+        return ResultInfo.success(userService.getUserDetailInfoByUserId(userId));
     }
 
     @PostMapping("/add")

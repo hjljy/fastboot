@@ -107,6 +107,15 @@ public class SecurityUtils {
         return userInfo.getUserId();
     }
 
+
+    /**
+     * 获取用户orgId
+     */
+    public static Long getOrgId() {
+        UserInfo userInfo = getUserInfo();
+        return userInfo.getOrgId();
+    }
+
     /**
      * 获取用户类型
      */
@@ -116,21 +125,28 @@ public class SecurityUtils {
     }
 
     /**
-     * 是否是超级管理员
+     * 是否是超级管理员（服务商最高管理员账号）
      */
     public static boolean isSuperAdmin() {
         return SysUserTypeEnum.SUPER_ADMIN.name().equals(getUserType());
     }
 
     /**
-     * 是否是系统管理员
+     * 是否是内部人员(服务商内部后台账号)
+     */
+    public static boolean isInsideUser() {
+        return SysUserTypeEnum.INSIDE_USER.name().equals(getUserType());
+    }
+
+    /**
+     * 是否是系统管理员(系统管理员)
      */
     public static boolean isSysAdmin() {
         return SysUserTypeEnum.SYS_ADMIN.name().equals(getUserType());
     }
 
     /**
-     * 是否是管理员
+     * 是否是机构管理员（普通管理员）
      */
     public static boolean isAdmin() {
         return SysUserTypeEnum.ADMIN.name().equals(getUserType());

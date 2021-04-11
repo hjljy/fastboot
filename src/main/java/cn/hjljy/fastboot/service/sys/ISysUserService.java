@@ -4,6 +4,7 @@ import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.pojo.sys.dto.PasswordParam;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;
+import cn.hjljy.fastboot.pojo.sys.dto.SysUserVo;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -115,4 +116,12 @@ public interface ISysUserService extends IService<SysUser> {
      * @return sysUser 用户信息集合
      */
     List<SysUser> selectByPhone(String phone);
+
+    /**
+     * 根据token查询所有用户信息
+     *
+     * @param orgId 机构ID
+     * @return 用户简单信息
+     */
+    List<SysUserVo> getUserSimpleInfoList(Long orgId);
 }

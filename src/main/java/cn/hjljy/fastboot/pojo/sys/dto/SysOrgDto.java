@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -27,14 +28,15 @@ public class SysOrgDto extends BaseDto<SysOrgDto> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "用户ID不能为空", groups = Select.class)
+    @NotNull(message = "机构ID不能为空", groups = Select.class)
+    @Min(value = 0L,message = "机构ID必须大于0", groups = Select.class)
     @ApiModelProperty(value = "机构ID")
     private Long id;
 
     @ApiModelProperty(value = "父级机构ID")
     private Long pid;
 
-    @NotNull(message = "机构名称不能为空", groups = Select.class)
+    @NotNull(message = "机构名称不能为空")
     @ApiModelProperty(value = "机构名称")
     private String name;
 
@@ -52,8 +54,13 @@ public class SysOrgDto extends BaseDto<SysOrgDto> implements Serializable {
     /**
      * @see cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum
      */
+    @NotNull(message = "机构状态不能为空")
     @ApiModelProperty(value = "机构状态")
     private String orgState;
+
+    @NotNull(message = "机构过期时间不能为空")
+    @ApiModelProperty(value = "机构过期时间")
+    private LocalDateTime expirationTime;
 
     @ApiModelProperty(value = "机构描述")
     private String description;
@@ -67,14 +74,8 @@ public class SysOrgDto extends BaseDto<SysOrgDto> implements Serializable {
     @ApiModelProperty(value = "机构管理员账号手机号")
     private String adminPhone;
 
-    @ApiModelProperty(value = "机构排序")
-    private Integer sort;
-
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "子机构")
     private List<SysOrgDto> children;

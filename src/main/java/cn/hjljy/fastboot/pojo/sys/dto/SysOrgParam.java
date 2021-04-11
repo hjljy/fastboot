@@ -25,13 +25,11 @@ public class SysOrgParam extends BaseDto<SysOrgParam> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "用户ID不能为空", groups = Select.class)
+    @NotNull(message = "机构ID不能为空", groups = Select.class)
     @ApiModelProperty(value = "机构ID")
-    private Long id;
+    private Long orgId;
 
-    /**
-     * @see cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum
-     */
-    @ApiModelProperty(value = "机构状态 EXPERIENCE 体验中。USING 使用中。EXPIRE 过期 ，DISABLE 禁用 ")
-    private String orgState;
+    @NotNull(message = "用户ID不能为空", groups = Select.class)
+    @ApiModelProperty(value = "用户ID")
+    private Long userId;
 }

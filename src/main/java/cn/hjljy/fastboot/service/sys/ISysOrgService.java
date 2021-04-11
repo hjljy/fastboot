@@ -56,14 +56,6 @@ public interface ISysOrgService extends IService<SysOrg> {
      */
     Boolean deleteOrgByOrgId(Long orgId);
 
-    /**
-     * 启用/禁用 机构
-     *
-     * @param orgId     机构ID
-     * @param orgStatus 0 启用 1禁用
-     * @return 操作结果
-     */
-    Boolean disableOrg(Long orgId, String orgStatus);
 
     /**
      * 根据ID获取机构基础信息 判断机构是否存在
@@ -88,4 +80,31 @@ public interface ISysOrgService extends IService<SysOrg> {
      * @return 子机构信息
      */
     List<SysOrg> getChildrenOrgListByOrgId(Long orgId);
+
+    /**
+     * 新增机构
+     * @param param 新增机构信息
+     * @return 是否成功
+     */
+    Boolean addOrg(SysOrgDto param);
+
+    /**
+     * 停用掉所有子级机构
+     * @param pid 父级机构ID
+     */
+    void stopChildrenOrg(Long pid);
+
+    /**
+     * 删除子级机构
+     * @param pid 父级机构ID
+     */
+    void deleteChildrenOrg(Long pid);
+
+    /**
+     * 机构绑定管理员
+     * @param orgId 机构ID
+     * @param userId 管理员账号Id
+     * @return 是否成功
+     */
+    Boolean bindAdmin(Long orgId, Long userId);
 }

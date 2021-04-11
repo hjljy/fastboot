@@ -19,7 +19,7 @@ public class LocalDateTimeUtil {
     /**
      * 默认时间格式
      */
-    public static String defaultFormat = "yyyy:MM:dd HH:mm:ss";
+    public static String defaultFormat = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 获取到毫秒级时间戳

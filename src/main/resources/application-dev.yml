@@ -79,6 +79,7 @@ fastboot:
     allow: # 请求放行地址
       - /login
       - /oauth/**
+      - /sys/config/**
       - /actuator/**
       - /v2/api-docs/**
       - /favicon.ico

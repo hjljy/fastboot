@@ -45,7 +45,10 @@
         from sys_user u
         left join sys_user_role ur ON u.id = ur.user_id
         left join sys_role r ON ur.role_id = r.id
-        WHERE u.org_id =#{orgId} and u.status = 0
+        WHERE u.status = 0
+        <if test="orgId != null ">
+            and u.org_id =#{orgId}
+        </if>
         <if test="roleId != null ">
             and ur.role_id =#{roleId}
         </if>

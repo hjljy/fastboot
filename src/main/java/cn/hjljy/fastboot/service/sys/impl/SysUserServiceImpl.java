@@ -19,6 +19,7 @@ import cn.hjljy.fastboot.service.sys.ISysUserRoleService;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -240,6 +241,26 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         SysUser po = new SysUser();
         po.setPhone(phone);
         return selectList(po);
+    }
+
+    @Override
+    public List<SysUserVo> getUserSimpleInfoList(Long orgId) {
+        List<SysUserVo> data =new ArrayList<>();
+        QueryWrapper<SysUser> queryWrapper =new QueryWrapper<>();
+        queryWrapper.lambda()
+                .eq(SysUser::getOrgId,orgId)
+                .eq(SysUser::getEnable,0)
+                .select(SysUser::getId,
+                        SysUser::getOrgId,
+                        SysUser::getNickName,
+                        SysUser::getUserName);
+        List<SysUser> list = list(queryWrapper);
+        for (SysUser user : list) {
+            SysUserVo vo =new SysUserVo();
+            BeanUtil.copyProperties(user,vo);
+            data.add(vo);
+        }
+        return data;
     }
 
     /**
