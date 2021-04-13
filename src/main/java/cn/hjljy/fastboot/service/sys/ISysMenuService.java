@@ -20,7 +20,7 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param userId   用户ID
      * @param userType 用户类型
      * @param orgId    机构ID
-     * @return 用户菜单权限集合
+     * @return 用户菜单权限集合 非树形结构
      */
     List<SysMenu> getUserMenuListInfo(Long userId, String userType, Long orgId);
 
@@ -28,8 +28,15 @@ public interface ISysMenuService extends IService<SysMenu> {
      * 获取机构管理员菜单权限集合 （即获取机构菜单权限）
      *
      * @param orgId 机构ID
-     * @return 机构菜单权限集合
+     * @return 机构菜单权限集合 非树形结构
      */
     List<SysMenu> getOrgMenuListByOrgId(Long orgId);
 
+    /**
+     * 获取角色菜单权限集合
+     *
+     * @param roleId 角色ID
+     * @return 角色菜单权限集合 非树形结构
+     */
+    List<SysMenu> getRoleMenuList(Integer roleId);
 }

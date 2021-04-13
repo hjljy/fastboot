@@ -1,13 +1,16 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
 import cn.hjljy.fastboot.common.BaseDto;
+import cn.hjljy.fastboot.common.aspect.validated.Update;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -25,6 +28,7 @@ public class SysRoleDto extends BaseDto<SysRoleDto> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "角色ID")
+    @NotNull(message = "角色Id不能为空",groups = {Update.class})
     private Integer id;
 
     @ApiModelProperty(value = "角色机构ID")
@@ -36,13 +40,7 @@ public class SysRoleDto extends BaseDto<SysRoleDto> implements Serializable {
     @ApiModelProperty(value = "角色名称")
     private String name;
 
-    @ApiModelProperty(value = "角色排序")
-    private Integer sort;
-
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
+    @ApiModelProperty
+    private List<SysMenuDto> menus;
 
 }

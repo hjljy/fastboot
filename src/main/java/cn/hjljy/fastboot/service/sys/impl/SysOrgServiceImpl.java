@@ -51,14 +51,8 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
     @Override
     public List<SysOrgDto> getOrgListByUser() {
         List<SysOrgDto> dtoList = new ArrayList<>();
-        List<SysOrg> list;
-        if (SecurityUtils.isSuperAdmin() || SecurityUtils.isInsideUser()) {
-            // 1 超级管理员以及内部人员返回所有机构
-            list = this.list();
-        } else {
-            // 2 其他账号返回能看到的机构信息
-            list = this.selectListByOrgId(SecurityUtils.getUserInfo().getOrgId());
-        }
+        // 返回当前机构能看到的机构信息
+        List<SysOrg> list = this.selectListByOrgId(SecurityUtils.getUserInfo().getOrgId());
         List<Long> userIds = list.stream().map(SysOrg::getAdminUserId).collect(Collectors.toList());
         List<SysUser> users = userService.listByIds(userIds);
         for (SysOrg org : list) {
@@ -87,7 +81,8 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
         List<SysOrg> list = new ArrayList<>();
         SysOrg org = this.orgIfExist(orgId);
         list.add(org);
-        list.addAll(this.selectList(SysOrg.builder().pid(orgId).build()));
+        List<SysOrg> orgList = getChildrenOrgListByOrgId(orgId);
+        list.addAll(orgList);
         return list;
     }
 
@@ -120,13 +115,11 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
         for (SysOrg org : list) {
             //1 清除掉登录token缓存
             redissonClient.getMap(RedisPrefixConstant.ORG + org.getId()).clear();
-            //2 停用掉所有子机构
-            this.stopChildrenOrg(org.getId());
-            //3 停用自己
+            //2 停用自己
             org.setOrgState(SysOrgStateEnum.DISABLE.name());
             org.setUpdateTime(updateTime);
-            updateById(org);
         }
+        updateBatchById(list);
     }
 
     @Override
@@ -144,15 +137,10 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteChildrenOrg(Long pid) {
         List<SysOrg> list = getChildrenOrgListByOrgId(pid);
-        if (list.size() > 0) {
-            for (SysOrg sysOrg : list) {
-                deleteChildrenOrg(sysOrg.getId());
-            }
-            List<Long> ids = list.stream().map(SysOrg::getId).collect(Collectors.toList());
-            removeByIds(ids);
-        }
+        removeByIds(list.stream().map(SysOrg::getId).collect(Collectors.toList()));
     }
 
     @Override
@@ -207,8 +195,15 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
 
     @Override
     public List<SysOrg> getChildrenOrgListByOrgId(Long orgId) {
+        List<SysOrg> data =new ArrayList<>();
         SysOrg sysOrg = SysOrg.builder().pid(orgId).status(0).build();
-        return this.selectList(sysOrg);
+        List<SysOrg> list = this.selectList(sysOrg);
+        for (SysOrg org : list) {
+            List<SysOrg> children = getChildrenOrgListByOrgId(org.getId());
+            data.addAll(children);
+        }
+        data.addAll(list);
+        return data;
     }
 
     @Override

@@ -35,4 +35,8 @@ public class SysMenuServiceImpl extends BaseService<SysMenuMapper, SysMenu> impl
         return baseMapper.getOrgMenuListByOrgId(orgId);
     }
 
+    @Override
+    public List<SysMenu> getRoleMenuList(Integer roleId) {
+        return baseMapper.getRoleMenuList(roleId);
+    }
 }

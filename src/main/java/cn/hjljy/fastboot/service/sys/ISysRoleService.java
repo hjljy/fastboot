@@ -40,4 +40,39 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return List<SysRoleDto> 角色信息集合
      */
     List<SysRoleDto> list(SysRoleDto param);
+
+    /**
+     * 查询机构角色信息
+     * @param orgId 机构ID
+     * @return List<SysRoleDto> 角色信息集合
+     */
+    List<SysRoleDto> listByOrgId(Long orgId);
+
+    /**
+     * 新增角色信息
+     * @param param 角色信息
+     * @return 是否成功
+     */
+    Boolean add(SysRoleDto param);
+
+    /**
+     * 获取角色详细信息 （包含菜单信息）
+     * @param roleId 角色Id
+     * @return 角色信息
+     */
+    SysRoleDto getRoleInfo(Integer roleId);
+
+    /**
+     * 编辑角色信息
+     * @param param 角色信息
+     * @return 是否成功
+     */
+    Boolean edit(SysRoleDto param);
+
+    /**
+     * 删除
+     * @param roleId 角色Id
+     * @return 是否成功
+     */
+    Boolean del(Integer roleId);
 }

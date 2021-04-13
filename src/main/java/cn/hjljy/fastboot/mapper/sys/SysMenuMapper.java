@@ -30,4 +30,13 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @return 查询机构菜单集合
      */
     List<SysMenu> getOrgMenuListByOrgId(@Param("orgId") Long orgId);
+
+
+    /**
+     * 获取角色菜单权限集合
+     *
+     * @param roleId 角色ID
+     * @return 角色菜单权限集合 非树形结构
+     */
+    List<SysMenu> getRoleMenuList(@Param("roleId") Integer roleId);
 }

@@ -2,15 +2,24 @@ package cn.hjljy.fastboot.service.sys.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
-import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
-import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import cn.hjljy.fastboot.mapper.sys.SysRoleMapper;
-import cn.hjljy.fastboot.service.sys.ISysRoleService;
+import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
+import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
+import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
+import cn.hjljy.fastboot.pojo.sys.po.SysRole;
+import cn.hjljy.fastboot.pojo.sys.po.SysRoleMenu;
 import cn.hjljy.fastboot.service.BaseService;
+import cn.hjljy.fastboot.service.sys.ISysMenuService;
+import cn.hjljy.fastboot.service.sys.ISysRoleMenuService;
+import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +34,11 @@ import java.util.List;
 @Service
 public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> implements ISysRoleService {
 
+    @Autowired
+    private ISysMenuService menuService;
+
+    @Autowired
+    private ISysRoleMenuService roleMenuService;
 
     @Override
     public List<SysRole> getUserRoleInfo(Long userId, String userType, Long orgId) {
@@ -46,13 +60,18 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
 
     @Override
     public List<SysRoleDto> list(SysRoleDto param) {
-        List<SysRoleDto> roleDtoList = new ArrayList<>();
-        SysRole role = new SysRole();
         Long orgId = param.getOrgId();
         // 如果没有传机构ID，默认查询本账号所在机构角色信息
         if (null == orgId) {
-            orgId = SecurityUtils.getUserInfo().getOrgId();
+            orgId = SecurityUtils.getOrgId();
         }
+        return listByOrgId(orgId);
+    }
+
+    @Override
+    public List<SysRoleDto> listByOrgId(Long orgId) {
+        List<SysRoleDto> roleDtoList = new ArrayList<>();
+        SysRole role = new SysRole();
         role.setOrgId(orgId);
         List<SysRole> roles = selectList(role);
         for (SysRole sysRole : roles) {
@@ -61,5 +80,50 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
             roleDtoList.add(roleDto);
         }
         return roleDtoList;
+    }
+
+    @Override
+    public SysRoleDto getRoleInfo(Integer roleId) {
+        SysRoleDto roleDto = new SysRoleDto();
+        SysRole sysRole = this.getById(roleId);
+        List<SysMenu> menus = menuService.getRoleMenuList(roleId);
+        List<SysMenuDto> tree = SysMenuDto.getTree(menus);
+        BeanUtil.copyProperties(sysRole, roleDto);
+        roleDto.setMenus(tree);
+        return roleDto;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean add(SysRoleDto param) {
+        SysRole sysRole = new SysRole();
+        BeanUtil.copyProperties(param, sysRole);
+        sysRole.setOrgId(SecurityUtils.getOrgId());
+        sysRole.setCreateTime(LocalDateTime.now());
+        //保存角色
+        save(sysRole);
+        //保存角色菜单
+        return roleMenuService.saveRoleMenu(sysRole.getId(), param.getMenus());
+
+    }
+
+    @Override
+    public Boolean edit(SysRoleDto param) {
+        SysRole sysRole = new SysRole();
+        BeanUtil.copyProperties(param, sysRole);
+        sysRole.setUpdateTime(LocalDateTime.now());
+        updateById(sysRole);
+        QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SysRoleMenu::getRoleId, sysRole.getId());
+        roleMenuService.remove(queryWrapper);
+        return roleMenuService.saveRoleMenu(sysRole.getId(), param.getMenus());
+    }
+
+    @Override
+    public Boolean del(Integer roleId) {
+        QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SysRoleMenu::getRoleId, roleId);
+        roleMenuService.remove(queryWrapper);
+        return removeById(roleId);
     }
 }

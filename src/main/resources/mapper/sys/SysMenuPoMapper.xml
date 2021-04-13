@@ -46,5 +46,13 @@
           and rm.status = 0
         ORDER BY m.sort;
     </select>
+    <select id="getRoleMenuList" resultType="cn.hjljy.fastboot.pojo.sys.po.SysMenu">
+        SELECT DISTINCT m.*
+        FROM sys_menu m
+                 LEFT JOIN sys_role_menu rm ON m.id = rm.menu_id
+        where rm.role_id = #{roleId}
+          and m.status = 0
+          and rm.status = 0
+    </select>
 
 </mapper>

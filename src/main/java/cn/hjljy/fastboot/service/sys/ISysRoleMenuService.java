@@ -1,7 +1,10 @@
 package cn.hjljy.fastboot.service.sys;
 
+import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysRoleMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISysRoleMenuService extends IService<SysRoleMenu> {
 
+    Boolean saveRoleMenu(Integer id, List<SysMenuDto> menus);
 }
