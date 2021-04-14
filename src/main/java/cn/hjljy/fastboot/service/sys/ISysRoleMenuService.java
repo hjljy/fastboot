@@ -16,5 +16,17 @@ import java.util.List;
  */
 public interface ISysRoleMenuService extends IService<SysRoleMenu> {
 
-    Boolean saveRoleMenu(Integer id, List<SysMenuDto> menus);
+    /**
+     * 保存角色菜单
+     * @param roleId 角色ID
+     * @param menus 菜单信息
+     * @return
+     */
+    Boolean saveRoleMenu(Integer roleId, List<SysMenuDto> menus);
+
+    /**
+     * 删除角色菜单
+     * @param roleId 角色ID
+     */
+    void removeByRoleId(Integer roleId);
 }

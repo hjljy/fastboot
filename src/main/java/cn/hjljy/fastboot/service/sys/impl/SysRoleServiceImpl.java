@@ -7,13 +7,11 @@ import cn.hjljy.fastboot.pojo.sys.dto.SysMenuDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
-import cn.hjljy.fastboot.pojo.sys.po.SysRoleMenu;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hjljy.fastboot.service.sys.ISysMenuService;
 import cn.hjljy.fastboot.service.sys.ISysRoleMenuService;
 import cn.hjljy.fastboot.service.sys.ISysRoleService;
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -108,22 +106,20 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean edit(SysRoleDto param) {
         SysRole sysRole = new SysRole();
         BeanUtil.copyProperties(param, sysRole);
         sysRole.setUpdateTime(LocalDateTime.now());
         updateById(sysRole);
-        QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(SysRoleMenu::getRoleId, sysRole.getId());
-        roleMenuService.remove(queryWrapper);
+        roleMenuService.removeByRoleId(sysRole.getId());
         return roleMenuService.saveRoleMenu(sysRole.getId(), param.getMenus());
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean del(Integer roleId) {
-        QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(SysRoleMenu::getRoleId, roleId);
-        roleMenuService.remove(queryWrapper);
+        roleMenuService.removeByRoleId(roleId);
         return removeById(roleId);
     }
 }

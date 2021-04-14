@@ -6,6 +6,7 @@ import cn.hjljy.fastboot.pojo.sys.po.SysRoleMenu;
 import cn.hjljy.fastboot.mapper.sys.SysRoleMenuMapper;
 import cn.hjljy.fastboot.service.sys.ISysRoleMenuService;
 import cn.hjljy.fastboot.service.BaseService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,5 +38,12 @@ public class SysRoleMenuServiceImpl extends BaseService<SysRoleMenuMapper, SysRo
             return saveBatch(roleMenus);
         }
         return false;
+    }
+
+    @Override
+    public void removeByRoleId(Integer roleId) {
+        QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SysRoleMenu::getRoleId, roleId);
+        remove(queryWrapper);
     }
 }
