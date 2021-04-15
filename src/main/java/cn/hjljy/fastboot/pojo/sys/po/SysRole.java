@@ -1,12 +1,8 @@
 package cn.hjljy.fastboot.pojo.sys.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.time.LocalDateTime;
-
-import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 
@@ -42,12 +38,23 @@ public class SysRole implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "创建时间")
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+    @ApiModelProperty(value = "创建人")
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
+    private Long createUser;
+
     @ApiModelProperty(value = "更新时间")
+    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
+    @ApiModelProperty(value = "更新人")
+    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT_UPDATE)
+    private Long updateUser;
+
     @ApiModelProperty(value = "是否删除  0否(默认) 1是")
+    @TableField(fill = FieldFill.UPDATE)
     @TableLogic
     private Integer status;
 

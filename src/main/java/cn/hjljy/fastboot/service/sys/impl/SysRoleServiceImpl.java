@@ -39,10 +39,10 @@ public class SysRoleServiceImpl extends BaseService<SysRoleMapper, SysRole> impl
     private ISysRoleMenuService roleMenuService;
 
     @Override
-    public List<SysRole> getUserRoleInfo(Long userId, String userType, Long orgId) {
+    public List<SysRole> getUserRoleInfo(Long userId, SysUserTypeEnum userType, Long orgId) {
         List<SysRole> roleDos = new ArrayList<>();
         //如果是普通账号 查询角色权限信息 如果是管理员账号（超级管理员，机构管理员 直接返回空数组）
-        if (SysUserTypeEnum.NORMAL.name().equals(userType)) {
+        if (SysUserTypeEnum.NORMAL.equals(userType)) {
             roleDos = baseMapper.selectUserRoleInfoByUserId(userId, orgId);
         }
         return roleDos;

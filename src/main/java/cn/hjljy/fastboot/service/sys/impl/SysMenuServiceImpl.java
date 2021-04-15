@@ -21,10 +21,10 @@ import java.util.List;
 public class SysMenuServiceImpl extends BaseService<SysMenuMapper, SysMenu> implements ISysMenuService {
 
     @Override
-    public List<SysMenu> getUserMenuListInfo(Long userId, String userType, Long orgId) {
-        if (SysUserTypeEnum.SUPER_ADMIN.name().equals(userType)) {
+    public List<SysMenu> getUserMenuListInfo(Long userId, SysUserTypeEnum userType, Long orgId) {
+        if (SysUserTypeEnum.SUPER_ADMIN.equals(userType)) {
             return this.list();
-        } else if (SysUserTypeEnum.SYS_ADMIN.name().equals(userType) || SysUserTypeEnum.ADMIN.name().equals(userType)) {
+        } else if (SysUserTypeEnum.SYS_ADMIN.equals(userType) || SysUserTypeEnum.ADMIN.equals(userType)) {
             return this.getOrgMenuListByOrgId(orgId);
         }
         return baseMapper.getUserMenuListInfo(userId);

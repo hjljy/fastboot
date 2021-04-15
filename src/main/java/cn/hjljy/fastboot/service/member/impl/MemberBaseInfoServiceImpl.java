@@ -3,7 +3,7 @@ package cn.hjljy.fastboot.service.member.impl;
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.enums.SexEnum;
 import cn.hjljy.fastboot.common.enums.member.MemberSourceEnum;
-import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.LocalDateTimeUtil;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;

@@ -1,12 +1,17 @@
 package cn.hjljy.fastboot.autoconfig.config;
 
+import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.MySqlDialect;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
+import org.apache.ibatis.reflection.MetaObject;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.time.LocalDateTime;
 
 /**
  * @author yichaofan
@@ -16,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @MapperScan("cn.hjljy.fastboot.mapper")
-public class MybatisPlusConfig {
+public class MybatisPlusConfig implements MetaObjectHandler {
     /**
      * mybatis-plus分页插件
      */
@@ -31,5 +36,29 @@ public class MybatisPlusConfig {
         //设置每页最大值
         page.setLimit(999L);
         return page;
+    }
+
+
+    /**
+     * 新增时自动填充字段
+     *
+     * @param metaObject meta信息
+     */
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, "status", Integer.class, 0);
+        this.strictInsertFill(metaObject, "createUser", Long.class, SecurityUtils.getUserId());
+    }
+
+    /**
+     * 更新时自动填充的字段
+     *
+     * @param metaObject meta信息
+     */
+    @Override
+    public void updateFill(MetaObject metaObject) {
+        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictUpdateFill(metaObject, "updateUser", Long.class, SecurityUtils.getUserId());
     }
 }

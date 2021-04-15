@@ -1,7 +1,7 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
-import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -63,7 +63,7 @@ public class SecurityUtils {
                 return (UserInfo) principal;
             }
         }
-        throw new BusinessException(ResultCode.USER_NOT_FOUND);
+        throw new BusinessException(ResultCode.USER_NOT_FOUND,"无法获取当前登录用户信息");
     }
 
     /**
@@ -119,7 +119,7 @@ public class SecurityUtils {
     /**
      * 获取用户类型
      */
-    public static String getUserType() {
+    public static SysUserTypeEnum getUserType() {
         UserInfo userInfo = getUserInfo();
         return userInfo.getUserType();
     }
@@ -128,27 +128,27 @@ public class SecurityUtils {
      * 是否是超级管理员（服务商最高管理员账号）
      */
     public static boolean isSuperAdmin() {
-        return SysUserTypeEnum.SUPER_ADMIN.name().equals(getUserType());
+        return SysUserTypeEnum.SUPER_ADMIN.equals(getUserType());
     }
 
     /**
      * 是否是内部人员(服务商内部后台账号)
      */
     public static boolean isInsideUser() {
-        return SysUserTypeEnum.INSIDE_USER.name().equals(getUserType());
+        return SysUserTypeEnum.INSIDE_USER.equals(getUserType());
     }
 
     /**
      * 是否是系统管理员(系统管理员)
      */
     public static boolean isSysAdmin() {
-        return SysUserTypeEnum.SYS_ADMIN.name().equals(getUserType());
+        return SysUserTypeEnum.SYS_ADMIN.equals(getUserType());
     }
 
     /**
      * 是否是机构管理员（普通管理员）
      */
     public static boolean isAdmin() {
-        return SysUserTypeEnum.ADMIN.name().equals(getUserType());
+        return SysUserTypeEnum.ADMIN.equals(getUserType());
     }
 }

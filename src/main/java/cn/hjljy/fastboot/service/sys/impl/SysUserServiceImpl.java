@@ -3,7 +3,7 @@ package cn.hjljy.fastboot.service.sys.impl;
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.constant.RedisPrefixConstant;
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
-import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.sys.SysUserMapper;
@@ -118,7 +118,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         }
         SysUser user = new SysUser();
         BeanUtil.copyProperties(dto, user);
-        user.setUserType(SysUserTypeEnum.NORMAL.name());
+        user.setUserType(SysUserTypeEnum.NORMAL);
         Long userId = SnowFlakeUtil.createId();
         String password = SecurityUtils.encryptPassword(user.getPassword());
         user.setEnable(0);
@@ -137,7 +137,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
         SysUser sysUser = userIfExist(param.getId());
         BeanUtil.copyProperties(param, sysUser);
         // 2 更新时，不允许更新用户账号类型,类型置为null
-        sysUser.setUserType(SysUserTypeEnum.NORMAL.name());
+        sysUser.setUserType(null);
         // 3 更新时，不允许更新用户账号,账号置为null
         sysUser.setUserName(null);
         // 4 更新时，不允许更新用户密码,密码置为null

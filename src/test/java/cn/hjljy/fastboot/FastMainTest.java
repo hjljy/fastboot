@@ -2,6 +2,7 @@ package cn.hjljy.fastboot;
 
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
+import cn.hjljy.fastboot.common.enums.SexEnum;
 import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
 
 import java.io.UnsupportedEncodingException;
@@ -22,9 +23,7 @@ import java.util.stream.Collectors;
 public class FastMainTest {
 
     public static void main(String[] args) throws UnsupportedEncodingException {
-        String s = "??01";
-        String encode = URLEncoder.encode(s, "utf-8");
-        System.out.println(encode);
+
     }
 
     public static Date str2Date(String date, String f) {

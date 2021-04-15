@@ -2,7 +2,7 @@ package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.common.enums.StatusEnum;
 import cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum;
-import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import cn.hjljy.fastboot.pojo.sys.po.SysOrg;
@@ -81,9 +81,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private void checkOrgInfo(SysOrg sysOrg) {
-        if (SysOrgStateEnum.DISABLE.name().equals(sysOrg.getOrgState())) {
+        if (SysOrgStateEnum.DISABLE.equals(sysOrg.getOrgState())) {
             throw new BusinessException(ResultCode.ORG_DISABLE);
-        } else if (SysOrgStateEnum.EXPIRE.name().equals(sysOrg.getOrgState())) {
+        } else if (SysOrgStateEnum.EXPIRE.equals(sysOrg.getOrgState())) {
             throw new BusinessException(ResultCode.ORG_EXPIRED);
         }
     }

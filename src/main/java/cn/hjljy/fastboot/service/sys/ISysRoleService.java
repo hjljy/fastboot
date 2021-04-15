@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.service.sys;
 
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -23,7 +24,7 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param orgId    机构ID
      * @return 用户角色信息
      */
-    List<SysRole> getUserRoleInfo(Long userId, String userType, Long orgId);
+    List<SysRole> getUserRoleInfo(Long userId, SysUserTypeEnum userType, Long orgId);
 
     /**
      * 获取用户的角色信息

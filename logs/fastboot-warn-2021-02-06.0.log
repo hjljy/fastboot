@@ -1,5 +1,5 @@
 [WARN ] [2021-02-06 22:29:14][o.s.s.o.p.t.s.JwtAccessTokenConverter] [302] - Unable to create an RSA verifier from verifierKey (ignoreable if using MAC)
-[WARN ] [2021-02-06 23:10:21][o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver] [414] - Failure in @ExceptionHandler cn.hjljy.fastboot.common.exception.GlobalExceptionHandler#errorHandler(Exception)
+[WARN ] [2021-02-06 23:10:21][o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver] [414] - Failure in @ExceptionHandler cn.hjljy.fastboot.autoconfig.exception.GlobalExceptionHandler#errorHandler(Exception)
 org.apache.catalina.connector.ClientAbortException: java.io.IOException: 你的主机中的软件中止了一个已建立的连接。
 	at org.apache.catalina.connector.OutputBuffer.doFlush(OutputBuffer.java:309)
 	at org.apache.catalina.connector.OutputBuffer.flush(OutputBuffer.java:272)

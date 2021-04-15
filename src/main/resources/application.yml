@@ -7,6 +7,7 @@ spring:
       # Date返回前端转时间戳 但不能解决LocalDateTime转时间戳（JacksonCustomizerConfig类解决）
       write-dates-as-timestamps: true
 mybatis-plus:
+  typeEnumsPackage: cn.hjljy.fastboot.common.enums.**
   mapper-locations: classpath*:mapper/**/*.xml  #xml所在位置  不设置默认是在mapper类同级
   configuration:
     # mybatis-plus支持原生配置
@@ -20,7 +21,7 @@ mybatis-plus:
     lazy-load-trigger-methods: equals,clone,hashCode,toString
     aggressive-lazy-loading: true
     local-cache-scope: session
-    jdbcTypeForNull: other
+    jdbcTypeForNull: longvarchar
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 打印sql语句和入参数据
     auto-mapping-unknown-column-behavior: none  # 映射未知字段处理方式  不进行任何处理
     map-underscore-to-camel-case: true # 开启驼峰匹配  默认为true

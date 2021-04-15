@@ -1,12 +1,10 @@
 package cn.hjljy.fastboot.pojo.sys.po;
 
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.hjljy.fastboot.common.enums.SexEnum;
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.time.LocalDateTime;
-
-import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 
@@ -32,6 +30,7 @@ public class SysUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "用户ID")
+    @TableId
     private Long id;
 
     @ApiModelProperty(value = "用户机构ID")
@@ -49,7 +48,7 @@ public class SysUser implements Serializable {
      * @see cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum
      */
     @ApiModelProperty(value = "用户类型")
-    private String userType;
+    private SysUserTypeEnum userType;
 
     @ApiModelProperty(value = "用户手机")
     private String phone;
@@ -61,7 +60,7 @@ public class SysUser implements Serializable {
     private String avatarUrl;
 
     @ApiModelProperty(value = "用户性别 -1保密(默认) 0女 1男 ")
-    private Integer sex;
+    private SexEnum sex;
 
     @ApiModelProperty(value = "出生日期")
     private LocalDateTime birthday;
@@ -70,12 +69,20 @@ public class SysUser implements Serializable {
     private String description;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField(updateStrategy = FieldStrategy.NEVER)
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+    @ApiModelProperty(value = "创建时间")
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
+    private Long createUser;
+
     @ApiModelProperty(value = "更新时间")
-    @TableField(updateStrategy = FieldStrategy.NEVER)
+    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
+
+    @ApiModelProperty(value = "更新时间")
+    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.UPDATE)
+    private Long updateUser;
 
     @ApiModelProperty(value = "是否启用  0是(默认) 1否")
     private Integer enable;

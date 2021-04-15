@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -42,7 +43,7 @@ public class UserInfo extends User {
     /**
      * 描述: 用户类型
      **/
-    private String userType;
+    private SysUserTypeEnum userType;
 
     /**
      * 描述: 用户手机
@@ -118,11 +119,11 @@ public class UserInfo extends User {
         this.orgId = orgId;
     }
 
-    public String getUserType() {
+    public SysUserTypeEnum getUserType() {
         return userType;
     }
 
-    public void setUserType(String userType) {
+    public void setUserType(SysUserTypeEnum userType) {
         this.userType = userType;
     }
 

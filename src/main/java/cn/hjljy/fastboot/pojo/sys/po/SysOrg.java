@@ -1,7 +1,7 @@
 package cn.hjljy.fastboot.pojo.sys.po;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
@@ -50,7 +50,7 @@ public class SysOrg implements Serializable {
      * @see cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum
      */
     @ApiModelProperty(value = "机构状态")
-    private String orgState;
+    private SysOrgStateEnum orgState;
 
     @ApiModelProperty(value = "机构管理员账号ID")
     private Long adminUserId;
@@ -62,12 +62,23 @@ public class SysOrg implements Serializable {
     private String description;
 
     @ApiModelProperty(value = "创建时间")
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+    @ApiModelProperty(value = "创建时间")
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
+    private Long createUser;
+
     @ApiModelProperty(value = "更新时间")
+    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
+    @ApiModelProperty(value = "更新时间")
+    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.UPDATE)
+    private Long updateUser;
+
     @ApiModelProperty(value = "是否删除  0否(默认) 1是")
+    @TableField(fill = FieldFill.UPDATE)
     @TableLogic
     private Integer status;
 

@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.service.sys;
 
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -22,7 +23,7 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param orgId    机构ID
      * @return 用户菜单权限集合 非树形结构
      */
-    List<SysMenu> getUserMenuListInfo(Long userId, String userType, Long orgId);
+    List<SysMenu> getUserMenuListInfo(Long userId, SysUserTypeEnum userType, Long orgId);
 
     /**
      * 获取机构管理员菜单权限集合 （即获取机构菜单权限）

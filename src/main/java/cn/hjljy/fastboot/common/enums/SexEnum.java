@@ -1,10 +1,15 @@
 package cn.hjljy.fastboot.common.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
+
 /**
  * 性别枚举
  *
  * @author hjljy
  */
+@Getter
 public enum SexEnum {
     /**
      * 性别枚举
@@ -13,29 +18,15 @@ public enum SexEnum {
     WOMAN(0, "女"),
     MAN(1, "男");
 
-    private Integer code;
+    @EnumValue
+    @JsonValue
+    private final Integer code;
 
-    private String remark;
+    private final String remark;
 
     SexEnum(Integer code, String remark) {
         this.code = code;
         this.remark = remark;
     }
 
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }

@@ -1,7 +1,7 @@
 package cn.hjljy.fastboot.autoconfig.Interceptor;
 
 import cn.hjljy.fastboot.autoconfig.config.FastBootConfig;
-import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.common.utils.JacksonUtil;

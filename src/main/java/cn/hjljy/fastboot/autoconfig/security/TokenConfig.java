@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -105,7 +106,7 @@ public class TokenConfig {
                 userInfo.setScope(scope);
                 userInfo.setOrgId(orgId);
                 userInfo.setAvatarUrl(avatarUrl);
-                userInfo.setUserType(userType);
+                userInfo.setUserType(SysUserTypeEnum.valueOf(userType));
                 userInfo.setPhone(phone);
                 //需要将解析出来的用户存入全局当中，不然无法转换成自定义的user类
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userInfo, null, grantedAuthorityList);

@@ -2,11 +2,13 @@ package cn.hjljy.fastboot;
 
 
 import cn.hjljy.fastboot.service.BaseService;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
@@ -114,10 +116,19 @@ public class CodeGenerator {
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
-        strategy.setControllerMappingHyphenStyle(true);
+        strategy.setControllerMappingHyphenStyle(false);
         strategy.setSuperServiceImplClass(BaseService.class);
-        //设置逻辑删除字段
+        strategy.setEntityTableFieldAnnotationEnable(true);
+        // 设置逻辑删除字段
         strategy.setLogicDeleteFieldName("status");
+        // 设置默认的填充字段和方式
+        List<TableFill> tableFillList = new ArrayList<>();
+        tableFillList.add(new TableFill("create_time", FieldFill.INSERT));
+        tableFillList.add(new TableFill("create_by", FieldFill.INSERT));
+        tableFillList.add(new TableFill("status", FieldFill.INSERT));
+        tableFillList.add(new TableFill("update_time", FieldFill.UPDATE));
+        tableFillList.add(new TableFill("update_by", FieldFill.UPDATE));
+        strategy.setTableFillList(tableFillList);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new VelocityTemplateEngine());
         mpg.execute();

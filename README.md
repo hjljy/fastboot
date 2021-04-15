@@ -7,9 +7,16 @@
 所以可不可以直接弄一个整合好的，到时直接使用就可以了呢？
 
 # 项目分支说明
-master：单一数据源
-
 member_dev: 会员系统开发分支   
+
+# 项目分层架构
+    -- autoconfig   配置类所在包 （全局异常，Security安全校验，Swagger2配置等等）
+    -- common 公共类所在包 （通用枚举，常量，切面，项目工具包）
+    -- controller 接口层
+    -- mapper dao层
+    -- pojo  实体层
+    -- service 服务层
+
 
 ## 已整合基础配置
 
@@ -37,6 +44,8 @@ JacksonUtil: jackson工具包 使用jackson实现字符串和实体类的转换�
 
 SnowFlakeUtil: 雪花算法分布式全局随机ID生成器
 
+LocalDateTimeUtil: LocalDateTime工具包
+
 
 ## 已整合开发工具
 
@@ -51,3 +60,5 @@ Mybatis-plus: 基于mybatis的数据库ORM框架，CodeGenerator: 基于mybatis-
 HuTool: 糊涂工具包，一个包含众多工具类的jar包
 
 Security: 一个功能强大且高度可定制的身份验证和访问控制权限框架。
+
+Redission: redis 管理框架

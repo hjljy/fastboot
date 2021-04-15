@@ -40,6 +40,12 @@ public class SysRoleDto extends BaseDto<SysRoleDto> implements Serializable {
     @ApiModelProperty(value = "角色名称")
     private String name;
 
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "更新时间")
+    private LocalDateTime updateTime;
+
     @ApiModelProperty
     private List<SysMenuDto> menus;
 

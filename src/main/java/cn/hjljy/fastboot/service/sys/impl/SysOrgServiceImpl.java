@@ -4,7 +4,7 @@ import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.constant.Constant;
 import cn.hjljy.fastboot.common.constant.RedisPrefixConstant;
 import cn.hjljy.fastboot.common.enums.sys.SysOrgStateEnum;
-import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.sys.SysOrgMapper;

@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.service.sys;
 
-import cn.hjljy.fastboot.common.exception.BusinessException;
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.pojo.sys.dto.PasswordParam;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserDto;
 import cn.hjljy.fastboot.pojo.sys.dto.SysUserParam;

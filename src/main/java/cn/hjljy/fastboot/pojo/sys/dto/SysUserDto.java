@@ -3,6 +3,8 @@ package cn.hjljy.fastboot.pojo.sys.dto;
 import cn.hjljy.fastboot.common.BaseDto;
 import cn.hjljy.fastboot.common.aspect.validated.Insert;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
+import cn.hjljy.fastboot.common.enums.SexEnum;
+import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -53,7 +55,7 @@ public class SysUserDto extends BaseDto<SysUserDto> implements Serializable {
      * @see cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum
      */
     @ApiModelProperty(value = "用户类型")
-    private String userType;
+    private SysUserTypeEnum userType;
 
     @ApiModelProperty(value = "用户手机")
     private String phone;
@@ -65,7 +67,7 @@ public class SysUserDto extends BaseDto<SysUserDto> implements Serializable {
     private String avatarUrl;
 
     @ApiModelProperty(value = "用户性别 -1保密(默认) 0女 1男 ")
-    private Integer sex;
+    private SexEnum sex;
 
     @ApiModelProperty(value = "出生日期")
     private LocalDateTime birthday;

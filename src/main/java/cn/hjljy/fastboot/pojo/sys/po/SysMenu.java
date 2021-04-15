@@ -56,12 +56,6 @@ public class SysMenu implements Serializable {
     @ApiModelProperty(value = "是否可见 0是(默认) 1否")
     private Integer visiable;
 
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
-
     @ApiModelProperty(value = "是否删除  0否(默认) 1是")
     @TableLogic
     private Integer status;
