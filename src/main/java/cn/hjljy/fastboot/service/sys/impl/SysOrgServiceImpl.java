@@ -116,7 +116,7 @@ public class SysOrgServiceImpl extends BaseService<SysOrgMapper, SysOrg> impleme
             //1 清除掉登录token缓存
             redissonClient.getMap(RedisPrefixConstant.ORG + org.getId()).clear();
             //2 停用自己
-            org.setOrgState(SysOrgStateEnum.DISABLE.name());
+            org.setOrgState(SysOrgStateEnum.DISABLE);
             org.setUpdateTime(updateTime);
         }
         updateBatchById(list);

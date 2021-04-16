@@ -21,7 +21,7 @@ import javax.validation.constraints.Pattern;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "PhoneParam对象")
-public class PhoneParam extends BaseDto<PhoneParam> {
+public class PhoneParam extends BaseDto {
 
     @ApiModelProperty(value = "验证码")
     private String code;

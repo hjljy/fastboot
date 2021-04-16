@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "MemberBaseInfoDto对象", description = "会员详情信息")
-public class MemberBaseInfoDto extends BaseDto<MemberBaseInfoDto> implements Serializable {
+public class MemberBaseInfoDto extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

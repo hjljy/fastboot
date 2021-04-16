@@ -28,7 +28,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysUserVo对象")
 @TableName("sys_user")
-public class SysUserVo extends BaseDto<SysUserVo> implements Serializable {
+public class SysUserVo extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -24,7 +24,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysOrgDto对象")
-public class SysOrgDto extends BaseDto<SysOrgDto> implements Serializable {
+public class SysOrgDto extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysMenuPoDto对象")
-public class SysMenuDto extends BaseDto<SysMenuDto> implements Serializable {
+public class SysMenuDto extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

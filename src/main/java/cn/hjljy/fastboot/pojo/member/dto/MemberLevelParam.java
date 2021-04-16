@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "MemberLevelParam对象", description = "会员等级查询参数对象")
-public class MemberLevelParam extends BaseDto<MemberLevelDto> {
+public class MemberLevelParam extends BaseDto {
 
     @ApiModelProperty(value = "机构ID")
     @NotNull(message = "所属机构ID不能为空", groups = {Select.class, Update.class})

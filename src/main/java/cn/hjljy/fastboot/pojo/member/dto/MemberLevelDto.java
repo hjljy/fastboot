@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "MemberLevelDto对象", description = "会员等级详情对象")
-public class MemberLevelDto extends BaseDto<MemberLevelDto> {
+public class MemberLevelDto extends BaseDto {
 
     @ApiModelProperty(value = "等级ID")
     @NotNull(message = "编辑时等级Id不能为空", groups = {Update.class})

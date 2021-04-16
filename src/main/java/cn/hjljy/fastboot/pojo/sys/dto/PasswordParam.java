@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "PasswordParam对象")
-public class PasswordParam extends BaseDto<PasswordParam> {
+public class PasswordParam extends BaseDto {
 
     @ApiModelProperty(value = "用户ID", required = true)
     @NotNull(message = "用户ID不能为空", groups = Select.class)

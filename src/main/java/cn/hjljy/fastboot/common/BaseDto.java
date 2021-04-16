@@ -11,7 +11,7 @@ import lombok.Data;
  * @since 2020/11/26 18:14
  */
 @Data
-public class BaseDto<T> {
+public class BaseDto {
 
     @ApiModelProperty(value = "查询关键字")
     @JsonIgnore
@@ -37,7 +37,7 @@ public class BaseDto<T> {
     @JsonIgnore
     String source = "WEB";
 
-    public Page<T> createPage() {
+    public <T> Page<T> createPage() {
         return new Page<>(pageNo, pageNum);
     }
 }

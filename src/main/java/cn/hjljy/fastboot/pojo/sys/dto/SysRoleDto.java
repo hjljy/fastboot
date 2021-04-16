@@ -23,7 +23,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysRolePoDto对象")
-public class SysRoleDto extends BaseDto<SysRoleDto> implements Serializable {
+public class SysRoleDto extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

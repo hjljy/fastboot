@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class MemberBaseInfoParam extends BaseDto<MemberBaseInfoDto> {
+public class MemberBaseInfoParam extends BaseDto {
 
     @ApiModelProperty(value = "会员等级Id 0表示全部")
     private Long levelId;

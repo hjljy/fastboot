@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "MemberUpvDto对象", description = "会员权益成长值获取扣减计算规则表")
-public class MemberUpvDto extends BaseDto<MemberUpvDto> implements Serializable {
+public class MemberUpvDto extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysOrgMenuDto对象")
-public class SysOrgMenuDto extends BaseDto<SysOrgMenuDto> implements Serializable {
+public class SysOrgMenuDto extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

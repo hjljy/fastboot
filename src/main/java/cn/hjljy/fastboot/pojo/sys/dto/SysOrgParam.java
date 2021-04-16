@@ -21,7 +21,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysOrgParam对象")
-public class SysOrgParam extends BaseDto<SysOrgParam> implements Serializable {
+public class SysOrgParam extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

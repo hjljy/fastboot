@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysUserParam对象")
-public class SysUserParam extends BaseDto<SysUserDto> {
+public class SysUserParam extends BaseDto {
 
     @ApiModelProperty(value = "用户角色ID")
     private Long roleId;
