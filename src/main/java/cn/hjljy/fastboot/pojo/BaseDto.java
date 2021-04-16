@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.common;
+package cn.hjljy.fastboot.pojo;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,14 +13,6 @@ import lombok.Data;
 @Data
 public class BaseDto {
 
-    @ApiModelProperty(value = "查询关键字")
-    @JsonIgnore
-    String keywords;
-
-    @ApiModelProperty(value = "token")
-    @JsonIgnore
-    String token;
-
     @ApiModelProperty(value = "多少页")
     @JsonIgnore
     Integer pageNo = 1;
@@ -33,7 +25,7 @@ public class BaseDto {
     @JsonIgnore
     String apiVersion = "v1";
 
-    @ApiModelProperty(value = "请求来源 web,ios,windows,h5,andiron")
+    @ApiModelProperty(value = "请求来源 WEB,IOS,WINDOWS,H5")
     @JsonIgnore
     String source = "WEB";
 

@@ -1,20 +1,13 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
-import cn.hjljy.fastboot.common.BaseDto;
-import cn.hjljy.fastboot.common.aspect.validated.Insert;
-import cn.hjljy.fastboot.common.aspect.validated.Update;
+import cn.hjljy.fastboot.pojo.BaseDto;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * <p>

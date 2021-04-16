@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
-import cn.hjljy.fastboot.common.BaseDto;
+import cn.hjljy.fastboot.pojo.BaseDto;
 import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
 import cn.hutool.core.bean.BeanUtil;
 import io.swagger.annotations.ApiModel;
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -2,12 +2,9 @@ package cn.hjljy.fastboot.pojo.member.dto;
 
 import java.time.LocalDateTime;
 
-import cn.hjljy.fastboot.common.BaseDto;
+import cn.hjljy.fastboot.pojo.BaseDto;
 import cn.hjljy.fastboot.common.aspect.validated.Insert;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-
-import java.io.Serializable;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

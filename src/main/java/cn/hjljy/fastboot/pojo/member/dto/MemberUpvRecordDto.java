@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.pojo.member.dto;
 
-import cn.hjljy.fastboot.common.BaseDto;
+import cn.hjljy.fastboot.pojo.BaseDto;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

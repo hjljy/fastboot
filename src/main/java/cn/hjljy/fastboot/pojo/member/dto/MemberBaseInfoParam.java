@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.pojo.member.dto;
 
-import cn.hjljy.fastboot.common.BaseDto;
+import cn.hjljy.fastboot.pojo.BaseDto;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class MemberBaseInfoParam extends BaseDto {
+    @ApiModelProperty(value = "查询关键字")
+    String keywords;
 
     @ApiModelProperty(value = "会员等级Id 0表示全部")
     private Long levelId;

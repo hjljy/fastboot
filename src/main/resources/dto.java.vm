@@ -4,7 +4,7 @@ package $!{cfg.dtoPackage};
 import ${pkg};
 #end
 #if(${swagger2})
-import cn.hjljy.fastboot.common.BaseDto;
+import cn.hjljy.fastboot.pojo.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 #end

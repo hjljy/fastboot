@@ -1,6 +1,6 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
-import cn.hjljy.fastboot.common.BaseDto;
+import cn.hjljy.fastboot.pojo.BaseDto;
 import cn.hjljy.fastboot.common.aspect.validated.Select;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,6 +21,8 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "SysUserParam对象")
 public class SysUserParam extends BaseDto {
+    @ApiModelProperty(value = "查询关键字")
+    String keywords;
 
     @ApiModelProperty(value = "用户角色ID")
     private Long roleId;
