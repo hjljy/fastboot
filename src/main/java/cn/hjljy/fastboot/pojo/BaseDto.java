@@ -27,7 +27,7 @@ public class BaseDto {
 
     @ApiModelProperty(value = "请求来源 WEB,IOS,WINDOWS,H5")
     @JsonIgnore
-    String source = "WEB";
+    String requestSource = "WEB";
 
     public <T> Page<T> createPage() {
         return new Page<>(pageNo, pageNum);

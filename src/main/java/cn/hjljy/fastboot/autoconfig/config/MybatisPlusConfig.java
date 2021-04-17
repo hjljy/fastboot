@@ -46,9 +46,13 @@ public class MybatisPlusConfig implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        Long userId = SecurityUtils.getUserId();
+        this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, now);
         this.strictInsertFill(metaObject, "status", Integer.class, 0);
-        this.strictInsertFill(metaObject, "createUser", Long.class, SecurityUtils.getUserId());
+        this.strictInsertFill(metaObject, "createUser", Long.class, userId);
+        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, now);
+        this.strictUpdateFill(metaObject, "updateUser", Long.class, userId);
     }
 
     /**

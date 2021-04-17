@@ -1,5 +1,7 @@
 package cn.hjljy.fastboot.pojo.member.dto;
 
+import cn.hjljy.fastboot.common.enums.SexEnum;
+import cn.hjljy.fastboot.common.enums.member.MemberSourceEnum;
 import cn.hjljy.fastboot.pojo.BaseDto;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
 import io.swagger.annotations.ApiModel;
@@ -34,8 +36,11 @@ public class MemberBaseInfoDto extends BaseDto implements Serializable {
     @NotNull(message = "会员所属机构ID不能为空")
     private Long orgId;
 
+    /**
+     * @see  cn.hjljy.fastboot.common.enums
+     */
     @ApiModelProperty(value = "会员性别 0女 1男 -1保密(默认)")
-    private Integer memberSex;
+    private SexEnum memberSex;
 
     @ApiModelProperty(value = "会员名称")
     @NotNull(message = "会员名称不能为空")
@@ -60,8 +65,13 @@ public class MemberBaseInfoDto extends BaseDto implements Serializable {
     @ApiModelProperty(value = "会员卡号")
     private String memberCard;
 
+    /**
+     * 具体来源见枚举类
+     *
+     * @see cn.hjljy.fastboot.common.enums.member.MemberSourceEnum
+     */
     @ApiModelProperty(value = "会员来源")
-    private String source;
+    private MemberSourceEnum source;
 
     @ApiModelProperty(value = "会员积分")
     private Long memberIntegral;

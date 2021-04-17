@@ -1,7 +1,8 @@
 package cn.hjljy.fastboot.pojo.member.po;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import cn.hjljy.fastboot.common.enums.SexEnum;
+import cn.hjljy.fastboot.common.enums.member.MemberSourceEnum;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,8 +33,11 @@ public class MemberBaseInfo implements Serializable {
     @ApiModelProperty(value = "会员所属机构ID")
     private Long orgId;
 
+    /**
+     * @see  cn.hjljy.fastboot.common.enums
+     */
     @ApiModelProperty(value = "会员性别 0女 1男 -1保密(默认)")
-    private Integer memberSex;
+    private SexEnum memberSex;
 
     @ApiModelProperty(value = "会员名称")
     private String memberName;
@@ -61,7 +65,7 @@ public class MemberBaseInfo implements Serializable {
      * @see cn.hjljy.fastboot.common.enums.member.MemberSourceEnum
      */
     @ApiModelProperty(value = "会员来源")
-    private String source;
+    private MemberSourceEnum source;
 
     @ApiModelProperty(value = "会员积分")
     private Long memberIntegral;
@@ -73,15 +77,19 @@ public class MemberBaseInfo implements Serializable {
     private String remark;
 
     @ApiModelProperty(value = "创建时间")
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "创建人ID")
+    @ApiModelProperty(value = "创建人")
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private Long createUser;
 
     @ApiModelProperty(value = "更新时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "更新人ID")
+    @ApiModelProperty(value = "更新人")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
     @ApiModelProperty(value = "是否禁用 0否(默认) 1是")

@@ -1,17 +1,13 @@
 package cn.hjljy.fastboot.pojo.sys.po;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.annotation.TableLogic;
-
-import java.io.Serializable;
-
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>

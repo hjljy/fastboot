@@ -7,13 +7,13 @@ package cn.hjljy.fastboot.common.enums.member;
  */
 public enum MemberSourceEnum {
     /**
-     * 老会员注入
+     * 老会员转化
      */
     OLD,
     /**
-     * 正常添加
+     * 手动添加
      */
-    NORMAL,
+    MANUALLY_ADD,
     /**
      * 被邀请
      */

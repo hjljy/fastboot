@@ -58,26 +58,28 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         checkMemberBaseInfo(dto.getOrgId(), dto.getMemberPhone(), dto.getMemberCard(), memberId);
         //处理默认信息
         MemberLevel level = memberLevelService.selectOrgDefaultLevelId(dto.getOrgId());
-        if (level == null) {
+        if (null == level) {
             info.setGrowthValue(0);
             MemberLevel order = memberLevelService.selectOrgLevelByLevelOrder(dto.getOrgId(), 1);
-            if (order != null && order.getUpgradeGrowthValue() != 0) {
+            if (null != order) {
+                info.setGrowthValue(order.getUpgradeGrowthValue());
                 info.setLevelId(order.getLevelId());
             } else {
                 log.warn("机构id:{} 未设置新会员默认等级并且最低会员等级所需成长值大于0", dto.getOrgId());
-                info.setLevelId(0L);
+                info.setGrowthValue(0);
+                info.setLevelId(-1L);
             }
         } else {
             info.setGrowthValue(level.getUpgradeGrowthValue());
             info.setLevelId(level.getLevelId());
         }
         //未设置性别，默认为保密
-        if (info.getMemberSex() == null) {
-            info.setMemberSex(SexEnum.DEFAULT.getCode());
+        if (null == info.getMemberSex()) {
+            info.setMemberSex(SexEnum.DEFAULT);
         }
         //未设置来源，默认为正常添加
-        if (StringUtils.isEmpty(dto.getSource())) {
-            info.setSource(MemberSourceEnum.NORMAL.name());
+        if (null == info.getSource()) {
+            info.setSource(MemberSourceEnum.MANUALLY_ADD);
         }
         //未设置会员卡号，默认随机生成会员卡号
         if (StringUtils.isEmpty(dto.getMemberCard())) {
@@ -87,12 +89,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         info.setMemberId(memberId);
         info.setBalance(0L);
         info.setGenBalance(0L);
-        info.setLevelId(dto.getLevelId());
         info.setMemberIntegral(0L);
-        info.setCreateTime(LocalDateTime.now());
-        info.setUpdateTime(LocalDateTime.now());
-        info.setUpdateUser(SecurityUtils.getUserId());
-        info.setCreateUser(SecurityUtils.getUserId());
         return this.baseMapper.insert(info);
     }
 

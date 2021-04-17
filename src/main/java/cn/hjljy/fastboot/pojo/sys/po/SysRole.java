@@ -1,15 +1,13 @@
 package cn.hjljy.fastboot.pojo.sys.po;
 
 import com.baomidou.mybatisplus.annotation.*;
-
-import java.time.LocalDateTime;
-
-import java.io.Serializable;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -22,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_role")
-@ApiModel(value = "SysRolePo对象", description = "")
+@ApiModel(value = "SysRolePo对象", description = "sys_role表")
 public class SysRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,11 +44,11 @@ public class SysRole implements Serializable {
     private Long createUser;
 
     @ApiModelProperty(value = "更新时间")
-    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "更新人")
-    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
     @ApiModelProperty(value = "是否删除  0否(默认) 1是")
