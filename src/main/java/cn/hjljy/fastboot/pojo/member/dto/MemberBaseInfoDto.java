@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -43,14 +44,14 @@ public class MemberBaseInfoDto extends BaseDto implements Serializable {
     private SexEnum memberSex;
 
     @ApiModelProperty(value = "会员名称")
-    @NotNull(message = "会员名称不能为空")
+    @NotBlank(message = "会员名称不能为空")
     private String memberName;
 
     @ApiModelProperty(value = "会员手机号")
-    @NotNull(message = "会员手机号不能为空")
+    @NotBlank(message = "会员手机号不能为空")
     private String memberPhone;
 
-    @ApiModelProperty(value = "会员生日：年月日")
+    @ApiModelProperty(value = "会员生日：yyyy-MM-dd")
     private String memberBirth;
 
     @ApiModelProperty(value = "会员等级Id -1非会员(默认)")

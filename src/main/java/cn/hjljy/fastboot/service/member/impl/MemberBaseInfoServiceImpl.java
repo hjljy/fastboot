@@ -1,14 +1,15 @@
 package cn.hjljy.fastboot.service.member.impl;
 
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.enums.SexEnum;
 import cn.hjljy.fastboot.common.enums.member.MemberSourceEnum;
-import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.LocalDateTimeUtil;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.member.MemberBaseInfoMapper;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
+import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
 import cn.hjljy.fastboot.service.BaseService;
@@ -16,7 +17,6 @@ import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import cn.hjljy.fastboot.service.member.IMemberLevelService;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +39,9 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     private IMemberLevelService memberLevelService;
 
     @Override
-    public IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(Long orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum) {
-        IPage<MemberBaseInfoDto> page = new Page<>();
-        page.setPages(pageNo);
-        page.setSize(pageNum);
-        if (levelId == null) {
-            levelId = 0L;
-        }
-        return this.baseMapper.getMemberBaseInfoPageList(page, orgId, keywords, levelId);
+    public IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(MemberBaseInfoParam param) {
+        IPage<MemberBaseInfoDto> page = param.createPage();
+        return this.baseMapper.getMemberBaseInfoPageList(page, param.getOrgId(), param.getKeywords(), param.getLevelId());
     }
 
     @Override
@@ -56,7 +51,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         Long memberId = SnowFlakeUtil.createId();
         //判断是否重复注册
         checkMemberBaseInfo(dto.getOrgId(), dto.getMemberPhone(), dto.getMemberCard(), memberId);
-        //处理默认信息
+        //设置默认等级以及当前会员成长值
         MemberLevel level = memberLevelService.selectOrgDefaultLevelId(dto.getOrgId());
         if (null == level) {
             info.setGrowthValue(0);
@@ -80,10 +75,6 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         //未设置来源，默认为正常添加
         if (null == info.getSource()) {
             info.setSource(MemberSourceEnum.MANUALLY_ADD);
-        }
-        //未设置会员卡号，默认随机生成会员卡号
-        if (StringUtils.isEmpty(dto.getMemberCard())) {
-            info.setMemberCard(SnowFlakeUtil.createStringId());
         }
         //处理新增的信息
         info.setMemberId(memberId);
@@ -119,15 +110,13 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         }
         //判断是否重复注册
         checkMemberBaseInfo(dto.getOrgId(), dto.getMemberPhone(), dto.getMemberCard(), dto.getMemberId());
-        //处理编辑的信息
+        //处理编辑的信息 只能编辑部分信息，所以不采用copy属性的方式
         baseInfo.setMemberSex(dto.getMemberSex());
         baseInfo.setMemberCard(dto.getMemberCard());
         baseInfo.setMemberName(dto.getMemberName());
         baseInfo.setMemberPhone(dto.getMemberPhone());
         baseInfo.setMemberBirth(dto.getMemberBirth());
         baseInfo.setRemark(dto.getRemark());
-        baseInfo.setUpdateTime(LocalDateTime.now());
-        baseInfo.setUpdateUser(SecurityUtils.getUserId());
         return this.updateById(baseInfo);
     }
 

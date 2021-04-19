@@ -12,10 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -37,7 +34,7 @@ public class MemberBaseInfoController {
     @PreAuthorize("hasAnyAuthority('{authority=member:info:list}')")
     @ApiOperation(value = "分页查询会员信息")
     public ResultInfo<IPage<MemberBaseInfoDto>> getMemberBaseInfoPageList(@RequestBody @Validated MemberBaseInfoParam param) {
-        return ResultInfo.success(memberBaseInfoService.getMemberBaseInfoPageList(param.getOrgId(), param.getKeywords(), param.getLevelId(), param.getPageNo(), param.getPageNum()));
+        return ResultInfo.success(memberBaseInfoService.getMemberBaseInfoPageList(param));
     }
 
     @PostMapping("/add")
@@ -54,11 +51,11 @@ public class MemberBaseInfoController {
         return ResultInfo.success(memberBaseInfoService.editMember(dto));
     }
 
-    @PostMapping("/del")
+    @PostMapping("/del/{memberId}")
     @PreAuthorize("hasAnyAuthority('{authority=member:info:del}')")
     @ApiOperation(value = "删除会员信息")
-    public ResultInfo<Boolean> delMember(@RequestBody @Validated({Update.class}) MemberBaseInfoParam param) {
-        return ResultInfo.success(memberBaseInfoService.delMember(param.getMemberId()));
+    public ResultInfo<Boolean> delMember(@PathVariable Long memberId) {
+        return ResultInfo.success(memberBaseInfoService.delMember(memberId));
     }
 }
 

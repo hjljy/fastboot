@@ -84,17 +84,4 @@ public class JacksonCustomizerConfig {
             }
         }
     }
-
-    /**
-     * description:LocalDateTime转换器，用于转换RequestParam和PathVariable参数
-     * 接收毫秒级时间戳字符串——>LocalDateTime
-     */
-    @Bean
-    public StringToLocalDateTimeConverter localDateTimeConverter() {
-        return (source -> LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(source)), ZoneOffset.of("+8")));
-    }
-
-    interface StringToLocalDateTimeConverter extends Converter<String, LocalDateTime> {
-
-    }
 }

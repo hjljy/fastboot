@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.service.member;
 
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
+import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -18,14 +19,10 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
     /**
      * 分页查询数据
      *
-     * @param orgId    机构ID
-     * @param keywords 关键字
-     * @param levelId  等级ID
-     * @param pageNo   页码
-     * @param pageNum  页数
+     * @param param    查询信息
      * @return 会员列表信息
      */
-    IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(Long orgId, String keywords, Long levelId, Integer pageNo, Integer pageNum);
+    IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(MemberBaseInfoParam param);
 
     /**
      * 新增会员信息

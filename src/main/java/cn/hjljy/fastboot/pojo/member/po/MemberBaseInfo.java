@@ -45,7 +45,7 @@ public class MemberBaseInfo implements Serializable {
     @ApiModelProperty(value = "会员手机号")
     private String memberPhone;
 
-    @ApiModelProperty(value = "会员生日：年月日")
+    @ApiModelProperty(value = "会员生日：yyyy-MM-dd")
     private String memberBirth;
 
     @ApiModelProperty(value = "会员等级Id 没有会员等级时置为0")
