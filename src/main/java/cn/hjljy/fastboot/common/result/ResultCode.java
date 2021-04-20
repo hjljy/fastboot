@@ -14,7 +14,7 @@ public enum ResultCode {
 
     //业务逻辑异常
     CUSTOM_EXCEPTION(10000, "操作逻辑异常，不允许本次操作"),
-    PARAMETERS_EXCEPTION(10001, "请求参数格式错误"),
+    PARAMETERS_EXCEPTION(10001, "请求参数格式或类型错误"),
     REQUEST_METHOD_EXCEPTION(10002, "请求方式错误"),
 
     //用户 权限相关异常

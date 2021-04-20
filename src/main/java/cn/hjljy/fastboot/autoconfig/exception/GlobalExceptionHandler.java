@@ -20,6 +20,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
@@ -41,7 +42,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResultInfo<Object> requestMethodNoSuch(HttpRequestMethodNotSupportedException ex) {
         ex.printStackTrace();
-        return ResultInfo.error(ResultCode.REQUEST_METHOD_EXCEPTION.getCode(), ex.getMessage());
+        return ResultInfo.error(ResultCode.REQUEST_METHOD_EXCEPTION, ex.getMessage());
     }
 
     /**
@@ -50,7 +51,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BadCredentialsException.class)
     public ResultInfo<Object> errorHandler(BadCredentialsException ex) {
         ex.printStackTrace();
-        return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
+        return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG, ex.getMessage());
     }
 
     /**
@@ -60,7 +61,7 @@ public class GlobalExceptionHandler {
     public ResultInfo<Object> errorHandler(HttpServletResponse response, AuthenticationException ex) {
         ex.printStackTrace();
         //默认是用户密码不正确
-        ResultInfo<Object> resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
+        ResultInfo<Object> resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG, ex.getMessage());
         Throwable cause = ex.getCause();
         //token 过期处理
         if (cause instanceof InvalidTokenException) {
@@ -82,7 +83,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = InvalidGrantException.class)
     public ResultInfo<Object> errorHandler(InvalidGrantException ex) {
         ex.printStackTrace();
-        return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
+        return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG, ex.getMessage());
     }
 
     /**
@@ -90,7 +91,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = IllegalArgumentException.class)
     public ResultInfo<Object> errorHandler(IllegalArgumentException ex) {
-        return ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION.getCode(), ex.getMessage());
+        return ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION, ex.getMessage());
     }
 
     /**
@@ -130,7 +131,7 @@ public class GlobalExceptionHandler {
             resultInfo = ResultInfo.error(ResultCode.SQL_EXCEPTION);
         } else if (ex instanceof NullPointerException) {
             resultInfo = ResultInfo.error(ResultCode.NPE_EXCEPTION);
-        } else if (ex instanceof MismatchedInputException || ex instanceof HttpMessageNotReadableException) {
+        } else if (ex instanceof MismatchedInputException || ex instanceof HttpMessageNotReadableException|| ex instanceof MethodArgumentTypeMismatchException) {
             resultInfo = ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
         }
         return resultInfo;

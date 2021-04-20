@@ -30,10 +30,10 @@ public class MemberBaseInfoController {
     @Autowired
     IMemberBaseInfoService memberBaseInfoService;
 
-    @PostMapping("/page")
+    @GetMapping("/page")
     @PreAuthorize("hasAnyAuthority('{authority=member:info:list}')")
     @ApiOperation(value = "分页查询会员信息")
-    public ResultInfo<IPage<MemberBaseInfoDto>> getMemberBaseInfoPageList(@RequestBody @Validated MemberBaseInfoParam param) {
+    public ResultInfo<IPage<MemberBaseInfoDto>> getMemberBaseInfoPageList(@Validated MemberBaseInfoParam param) {
         return ResultInfo.success(memberBaseInfoService.getMemberBaseInfoPageList(param));
     }
 
@@ -44,14 +44,14 @@ public class MemberBaseInfoController {
         return ResultInfo.success(memberBaseInfoService.addMember(dto));
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     @PreAuthorize("hasAnyAuthority('{authority=member:info:edit}')")
     @ApiOperation(value = "编辑会员信息")
     public ResultInfo<Boolean> editMember(@RequestBody @Validated({Update.class}) MemberBaseInfoDto dto) {
         return ResultInfo.success(memberBaseInfoService.editMember(dto));
     }
 
-    @PostMapping("/del/{memberId}")
+    @DeleteMapping("/del/{memberId}")
     @PreAuthorize("hasAnyAuthority('{authority=member:info:del}')")
     @ApiOperation(value = "删除会员信息")
     public ResultInfo<Boolean> delMember(@PathVariable Long memberId) {

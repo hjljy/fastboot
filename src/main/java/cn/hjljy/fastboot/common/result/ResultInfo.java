@@ -31,8 +31,8 @@ public class ResultInfo<T> {
         this.data = data;
     }
 
-    public ResultInfo(int code, String msg) {
-        this.code = code;
+    public ResultInfo(ResultCode resultCode, String msg) {
+        this.code = resultCode.getCode();
         this.msg = msg;
     }
 
@@ -43,7 +43,7 @@ public class ResultInfo<T> {
     }
 
     public static <T> ResultInfo<T> error(ResultCode code) {
-        return new ResultInfo<>(code.getCode(), code.getMsg());
+        return new ResultInfo<>(code, code.getMsg());
     }
 
     public static <T> ResultInfo<T> success(T data) {
@@ -54,7 +54,7 @@ public class ResultInfo<T> {
         return new ResultInfo<>();
     }
 
-    public static <T> ResultInfo<T> error(int code, String message) {
+    public static <T> ResultInfo<T> error(ResultCode code, String message) {
         return new ResultInfo<>(code, message);
     }
 
