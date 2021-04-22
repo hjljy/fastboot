@@ -10,6 +10,7 @@ import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.member.MemberBaseInfoMapper;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
+import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
 import cn.hjljy.fastboot.service.BaseService;
@@ -151,5 +152,11 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         memberBaseInfo.setMemberCard(memberCard);
         memberBaseInfo.setOrgId(orgId);
         return this.selectOne(memberBaseInfo);
+    }
+
+    @Override
+    public MemberDto getMemberDto(Long memberId) {
+        MemberBaseInfo baseInfo = this.getById(memberId);
+        return null;
     }
 }

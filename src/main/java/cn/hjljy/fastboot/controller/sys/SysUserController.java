@@ -5,7 +5,6 @@ import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.aspect.validated.Insert;
 import cn.hjljy.fastboot.common.aspect.validated.Select;
 import cn.hjljy.fastboot.common.aspect.validated.Update;
-import cn.hjljy.fastboot.common.enums.SexEnum;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.sys.dto.*;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
@@ -14,7 +13,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +33,6 @@ public class SysUserController {
 
     @Autowired
     ISysUserService userService;
-
-    @Autowired
-    JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @PostMapping("/page")
     @PreAuthorize("hasAuthority('{authority=sys:user:list}')")

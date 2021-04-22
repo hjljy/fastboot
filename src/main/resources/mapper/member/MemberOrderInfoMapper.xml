@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hjljy.fastboot.mapper.member.MemberOrderInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.member.po.MemberOrderInfo">
+        <id column="id" property="id" />
+        <result column="order_num" property="orderNum" />
+        <result column="order_state" property="orderState" />
+        <result column="pay_type" property="payType" />
+        <result column="pay_uuid" property="payUuid" />
+        <result column="pay_time" property="payTime" />
+        <result column="money" property="money" />
+        <result column="pay_money" property="payMoney" />
+        <result column="refund_money" property="refundMoney" />
+        <result column="member_id" property="memberId" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_num, order_state, pay_type, pay_uuid, pay_time, money, pay_money, refund_money, member_id, create_time, create_user, update_time, update_user, status
+    </sql>
+
+</mapper>

@@ -45,7 +45,7 @@ public class CodeGenerator {
         dsc.setUrl("jdbc:mysql://localhost:3306/springboot?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("123456");
+        dsc.setPassword("root");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -126,8 +126,8 @@ public class CodeGenerator {
         tableFillList.add(new TableFill("create_time", FieldFill.INSERT));
         tableFillList.add(new TableFill("create_by", FieldFill.INSERT));
         tableFillList.add(new TableFill("status", FieldFill.INSERT));
-        tableFillList.add(new TableFill("update_time", FieldFill.UPDATE));
-        tableFillList.add(new TableFill("update_by", FieldFill.UPDATE));
+        tableFillList.add(new TableFill("update_time", FieldFill.INSERT_UPDATE));
+        tableFillList.add(new TableFill("update_by", FieldFill.INSERT_UPDATE));
         strategy.setTableFillList(tableFillList);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new VelocityTemplateEngine());

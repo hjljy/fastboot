@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "MemberBaseInfoDto对象", description = "会员详情信息")
+@ApiModel(value = "MemberBaseInfoDto对象", description = "会员基础信息")
 public class MemberBaseInfoDto extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -88,11 +88,5 @@ public class MemberBaseInfoDto extends BaseDto implements Serializable {
 
     @ApiModelProperty(value = "创建人ID")
     private Long createUser;
-
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
-
-    @ApiModelProperty(value = "更新人ID")
-    private Long updateUser;
 
 }
