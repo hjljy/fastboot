@@ -40,16 +40,16 @@ public class MemberUpv implements Serializable {
     private Long growthValue;
 
     @ApiModelProperty(value = "普通消费(非会员储值消费)获取")
-    private Integer normalConsume;
+    private Boolean normalConsume;
 
     @ApiModelProperty(value = "会员储值消费获取")
-    private Integer storedConsume;
+    private Boolean storedConsume;
 
     @ApiModelProperty(value = "会员充值获取")
-    private Integer memberRecharge;
+    private Boolean memberRecharge;
 
     @ApiModelProperty(value = "退费扣减")
-    private Integer refund;
+    private Boolean refund;
 
     @ApiModelProperty(value = "计算规则")
     private String countRule;

@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.common.aspect.log;
+package cn.hjljy.fastboot.autoconfig.aspect.log;
 
 import cn.hjljy.fastboot.common.utils.JacksonUtil;
 import cn.hjljy.fastboot.common.utils.RequestUtil;
@@ -43,7 +43,7 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
                                   @NonNull ServerHttpResponse response) {
         try {
             StringBuilder sb = new StringBuilder();
-            sb.append("\n请求访问地址：{}");
+            sb.append("\n请求地址：{}");
             sb.append("\n请求方式：{}");
             sb.append("\n请求body参数：{}");
             sb.append("\n请求token: {}");

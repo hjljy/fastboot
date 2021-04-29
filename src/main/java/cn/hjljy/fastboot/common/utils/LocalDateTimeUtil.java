@@ -22,6 +22,11 @@ public class LocalDateTimeUtil {
     public static String defaultFormat = "yyyy-MM-dd HH:mm:ss";
 
     /**
+     * 默认时间格式
+     */
+    public static String chineseFormat = "yyyy年MM月dd日";
+
+    /**
      * 获取到毫秒级时间戳
      *
      * @param localDateTime 具体时间
@@ -166,6 +171,9 @@ public class LocalDateTimeUtil {
      * @return string
      */
     public static String formatToString(LocalDateTime localDateTime, String format) {
+        if(null==localDateTime){
+            return "";
+        }
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
         return localDateTime.format(dateTimeFormatter);
     }

@@ -11,6 +11,7 @@ import cn.hjljy.fastboot.mapper.member.MemberBaseInfoMapper;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
+import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
 import cn.hjljy.fastboot.service.BaseService;
@@ -105,10 +106,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
 
     @Override
     public Boolean editMember(MemberBaseInfoDto dto) {
-        MemberBaseInfo baseInfo = this.getById(dto.getMemberId());
-        if (null == baseInfo) {
-            throw new BusinessException(ResultCode.MEMBER_NOT_FOUND);
-        }
+        MemberBaseInfo baseInfo = this.memberExist(dto.getMemberId());
         //判断是否重复注册
         checkMemberBaseInfo(dto.getOrgId(), dto.getMemberPhone(), dto.getMemberCard(), dto.getMemberId());
         //处理编辑的信息 只能编辑部分信息，所以不采用copy属性的方式
@@ -156,7 +154,22 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
 
     @Override
     public MemberDto getMemberDto(Long memberId) {
-        MemberBaseInfo baseInfo = this.getById(memberId);
+        MemberBaseInfo baseInfo = this.memberExist(memberId);
         return null;
+    }
+
+    @Override
+    public MemberDto memberRecharge(RechargeParam param) {
+        MemberBaseInfo baseInfo = this.getById(param.getMemberId());
+        return null;
+    }
+
+    @Override
+    public MemberBaseInfo memberExist(Long memberId) {
+        MemberBaseInfo baseInfo = this.getById(memberId);
+        if (null == baseInfo) {
+            throw new BusinessException(ResultCode.MEMBER_NOT_FOUND);
+        }
+        return baseInfo;
     }
 }

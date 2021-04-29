@@ -1,17 +1,11 @@
 package cn.hjljy.fastboot;
 
 
-import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
-import cn.hjljy.fastboot.common.enums.SexEnum;
-import cn.hjljy.fastboot.pojo.demo.po.DemoPo;
-
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * @author yichaofan
@@ -23,6 +17,11 @@ import java.util.stream.Collectors;
 public class FastMainTest {
 
     public static void main(String[] args) throws UnsupportedEncodingException {
+        String str1  ="123456|1231'123456";
+        String[] strings = str1.split("\\|");
+        for (String string : strings) {
+            System.out.println(string);
+        }
 
     }
 

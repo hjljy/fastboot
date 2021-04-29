@@ -3,6 +3,7 @@ package cn.hjljy.fastboot.service.member;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
+import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -73,4 +74,18 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * @return 会员详细信息
      */
     MemberDto getMemberDto(Long memberId);
+
+    /**
+     * 会员充值
+     * @param param 充值参数
+     * @return 会员信息
+     */
+    MemberDto memberRecharge(RechargeParam param);
+
+    /**
+     * 判断会员是否存在
+     * @param memberId 会员ID
+     * @return 会员信息 不存在抛出异常
+     */
+    MemberBaseInfo memberExist(Long memberId);
 }

@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class RequestUtil {
 
+    private static final String UNKNOWN = "unknown";
     /**
      * 获取请求当中body的数据
      *
@@ -50,5 +51,24 @@ public class RequestUtil {
      */
     public static String getToken(HttpServletRequest request) {
         return request.getHeader("Authorization").substring("Bearer".length()).trim();
+    }
+
+    /**
+     * 获取请求来源ip地址
+     * @param request 请求
+     * @return IP地址
+     */
+    public static String getRemoteHost(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
     }
 }

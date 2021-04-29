@@ -1,9 +1,9 @@
 package cn.hjljy.fastboot.controller.member;
 
 
-import cn.hjljy.fastboot.common.aspect.validated.Insert;
-import cn.hjljy.fastboot.common.aspect.validated.Select;
-import cn.hjljy.fastboot.common.aspect.validated.Update;
+import cn.hjljy.fastboot.autoconfig.aspect.validated.Insert;
+import cn.hjljy.fastboot.autoconfig.aspect.validated.Select;
+import cn.hjljy.fastboot.autoconfig.aspect.validated.Update;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.member.dto.MemberLevelDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberLevelParam;

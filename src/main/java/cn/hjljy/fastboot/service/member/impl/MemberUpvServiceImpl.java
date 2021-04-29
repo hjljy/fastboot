@@ -22,7 +22,6 @@ public class MemberUpvServiceImpl extends BaseService<MemberUpvMapper, MemberUpv
 
     @Override
     public MemberUpvDto getByOrgId(String orgId) {
-        Assert.notNull(orgId, "机构ID不能为空");
         MemberUpv upv = baseMapper.selectById(orgId);
         //如果存在就直接返回
         if (null != upv) {

@@ -2,7 +2,7 @@ package cn.hjljy.fastboot.controller.sys;
 
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
-import cn.hjljy.fastboot.common.aspect.validated.Insert;
+import cn.hjljy.fastboot.autoconfig.aspect.validated.Insert;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.sys.dto.SysRoleDto;
 import cn.hjljy.fastboot.service.sys.ISysRoleService;

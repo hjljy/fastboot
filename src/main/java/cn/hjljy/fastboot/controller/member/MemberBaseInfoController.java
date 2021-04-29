@@ -1,11 +1,12 @@
 package cn.hjljy.fastboot.controller.member;
 
 
-import cn.hjljy.fastboot.common.aspect.validated.Update;
+import cn.hjljy.fastboot.autoconfig.aspect.validated.Update;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
+import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
@@ -66,5 +67,10 @@ public class MemberBaseInfoController {
         return ResultInfo.success(memberBaseInfoService.getMemberDto(memberId));
     }
 
+    @PostMapping("/recharge/")
+    @ApiOperation(value = "会员充值")
+    public ResultInfo<MemberDto> memberRecharge(@RequestBody RechargeParam param) {
+        return ResultInfo.success(memberBaseInfoService.memberRecharge(param));
+    }
 }
 

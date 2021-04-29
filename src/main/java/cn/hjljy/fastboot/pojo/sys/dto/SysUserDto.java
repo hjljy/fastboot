@@ -1,8 +1,8 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
 import cn.hjljy.fastboot.pojo.BaseDto;
-import cn.hjljy.fastboot.common.aspect.validated.Insert;
-import cn.hjljy.fastboot.common.aspect.validated.Update;
+import cn.hjljy.fastboot.autoconfig.aspect.validated.Insert;
+import cn.hjljy.fastboot.autoconfig.aspect.validated.Update;
 import cn.hjljy.fastboot.common.enums.SexEnum;
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import io.swagger.annotations.ApiModel;

@@ -25,10 +25,10 @@ public class MemberUpvController {
     @Autowired
     IMemberUpvService memberUpvService;
 
-    @GetMapping("/{orgId}/info")
+    @GetMapping("/{orgId}")
     @ApiOperation(value = "查询机构所有会员成长值变化规则")
-    @PreAuthorize("hasAnyAuthority('{authority=member:upv:info}')")
-    public ResultInfo<MemberUpvDto> getByOrg(@PathVariable(value = "orgId", required = false) String orgId) {
+    @PreAuthorize("hasAnyAuthority('{authority=member:right:list}')")
+    public ResultInfo<MemberUpvDto> getByOrg(@PathVariable String orgId) {
         MemberUpvDto upvDto = memberUpvService.getByOrgId(orgId);
         ResultInfo<MemberUpvDto> success = new ResultInfo<>(upvDto);
         if (null == upvDto) {
@@ -39,7 +39,7 @@ public class MemberUpvController {
 
     @PostMapping("/edit")
     @ApiOperation(value = "编辑机构所有会员成长值变化规则")
-    @PreAuthorize("hasAnyAuthority('{authority=member:upv:edit}')")
+    @PreAuthorize("hasAnyAuthority('{authority=member:right:edit}')")
     public ResultInfo<Boolean> edit(@RequestBody @Validated MemberUpvDto dto) {
         return new ResultInfo<>(memberUpvService.editUpv(dto));
     }

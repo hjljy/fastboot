@@ -1,7 +1,7 @@
 package cn.hjljy.fastboot.pojo.sys.dto;
 
 import cn.hjljy.fastboot.pojo.BaseDto;
-import cn.hjljy.fastboot.common.aspect.validated.Select;
+import cn.hjljy.fastboot.autoconfig.aspect.validated.Select;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
