@@ -41,7 +41,7 @@ public class MemberUpvServiceImpl extends BaseService<MemberUpvMapper, MemberUpv
             BeanUtil.copyProperties(dto, memberUpv);
             return this.updateById(memberUpv);
         }
-        //如果不存在就返回
+        //如果不存在就新增
         memberUpv = new MemberUpv();
         BeanUtil.copyProperties(dto, memberUpv);
         return this.save(memberUpv);

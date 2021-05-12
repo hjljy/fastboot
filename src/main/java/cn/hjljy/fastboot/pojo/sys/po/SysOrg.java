@@ -65,16 +65,16 @@ public class SysOrg implements Serializable {
     @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建人")
     @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private Long createUser;
 
     @ApiModelProperty(value = "更新时间")
-    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.UPDATE)
+    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "更新时间")
-    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.UPDATE)
+    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
     @ApiModelProperty(value = "是否删除  0否(默认) 1是")

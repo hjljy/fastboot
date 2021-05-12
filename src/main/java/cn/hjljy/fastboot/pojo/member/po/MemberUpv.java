@@ -1,11 +1,8 @@
 package cn.hjljy.fastboot.pojo.member.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.time.LocalDateTime;
-
-import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 
@@ -54,17 +51,21 @@ public class MemberUpv implements Serializable {
     @ApiModelProperty(value = "计算规则")
     private String countRule;
 
-    @ApiModelProperty(value = "创建人")
-    private Long createUser;
-
     @ApiModelProperty(value = "创建时间")
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "修改人")
-    private Long updateUser;
+    @ApiModelProperty(value = "创建人")
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
+    private Long createUser;
 
-    @ApiModelProperty(value = "修改时间")
+    @ApiModelProperty(value = "更新时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+
+    @ApiModelProperty(value = "更新时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Long updateUser;
 
     @ApiModelProperty(value = "是否禁用 0否 1是")
     @TableLogic

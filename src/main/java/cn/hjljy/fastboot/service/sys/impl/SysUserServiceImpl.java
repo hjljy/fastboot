@@ -221,7 +221,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public void bindPhone(String phone) {
+    public Boolean bindPhone(String phone) {
         Long userId = SecurityUtils.getUserId();
         SysUser sysUser = userIfExist(userId);
         if (phone.equals(sysUser.getPhone())) {
@@ -233,7 +233,7 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
             throw new BusinessException(ResultCode.DEFAULT, "一个手机号码只能绑定一个账号");
         }
         sysUser.setPhone(phone);
-        baseMapper.updateById(sysUser);
+       return this.updateById(sysUser);
     }
 
     @Override

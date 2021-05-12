@@ -112,10 +112,11 @@ public class SysUserController {
 
     @PostMapping("/bindPhone")
     @ApiOperation(value = "当前用户账号绑定手机号(无需权限控制)")
-    public ResultInfo<Object> editPhone(@RequestBody @Validated({Select.class}) PhoneParam param) {
-        userService.bindPhone(param.getPhone());
-        ResultInfo<Object> resultInfo = new ResultInfo<>();
+    public ResultInfo<Boolean> editPhone(@RequestBody @Validated({Select.class}) PhoneParam param) {
+        Boolean result = userService.bindPhone(param.getPhone());
+        ResultInfo<Boolean> resultInfo = new ResultInfo<>();
         resultInfo.setMsg("关联手机号码成功，请重新登录");
+        resultInfo.setData(result);
         return resultInfo;
     }
 }

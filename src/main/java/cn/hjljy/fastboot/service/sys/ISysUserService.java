@@ -24,7 +24,7 @@ public interface ISysUserService extends IService<SysUser> {
      * 根据用户账号查询用户信息
      *
      * @param username 用户账号
-     * @return SysUser 用户信息
+     * @return {@link SysUser } 用户信息
      */
     SysUser selectByUserName(String username);
 
@@ -32,7 +32,7 @@ public interface ISysUserService extends IService<SysUser> {
      * 分页查询用户信息
      *
      * @param param 分页查询信息
-     * @return IPage<SysUserDto> 分页信息
+     * @return {@link IPage<SysUserDto> } 用户分页信息
      */
     IPage<SysUserDto> getSysUserInfoPage(SysUserParam param);
 
@@ -40,7 +40,7 @@ public interface ISysUserService extends IService<SysUser> {
      * 根据Id查询用户所有信息
      *
      * @param userId 用户ID
-     * @return 用户详情
+     * @return {@link SysUserDto } 用户详情
      */
     SysUserDto getUserDetailInfoByUserId(Long userId);
 
@@ -70,7 +70,7 @@ public interface ISysUserService extends IService<SysUser> {
      *
      * @param userId 用户ID
      * @return SysUser 用户信息
-     * @throws BusinessException 异常码 code = USER_NOT_FOUND
+     * @throws  BusinessException {@link cn.hjljy.fastboot.common.result.ResultCode#USER_NOT_FOUND} 用户不存在
      */
     SysUser userIfExist(Long userId) throws BusinessException;
 
@@ -106,14 +106,15 @@ public interface ISysUserService extends IService<SysUser> {
      * 当前用户绑定手机号码
      *
      * @param phone 手机号码
+     * @return {@link Boolean}
      */
-    void bindPhone(String phone);
+    Boolean bindPhone(String phone);
 
     /**
      * 根据手机号查询用户基础信息
      *
      * @param phone 手机号码
-     * @return sysUser 用户信息集合
+     * @return {@link List<SysUser>}  用户信息集合
      */
     List<SysUser> selectByPhone(String phone);
 
@@ -121,7 +122,7 @@ public interface ISysUserService extends IService<SysUser> {
      * 根据token查询所有用户信息
      *
      * @param orgId 机构ID
-     * @return 用户简单信息
+     * @return {@link List<SysUserVo>} 用户简单信息
      */
     List<SysUserVo> getUserSimpleInfoList(Long orgId);
 }
