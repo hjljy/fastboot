@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import java.util.*;
 
@@ -115,8 +114,7 @@ public class TokenConfig {
                 return decode;
             }
         };
-        String signingKey = "fastboot";
-        jwt.setSigningKey(signingKey);
+        jwt.setSigningKey("fastboot");
         return jwt;
     }
 
@@ -129,6 +127,7 @@ public class TokenConfig {
      */
     @Bean
     public TokenStore tokenStore() {
-        return new JwtTokenStore(jwtAccessTokenConverter());
+        return new MyJwtTokenStore(jwtAccessTokenConverter());
     }
+
 }

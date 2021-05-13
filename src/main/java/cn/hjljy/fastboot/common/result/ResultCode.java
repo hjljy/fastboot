@@ -27,7 +27,7 @@ public enum ResultCode {
     PERMISSION_DENIED(21001, "权限不足，请联系管理员"),
     TOKEN_EXPIRED(21002, "会话已过期, 请重新登录"),
     TOKEN_NOT_FOUND(21003, "未携带TOKEN,非法请求！"),
-    TOKEN_NOT_CREATE(21004, "TOKEN未生成,请稍后再试"),
+    TOKEN_NOT_CREATE(21004, "无效TOKEN,请重新登录"),
 
     ORG_NOT_FOUND(22001, "机构不存在"),
     ORG_DISABLE(22002, "机构被禁用,请联系管理员"),

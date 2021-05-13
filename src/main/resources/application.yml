@@ -32,6 +32,7 @@ mybatis-plus:
       logic-delete-field: status #逻辑删除默认字段
       update-strategy: not_null # 更新时字段如果为null，就不进行更新该字段。
       insert-strategy: not_null # 插入时如果字段为null,就不插入数据，建议数据库表字段设置默认值
-
+knife4j:
+  enable: true
 
 

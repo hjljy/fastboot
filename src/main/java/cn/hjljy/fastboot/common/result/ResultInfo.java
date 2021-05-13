@@ -2,14 +2,18 @@ package cn.hjljy.fastboot.common.result;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+
+import java.io.Serializable;
 
 /**
  * @author yichaofan
  * @date 2020/6/4 16:57
  * @apiNote 前端AJAX请求返回实体
  */
-@ApiModel(value = "前端AJAX请求返回实体")
-public class ResultInfo<T> {
+@ApiModel(value = "前端AJAX请求返回实体", description = "返回实体")
+public class ResultInfo<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "状态码，非0表示失败")
     private int code;
 
@@ -74,7 +78,7 @@ public class ResultInfo<T> {
         this.msg = msg;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 

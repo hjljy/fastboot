@@ -94,29 +94,25 @@
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>3.14.0</version>
         </dependency>
-        <!--swagger 相关jar-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-models</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>1.5.21</version>
-        </dependency>
+<!--        &lt;!&ndash;swagger 相关jar&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-boot-starter</artifactId>-->
+<!--            <version>3.0.0</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>io.springfox</groupId>-->
+<!--                    <artifactId>springfox-swagger-ui</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+
         <!--swagger 国产UI https://gitee.com/xiaoym/knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <!--在引用时请在maven中央仓库搜索最新版本号-->
-            <version>2.0.3</version>
+            <version>3.0.2</version>
         </dependency>
         <!-- lombok插件 https://projectlombok.org/ -->
         <dependency>

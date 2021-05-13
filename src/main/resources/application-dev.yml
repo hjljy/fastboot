@@ -78,13 +78,16 @@ fastboot:
   request:
     allow: # 请求放行地址
       - /login
+      - /error
       - /oauth/**
       - /sys/config/**
       - /actuator/**
       - /v2/api-docs/**
+      - /v3/api-docs/**
       - /favicon.ico
       - /webjars/**
       - /swagger-resources/**
+      - /swagger-ui/**
       - /druid/**
       - /css/**
       - /404.html

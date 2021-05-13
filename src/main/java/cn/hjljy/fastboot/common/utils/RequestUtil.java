@@ -1,5 +1,9 @@
 package cn.hjljy.fastboot.common.utils;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 public class RequestUtil {
 
     private static final String UNKNOWN = "unknown";
+
     /**
      * 获取请求当中body的数据
      *
@@ -50,11 +55,17 @@ public class RequestUtil {
      * @return token字符串
      */
     public static String getToken(HttpServletRequest request) {
-        return request.getHeader("Authorization").substring("Bearer".length()).trim();
+        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (StringUtils.isNotEmpty(authorization)) {
+            String trim = authorization.replaceAll(OAuth2AccessToken.BEARER_TYPE, " ").trim();
+            return trim.replaceAll(OAuth2AccessToken.BEARER_TYPE.toLowerCase(), " ").trim();
+        }
+        return authorization;
     }
 
     /**
      * 获取请求来源ip地址
+     *
      * @param request 请求
      * @return IP地址
      */
