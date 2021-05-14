@@ -66,15 +66,22 @@ public class GlobalExceptionHandler {
         //token 过期处理
         if (cause instanceof InvalidTokenException) {
             resultInfo = ResultInfo.error(ResultCode.TOKEN_EXPIRED);
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
         // 其余非法请求 未携带Token
         if (ex instanceof InsufficientAuthenticationException) {
             resultInfo = ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
 
         return resultInfo;
+    }
+
+    /**
+     * 处理oauth2登录验证异常
+     */
+    @ExceptionHandler(value = InvalidTokenException.class)
+    public ResultInfo<Object> errorHandler(InvalidTokenException ex) {
+        ex.printStackTrace();
+        return ResultInfo.error(ResultCode.TOKEN_EXPIRED, ex.getMessage());
     }
 
     /**
@@ -85,7 +92,6 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();
         return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG, ex.getMessage());
     }
-
     /**
      * 处理参数类型异常信息
      */

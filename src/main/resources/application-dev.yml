@@ -75,23 +75,3 @@ server:
 fastboot:
   oauth2:
     checkTokenUrl: http://127.0.0.1:8090/oauth/check_token?token=
-  request:
-    allow: # 请求放行地址
-      - /login
-      - /error
-      - /oauth/**
-      - /sys/config/**
-      - /actuator/**
-      - /v2/api-docs/**
-      - /v3/api-docs/**
-      - /favicon.ico
-      - /webjars/**
-      - /swagger-resources/**
-      - /swagger-ui/**
-      - /druid/**
-      - /css/**
-      - /404.html
-      - /doc.html
-      - /500.html
-      - /html/**
-      - /js/**

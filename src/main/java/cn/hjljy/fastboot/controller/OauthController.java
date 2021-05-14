@@ -61,7 +61,7 @@ public class OauthController {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         return accessToken.getBody();
     }
-
+    
     /**
      * 登录退出操作处理
      *

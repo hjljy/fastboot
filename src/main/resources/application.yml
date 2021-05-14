@@ -34,5 +34,25 @@ mybatis-plus:
       insert-strategy: not_null # 插入时如果字段为null,就不插入数据，建议数据库表字段设置默认值
 knife4j:
   enable: true
-
+fastboot:
+  request:
+    allow: # 请求放行地址
+      - /login
+      - /error
+      - /oauth/**
+      - /sys/config/**
+      - /actuator/**
+      - /v2/api-docs/**
+      - /v3/api-docs/**
+      - /favicon.ico
+      - /webjars/**
+      - /swagger-resources/**
+      - /swagger-ui/**
+      - /druid/**
+      - /css/**
+      - /404.html
+      - /doc.html
+      - /500.html
+      - /html/**
+      - /js/**
 
