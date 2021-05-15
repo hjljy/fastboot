@@ -1,6 +1,8 @@
 package cn.hjljy.fastboot.pojo.member.dto;
 
-import cn.hjljy.fastboot.common.enums.PayTypeEnum;
+import cn.hjljy.fastboot.common.enums.member.OrderSourceEnum;
+import cn.hjljy.fastboot.common.enums.member.PayTypeEnum;
+import cn.hjljy.fastboot.pojo.BaseDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -13,7 +15,7 @@ import java.math.BigDecimal;
  * @description: 会员充值参数
  */
 @Data
-public class RechargeParam implements Serializable {
+public class RechargeParam extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,10 +23,13 @@ public class RechargeParam implements Serializable {
     @NotNull(message = "会员ID不能为空")
     private Long memberId;
 
-    @ApiModelProperty(value = "会员ID")
+    @ApiModelProperty(value = "支付方式")
     @NotNull(message = "支付方式")
     private PayTypeEnum payType;
 
+    @ApiModelProperty(value = "订单来源")
+    @NotNull(message = "订单来源")
+    private OrderSourceEnum orderSource;
 
     @ApiModelProperty(value = "充值金额")
     @NotNull(message = "充值金额不能为空")

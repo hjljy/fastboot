@@ -4,6 +4,7 @@ import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.enums.SexEnum;
 import cn.hjljy.fastboot.common.enums.member.MemberSourceEnum;
+import cn.hjljy.fastboot.common.enums.member.OrderTypeEnum;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.LocalDateTimeUtil;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
@@ -14,9 +15,12 @@ import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
+import cn.hjljy.fastboot.pojo.member.po.MemberOrderInfo;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import cn.hjljy.fastboot.service.member.IMemberLevelService;
+import cn.hjljy.fastboot.service.member.IMemberMoneyRecordService;
+import cn.hjljy.fastboot.service.member.IMemberOrderInfoService;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -39,6 +44,12 @@ import java.time.LocalDateTime;
 public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper, MemberBaseInfo> implements IMemberBaseInfoService {
     @Autowired
     private IMemberLevelService memberLevelService;
+
+    @Autowired
+    private IMemberOrderInfoService orderInfoService;
+
+    @Autowired
+    private IMemberMoneyRecordService moneyRecordService;
 
     @Override
     public IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(MemberBaseInfoParam param) {
@@ -80,8 +91,8 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         }
         //处理新增的信息
         info.setMemberId(memberId);
-        info.setBalance(0L);
-        info.setGenBalance(0L);
+        info.setBalance(BigDecimal.ZERO);
+        info.setGenBalance(BigDecimal.ZERO);
         info.setMemberIntegral(0L);
         return this.baseMapper.insert(info);
     }
@@ -94,7 +105,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
             return true;
         }
         //如果会员账上金额不为0 无法删除
-        if (baseInfo.getBalance().equals(0L) && baseInfo.getGenBalance().equals(0L)) {
+        if (baseInfo.getBalance().equals(BigDecimal.ZERO) && baseInfo.getGenBalance().equals(BigDecimal.ZERO)) {
             baseInfo.setUpdateTime(LocalDateTime.now());
             baseInfo.setUpdateUser(SecurityUtils.getUserId());
             baseInfo.setRemark(SecurityUtils.getUsername() + "手动删除该会员,操作时间：" + LocalDateTimeUtil.formatToString(LocalDateTime.now()));
@@ -160,7 +171,8 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
 
     @Override
     public MemberDto memberRecharge(RechargeParam param) {
-        MemberBaseInfo baseInfo = this.getById(param.getMemberId());
+        MemberBaseInfo baseInfo = this.memberExist(param.getMemberId());
+        MemberOrderInfo orderInfo = orderInfoService.createOrder(baseInfo.getMemberId(), param.getOrderSource(), param.getPayType(), param.getMoney(), OrderTypeEnum.NORMAL);
         return null;
     }
 

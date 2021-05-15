@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -52,10 +53,10 @@ public class MemberBaseInfo implements Serializable {
     private Long levelId;
 
     @ApiModelProperty(value = "账户余额")
-    private Long balance;
+    private BigDecimal balance;
 
     @ApiModelProperty(value = "赠送余额")
-    private Long genBalance;
+    private BigDecimal genBalance;
 
     @ApiModelProperty(value = "会员卡号")
     private String memberCard;
@@ -77,19 +78,17 @@ public class MemberBaseInfo implements Serializable {
     private String remark;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "创建人")
-    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private Long createUser;
 
     @ApiModelProperty(value = "更新时间")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "更新人")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
     @ApiModelProperty(value = "是否禁用 0否(默认) 1是")

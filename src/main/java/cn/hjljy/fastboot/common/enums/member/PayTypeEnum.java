@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.common.enums;
+package cn.hjljy.fastboot.common.enums.member;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -15,7 +15,7 @@ public enum PayTypeEnum {
      */
     ALI_PAY(1, "支付宝", "移动支付", "ALI_PAY"),
     WX_PAY(2, "微信支付", "移动支付", "WX_PAY"),
-    QQ_PAY(3, "QQ支付", "移动支付", "QQ_PAY"),
+    UNION_PAY(20, "云闪付", "移动支付", "UNION_PAY"),
     MEMBER_PAY(90, "会员支付", "移动支付", "MEMBER_PAY"),
     CASH_PAY(100, "现金支付", "线下支付", "CASH_PAY");
 

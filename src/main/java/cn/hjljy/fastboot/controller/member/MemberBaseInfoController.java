@@ -67,10 +67,5 @@ public class MemberBaseInfoController {
         return ResultInfo.success(memberBaseInfoService.getMemberDto(memberId));
     }
 
-    @PostMapping("/recharge/")
-    @ApiOperation(value = "会员充值")
-    public ResultInfo<MemberDto> memberRecharge(@RequestBody RechargeParam param) {
-        return ResultInfo.success(memberBaseInfoService.memberRecharge(param));
-    }
 }
 

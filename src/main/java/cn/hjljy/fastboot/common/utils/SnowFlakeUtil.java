@@ -115,14 +115,9 @@ public class SnowFlakeUtil {
         return snowFlake.nextId();
     }
 
-    public static String createCardId(String pre) {
+    public static Long OrderNum() {
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(5, 7);
-        return pre + snowFlake.nextId();
-    }
-
-    public static String createStringId() {
-        SnowFlakeUtil snowFlake = new SnowFlakeUtil(1, 5);
-        return Long.toString(snowFlake.nextId());
+        return snowFlake.nextId();
     }
 
     public static void main(String[] args) {
