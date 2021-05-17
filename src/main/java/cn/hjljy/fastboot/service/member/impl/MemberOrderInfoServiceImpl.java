@@ -2,15 +2,14 @@ package cn.hjljy.fastboot.service.member.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.constant.Constant;
-import cn.hjljy.fastboot.common.enums.member.OrderSourceEnum;
-import cn.hjljy.fastboot.common.enums.member.OrderStateEnum;
-import cn.hjljy.fastboot.common.enums.member.OrderTypeEnum;
-import cn.hjljy.fastboot.common.enums.member.PayTypeEnum;
+import cn.hjljy.fastboot.common.enums.member.*;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.pojo.member.po.MemberOrderInfo;
 import cn.hjljy.fastboot.mapper.member.MemberOrderInfoMapper;
 import cn.hjljy.fastboot.service.member.IMemberOrderInfoService;
 import cn.hjljy.fastboot.service.BaseService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -51,5 +50,15 @@ public class MemberOrderInfoServiceImpl extends BaseService<MemberOrderInfoMappe
         }
         this.save(orderInfo);
         return orderInfo;
+    }
+
+    @Override
+    public void success(Long orderNum, BigDecimal payMoney, PayTypeEnum payType, ConsumeTypeEnum consumeType) {
+        MemberOrderInfo orderInfo = this.getByOrderNum(orderNum);
+    }
+
+    @Override
+    public MemberOrderInfo getByOrderNum(Long orderNum) {
+        return this.getOne(new LambdaQueryWrapper<MemberOrderInfo>().eq(MemberOrderInfo::getOrderNum,orderNum));
     }
 }

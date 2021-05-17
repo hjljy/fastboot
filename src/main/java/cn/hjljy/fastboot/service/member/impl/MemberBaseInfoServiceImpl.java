@@ -173,6 +173,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     public MemberDto memberRecharge(RechargeParam param) {
         MemberBaseInfo baseInfo = this.memberExist(param.getMemberId());
         MemberOrderInfo orderInfo = orderInfoService.createOrder(baseInfo.getMemberId(), param.getOrderSource(), param.getPayType(), param.getMoney(), OrderTypeEnum.NORMAL);
+        orderInfoService.success(orderInfo.getOrderNum(),param.getMoney(),param.getPayType(),"消费类型");
         return null;
     }
 
