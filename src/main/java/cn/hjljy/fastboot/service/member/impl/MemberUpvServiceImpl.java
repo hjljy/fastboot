@@ -7,7 +7,8 @@ import cn.hjljy.fastboot.service.member.IMemberUpvService;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hutool.core.bean.BeanUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 /**
  * <p>
@@ -21,16 +22,16 @@ import org.springframework.util.Assert;
 public class MemberUpvServiceImpl extends BaseService<MemberUpvMapper, MemberUpv> implements IMemberUpvService {
 
     @Override
-    public MemberUpvDto getByOrgId(String orgId) {
+    public MemberUpvDto getByOrgId(Long orgId) {
+        MemberUpvDto dto = null;
         MemberUpv upv = baseMapper.selectById(orgId);
         //如果存在就直接返回
         if (null != upv) {
-            MemberUpvDto dto = new MemberUpvDto();
+            dto = new MemberUpvDto();
             BeanUtil.copyProperties(upv, dto);
-            return dto;
         }
         //不存在就返回null
-        return null;
+        return dto;
     }
 
     @Override

@@ -73,7 +73,8 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
     @Override
     public MemberLevel selectOrgMaxMemberLevel(Long orgId) {
         QueryWrapper<MemberLevel> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("max(level_order) as level_order", "level_id", "level_name", "upgrade_growth_value");
+        queryWrapper.select("max(level_order) as level_order","org_id", "level_id", "level_name", "upgrade_growth_value");
+        queryWrapper.eq("org_id",orgId);
         return this.baseMapper.selectOne(queryWrapper);
     }
 
@@ -169,5 +170,14 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
             this.updateById(defaultLevel);
             log.info("取消{}作为新会员默认等级", defaultLevel.getLevelName());
         }
+    }
+
+    @Override
+    public MemberLevel selectOrgLevelByGrowthValue(Integer growthValue,Long orgId) {
+        QueryWrapper<MemberLevel> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("max(upgrade_growth_value) as upgrade_growth_value","org_id", "level_id", "level_name", "upgrade_growth_value");
+        queryWrapper.le("upgrade_growth_value",growthValue);
+        queryWrapper.eq("org_id",orgId);
+        return this.baseMapper.selectOne(queryWrapper);
     }
 }

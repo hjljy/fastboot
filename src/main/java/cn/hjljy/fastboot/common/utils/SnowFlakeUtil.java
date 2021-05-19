@@ -33,7 +33,7 @@ public class SnowFlakeUtil {
      */
     private final static long MACHINE_LEFT = SEQUENCE_BIT;
     private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
-    private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
+    private final static long TIME_STMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
 
     /**
      * 数据中心
@@ -73,7 +73,7 @@ public class SnowFlakeUtil {
      * @return ID
      */
     public synchronized long nextId() {
-        long currStmp = getNewstmp();
+        long currStmp = getNewStmp();
         if (currStmp < lastStmp) {
             throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
         }
@@ -92,21 +92,21 @@ public class SnowFlakeUtil {
 
         lastStmp = currStmp;
 
-        return (currStmp - START_STMP) << TIMESTMP_LEFT
+        return (currStmp - START_STMP) << TIME_STMP_LEFT
                 | datacenterId << DATACENTER_LEFT
                 | machineId << MACHINE_LEFT
                 | sequence;
     }
 
     private long getNextMill() {
-        long mill = getNewstmp();
+        long mill = getNewStmp();
         while (mill <= lastStmp) {
-            mill = getNewstmp();
+            mill = getNewStmp();
         }
         return mill;
     }
 
-    private long getNewstmp() {
+    private long getNewStmp() {
         return System.currentTimeMillis();
     }
 
@@ -115,7 +115,7 @@ public class SnowFlakeUtil {
         return snowFlake.nextId();
     }
 
-    public static Long OrderNum() {
+    public static Long orderNum() {
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(5, 7);
         return snowFlake.nextId();
     }

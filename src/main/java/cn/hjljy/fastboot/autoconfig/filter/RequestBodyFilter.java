@@ -6,7 +6,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.Duration;

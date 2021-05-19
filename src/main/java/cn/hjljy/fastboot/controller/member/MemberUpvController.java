@@ -28,10 +28,10 @@ public class MemberUpvController {
     @GetMapping("/{orgId}")
     @ApiOperation(value = "查询机构所有会员成长值变化规则")
     @PreAuthorize("hasAnyAuthority('{authority=member:right:list}')")
-    public ResultInfo<MemberUpvDto> getByOrg(@PathVariable String orgId) {
-        MemberUpvDto upvDto = memberUpvService.getByOrgId(orgId);
-        ResultInfo<MemberUpvDto> success = new ResultInfo<>(upvDto);
-        if (null == upvDto) {
+    public ResultInfo<MemberUpvDto> getByOrg(@PathVariable Long orgId) {
+        MemberUpvDto dto = memberUpvService.getByOrgId(orgId);
+        ResultInfo<MemberUpvDto> success = new ResultInfo<>(dto);
+        if (null == dto) {
             success.setMsg("当前未设置成长值变化规则");
         }
         return success;

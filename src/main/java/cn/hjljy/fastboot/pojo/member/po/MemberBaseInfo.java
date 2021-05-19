@@ -49,7 +49,7 @@ public class MemberBaseInfo implements Serializable {
     @ApiModelProperty(value = "会员生日：yyyy-MM-dd")
     private String memberBirth;
 
-    @ApiModelProperty(value = "会员等级Id 没有会员等级时置为0")
+    @ApiModelProperty(value = "会员等级Id 没有会员等级时置为-1")
     private Long levelId;
 
     @ApiModelProperty(value = "账户余额")

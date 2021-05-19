@@ -20,7 +20,7 @@ public interface IMemberUpvService extends IService<MemberUpv> {
      * @param orgId 机构id
      * @return 返回扣减计算规则
      */
-    MemberUpvDto getByOrgId(String orgId);
+    MemberUpvDto getByOrgId(Long orgId);
 
     /**
      * 编辑机构会员成长值扣减计算规则

@@ -14,7 +14,7 @@ public enum OrderTypeEnum {
     //普通订单
     NORMAL,
     //组合订单
-    COMBINE;
+    COMBINE
 
 
 }

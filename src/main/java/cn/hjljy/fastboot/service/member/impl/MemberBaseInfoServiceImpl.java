@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.service.member.impl;
 
 import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
+import cn.hjljy.fastboot.common.constant.Constant;
 import cn.hjljy.fastboot.common.enums.SexEnum;
 import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import cn.hjljy.fastboot.common.enums.member.MemberSourceEnum;
@@ -12,6 +13,7 @@ import cn.hjljy.fastboot.mapper.member.MemberBaseInfoMapper;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
+import cn.hjljy.fastboot.pojo.member.dto.MemberUpvDto;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
 import cn.hjljy.fastboot.pojo.member.po.MemberMoneyRecord;
@@ -19,6 +21,7 @@ import cn.hjljy.fastboot.service.BaseService;
 import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import cn.hjljy.fastboot.service.member.IMemberLevelService;
 import cn.hjljy.fastboot.service.member.IMemberMoneyRecordService;
+import cn.hjljy.fastboot.service.member.IMemberUpvService;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 /**
@@ -43,6 +47,9 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
 
     @Autowired
     private IMemberLevelService memberLevelService;
+
+    @Autowired
+    private IMemberUpvService memberUpvService;
 
     @Autowired
     private IMemberMoneyRecordService moneyRecordService;
@@ -166,6 +173,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
 
     @Override
     public void updateBalance(Long memberId, Long orderNum, BigDecimal money, BigDecimal giftMoney, ConsumeTypeEnum consumeType) {
+        // 1 更新会员金额
         MemberBaseInfo baseInfo = this.memberExist(memberId);
         log.info("会员：{}更新前，充值金额：{}，赠送金额：{}", baseInfo.getMemberName(), baseInfo.getBalance(), baseInfo.getGenBalance());
         if (ConsumeTypeEnum.isRecharge(consumeType)) {
@@ -176,12 +184,43 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
             baseInfo.setGenBalance(baseInfo.getGenBalance().subtract(giftMoney));
         }
         baseInfo.setUpdateTime(LocalDateTime.now());
+        this.updateById(baseInfo);
+        log.info("会员：{}更新后，充值金额：{}，赠送金额：{}", baseInfo.getMemberName(), baseInfo.getBalance(), baseInfo.getGenBalance());
+        // 2 记录会员金额变动情况
         MemberMoneyRecord moneyRecord = new MemberMoneyRecord();
+        moneyRecord.setMemberId(memberId);
         moneyRecord.setOrderNum(orderNum);
         moneyRecord.setMoney(money);
         moneyRecord.setGiveMoney(giftMoney);
-        moneyRecord.setType(consumeType.name());
+        moneyRecord.setType(consumeType);
+        moneyRecord.setBalance(baseInfo.getBalance());
+        moneyRecord.setGenBalance(baseInfo.getGenBalance());
+        moneyRecordService.save(moneyRecord);
+    }
 
+    @Override
+    public void updateGrowthValue(Long memberId, Long orgId, BigDecimal money, ConsumeTypeEnum consumeType) {
+        MemberBaseInfo baseInfo = this.memberExist(memberId);
+        MemberUpvDto dto = memberUpvService.getByOrgId(baseInfo.getOrgId());
+        if (null != dto) {
+            Integer value = baseInfo.getGrowthValue();
+            int growthValue = money.divide(new BigDecimal(dto.getMoney()), RoundingMode.FLOOR).multiply(new BigDecimal(dto.getGrowthValue())).intValue();
+            if (ConsumeTypeEnum.isRecharge(consumeType) && dto.getMemberRecharge()) {
+                baseInfo.setGrowthValue(baseInfo.getGrowthValue() + growthValue);
+            } else if (ConsumeTypeEnum.isNormalConsume(consumeType) && dto.getNormalConsume()) {
+                baseInfo.setGrowthValue(baseInfo.getGrowthValue() + growthValue);
+            } else if (ConsumeTypeEnum.isBalanceConsume(consumeType) && dto.getStoredConsume()) {
+                baseInfo.setGrowthValue(baseInfo.getGrowthValue() + growthValue);
+            } else if (ConsumeTypeEnum.isRefund(consumeType) && dto.getRefund()) {
+                baseInfo.setGrowthValue(baseInfo.getGrowthValue() - growthValue);
+            }
+            if (value > baseInfo.getGrowthValue()) {
+                log.info("会员ID:{},金额：{},消费类型：{}，获取的成长值:{}", memberId, money, consumeType.name(), growthValue);
+            }
+        }
+        MemberLevel memberLevel = memberLevelService.selectOrgLevelByGrowthValue(baseInfo.getGrowthValue(), baseInfo.getOrgId());
+        baseInfo.setLevelId(memberLevel.getLevelId() != null ? memberLevel.getLevelId() : -1L);
+        this.updateById(baseInfo);
     }
 
     @Override

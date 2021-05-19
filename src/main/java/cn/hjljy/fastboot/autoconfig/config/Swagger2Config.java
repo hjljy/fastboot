@@ -49,7 +49,7 @@ public class Swagger2Config {
         SecurityContext securityContext=   securityContextBuilder.securityReferences(CollectionUtil.newArrayList(securityReference)).build();
         //schemas
         List<SecurityScheme> securitySchemes=CollectionUtil.newArrayList(oAuth);
-        //securyContext
+        //securityContexts
         List<SecurityContext> securityContexts=CollectionUtil.newArrayList(securityContext);
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())

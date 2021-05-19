@@ -4,7 +4,6 @@ import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
-import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -99,4 +98,14 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * @param consumeType 消费类型
      */
     void updateBalance(Long memberId, Long orderNum, BigDecimal money, BigDecimal giftMoney, ConsumeTypeEnum consumeType);
+
+    /**
+     * 更新成长值
+     *
+     * @param memberId    会员id
+     * @param orgId       机构ID
+     * @param money       金额
+     * @param consumeType 消费类型
+     */
+    void updateGrowthValue(Long memberId, Long orgId, BigDecimal money, ConsumeTypeEnum consumeType);
 }

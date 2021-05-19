@@ -2,7 +2,6 @@ package cn.hjljy.fastboot.common.result;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
 
 import java.io.Serializable;
 

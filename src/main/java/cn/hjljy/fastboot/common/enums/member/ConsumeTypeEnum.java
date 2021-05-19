@@ -1,7 +1,5 @@
 package cn.hjljy.fastboot.common.enums.member;
 
-import lombok.Getter;
-
 /**
  * 消费类型枚举
  *
@@ -15,11 +13,30 @@ public enum ConsumeTypeEnum {
      */
     RECHARGE,
     /**
-     * 消费
+     * 普通消费（非会员余额消费）
      */
-    CONSUME;
+    NORMAL_CONSUME,
+    /**
+     * 会员余额消费
+     */
+    BALANCE_CONSUME,
+    /**
+     * 退费
+     */
+    REFUND;
 
     public static boolean isRecharge(ConsumeTypeEnum type) {
         return RECHARGE == type;
+    }
+
+    public static boolean isNormalConsume(ConsumeTypeEnum type) {
+        return NORMAL_CONSUME == type;
+    }
+
+    public static boolean isBalanceConsume(ConsumeTypeEnum type) {
+        return BALANCE_CONSUME == type;
+    }
+    public static boolean isRefund(ConsumeTypeEnum type) {
+        return REFUND == type;
     }
 }

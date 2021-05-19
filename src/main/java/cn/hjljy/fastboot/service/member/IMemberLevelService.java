@@ -90,4 +90,13 @@ public interface IMemberLevelService extends IService<MemberLevel> {
      * @param orgId  机构ID
      */
     void resetDefaultLevel(Long userId, Long orgId);
+
+    /**
+     * 通过成长值获取机构等级
+     *
+     * @param growthValue 成长值
+     * @param orgId       机构id
+     * @return {@link MemberLevel}
+     */
+    MemberLevel selectOrgLevelByGrowthValue(Integer growthValue,Long orgId);
 }

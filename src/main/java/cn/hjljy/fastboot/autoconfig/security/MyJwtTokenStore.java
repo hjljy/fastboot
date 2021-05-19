@@ -1,6 +1,5 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
-import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.constant.Oauth2Constant;
 import cn.hjljy.fastboot.common.constant.RedisPrefixConstant;
 import cn.hjljy.fastboot.common.result.ResultCode;

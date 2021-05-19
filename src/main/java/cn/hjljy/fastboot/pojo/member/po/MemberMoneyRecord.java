@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.pojo.member.po;
 
 import java.math.BigDecimal;
 
+import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.time.LocalDateTime;
@@ -36,7 +37,7 @@ public class MemberMoneyRecord implements Serializable {
 
     @ApiModelProperty(value = "记录类型")
     @TableField("type")
-    private String type;
+    private ConsumeTypeEnum type;
 
     @ApiModelProperty(value = "订单编号")
     @TableField("order_num")
@@ -50,11 +51,11 @@ public class MemberMoneyRecord implements Serializable {
     @TableField("give_money")
     private BigDecimal giveMoney;
 
-    @ApiModelProperty(value = "消费/充值后充值金额")
+    @ApiModelProperty(value = "消费/充值后账户充值余额")
     @TableField("balance")
     private BigDecimal balance;
 
-    @ApiModelProperty(value = "消费/充值后赠送金额")
+    @ApiModelProperty(value = "消费/充值后账户赠送余额")
     @TableField("gen_balance")
     private BigDecimal genBalance;
 

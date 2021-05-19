@@ -37,7 +37,7 @@ public class MemberOrderInfoServiceImpl extends BaseService<MemberOrderInfoMappe
         orderInfo.setMoney(money);
         orderInfo.setPayMoney(BigDecimal.ZERO);
         orderInfo.setRefundMoney(BigDecimal.ZERO);
-        orderInfo.setOrderNum(SnowFlakeUtil.OrderNum());
+        orderInfo.setOrderNum(SnowFlakeUtil.orderNum());
         orderInfo.setPayUuid(Constant.LONG_NOT_EXIST);
         this.save(orderInfo);
         return orderInfo;
