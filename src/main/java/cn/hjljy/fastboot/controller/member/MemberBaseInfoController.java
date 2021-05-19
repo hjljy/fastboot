@@ -59,13 +59,5 @@ public class MemberBaseInfoController {
     public ResultInfo<Boolean> delMember(@PathVariable Long memberId) {
         return ResultInfo.success(memberBaseInfoService.delMember(memberId));
     }
-
-    @GetMapping("/info/{memberId}")
-    @PreAuthorize("hasAnyAuthority('{authority=member:info:detail}')")
-    @ApiOperation(value = "会员详细信息")
-    public ResultInfo<MemberDto> memberInfo(@PathVariable Long memberId) {
-        return ResultInfo.success(memberBaseInfoService.getMemberDto(memberId));
-    }
-
 }
 

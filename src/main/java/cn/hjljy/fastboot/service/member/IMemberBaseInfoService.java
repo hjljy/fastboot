@@ -71,15 +71,6 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
     MemberBaseInfo selectByCardAndOrgId(String memberCard, Long orgId);
 
     /**
-     * 获取到会员详细信息
-     *
-     * @param memberId 会员id
-     * @return 会员详细信息
-     */
-    MemberDto getMemberDto(Long memberId);
-
-
-    /**
      * 判断会员是否存在
      *
      * @param memberId 会员ID

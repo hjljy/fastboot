@@ -2,7 +2,6 @@ package cn.hjljy.fastboot.service.member.impl;
 
 import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
-import cn.hjljy.fastboot.common.constant.Constant;
 import cn.hjljy.fastboot.common.enums.SexEnum;
 import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import cn.hjljy.fastboot.common.enums.member.MemberSourceEnum;
@@ -12,7 +11,6 @@ import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.member.MemberBaseInfoMapper;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
-import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberUpvDto;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
@@ -163,12 +161,6 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         memberBaseInfo.setMemberCard(memberCard);
         memberBaseInfo.setOrgId(orgId);
         return this.selectOne(memberBaseInfo);
-    }
-
-    @Override
-    public MemberDto getMemberDto(Long memberId) {
-        MemberBaseInfo baseInfo = this.memberExist(memberId);
-        return null;
     }
 
     @Override
