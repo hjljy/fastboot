@@ -20,7 +20,7 @@
         <result column="create_time" property="createTime"/>
         <result column="create_user" property="createUser"/>
         <result column="update_time" property="updateTime"/>
-        <result column="update_user" property="updateUser"/>
+
         <result column="status" property="status"/>
     </resultMap>
 
@@ -28,7 +28,7 @@
     <sql id="Base_Column_List">
         member_id
         , org_id, member_sex, member_name, member_phone, member_birth, level_id, balance, gen_balance, member_card,
-                member_Integral, growth_value, remark, create_time, create_user, update_time, update_user, status
+                member_Integral, growth_value, remark, create_time, create_user, update_time, status
     </sql>
     <select id="getMemberBaseInfoPageList" resultType="cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto">
         select

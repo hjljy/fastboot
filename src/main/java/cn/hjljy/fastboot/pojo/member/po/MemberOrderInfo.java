@@ -6,14 +6,12 @@ import cn.hjljy.fastboot.common.enums.member.OrderSourceEnum;
 import cn.hjljy.fastboot.common.enums.member.OrderStateEnum;
 import cn.hjljy.fastboot.common.enums.member.OrderTypeEnum;
 import cn.hjljy.fastboot.common.enums.member.PayTypeEnum;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -30,10 +28,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("member_order_info")
-@ApiModel(value="MemberOrderInfo对象", description="会员充值消费订单表")
+@ApiModel(value = "MemberOrderInfo对象", description = "会员充值消费订单表")
 public class MemberOrderInfo implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "订单ID")
     @TableId(value = "id", type = IdType.AUTO)
@@ -88,11 +86,11 @@ public class MemberOrderInfo implements Serializable {
     private String errorMsg;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(value = "create_time", updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "创建人ID")
-    @TableField("create_user")
+    @TableField(value = "create_user",updateStrategy = FieldStrategy.NEVER, fill = FieldFill.INSERT)
     private Long createUser;
 
     @ApiModelProperty(value = "更新时间")
@@ -100,7 +98,7 @@ public class MemberOrderInfo implements Serializable {
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "更新人ID")
-    @TableField("update_user")
+    @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
     @ApiModelProperty(value = "是否禁用 0否(默认) 1是")

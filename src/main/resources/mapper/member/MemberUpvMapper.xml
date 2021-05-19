@@ -4,8 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.hjljy.fastboot.pojo.member.po.MemberUpv">
-        <id column="id" property="id"/>
-        <result column="org_id" property="orgId"/>
+        <id column="org_id" property="orgId"/>
         <result column="money" property="money"/>
         <result column="growth_value" property="growthValue"/>
         <result column="normal_consume" property="normalConsume"/>
@@ -22,8 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , org_id, money, growth_value, normal_consume, stored_consume, member_recharge, refund, count_rule, create_user, create_time, update_user, update_time, status
+        org_id, money, growth_value, normal_consume, stored_consume, member_recharge, refund, count_rule, create_user, create_time, update_user, update_time, status
     </sql>
 
 </mapper>

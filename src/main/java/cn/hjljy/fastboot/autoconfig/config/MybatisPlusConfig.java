@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.MySqlDialect;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
  */
 @Configuration
 @MapperScan("cn.hjljy.fastboot.mapper")
+@Slf4j
 public class MybatisPlusConfig implements MetaObjectHandler {
     /**
      * mybatis-plus分页插件
@@ -47,12 +49,12 @@ public class MybatisPlusConfig implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         LocalDateTime now = LocalDateTime.now();
-        Long userId = SecurityUtils.getUserId();
+
         this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, now);
         this.strictInsertFill(metaObject, "status", Integer.class, 0);
-        this.strictInsertFill(metaObject, "createUser", Long.class, userId);
+        this.strictInsertFill(metaObject, "createUser", Long.class, SecurityUtils.getDefaultUserId());
         this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, now);
-        this.strictUpdateFill(metaObject, "updateUser", Long.class, userId);
+        this.strictUpdateFill(metaObject, "updateUser", Long.class, SecurityUtils.getDefaultUserId());
     }
 
     /**
@@ -63,6 +65,6 @@ public class MybatisPlusConfig implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
-        this.strictUpdateFill(metaObject, "updateUser", Long.class, SecurityUtils.getUserId());
+        this.strictUpdateFill(metaObject, "updateUser", Long.class, SecurityUtils.getDefaultUserId());
     }
 }

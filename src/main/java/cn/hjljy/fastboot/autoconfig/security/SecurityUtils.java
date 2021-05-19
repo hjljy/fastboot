@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.common.constant.Constant;
 import cn.hjljy.fastboot.common.enums.sys.SysUserTypeEnum;
 import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
@@ -107,7 +108,15 @@ public class SecurityUtils {
         return userInfo.getUserId();
     }
 
-
+    public static Long getDefaultUserId() {
+        Long userId = Constant.LONG_NOT_EXIST;
+        try {
+             userId = getUserId();
+        } catch (Exception e) {
+            log.warn("未获取到登录用户信息");
+        }
+        return userId;
+    }
     /**
      * 获取用户orgId
      */
@@ -151,4 +160,6 @@ public class SecurityUtils {
     public static boolean isAdmin() {
         return SysUserTypeEnum.ADMIN.equals(getUserType());
     }
+
+
 }

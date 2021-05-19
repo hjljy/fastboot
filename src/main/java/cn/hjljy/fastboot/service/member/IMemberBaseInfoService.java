@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.service.member;
 
+import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
@@ -7,6 +8,8 @@ import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -21,7 +24,7 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
     /**
      * 分页查询数据
      *
-     * @param param    查询信息
+     * @param param 查询信息
      * @return 会员列表信息
      */
     IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(MemberBaseInfoParam param);
@@ -70,22 +73,30 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
 
     /**
      * 获取到会员详细信息
+     *
      * @param memberId 会员id
      * @return 会员详细信息
      */
     MemberDto getMemberDto(Long memberId);
 
-    /**
-     * 会员充值
-     * @param param 充值参数
-     * @return 会员信息
-     */
-    MemberDto memberRecharge(RechargeParam param);
 
     /**
      * 判断会员是否存在
+     *
      * @param memberId 会员ID
      * @return 会员信息 不存在抛出异常
      */
     MemberBaseInfo memberExist(Long memberId);
+
+
+    /**
+     * 更新余额
+     *
+     * @param memberId    会员id
+     * @param orderNum    订单num
+     * @param money       金额
+     * @param giftMoney   赠送金额
+     * @param consumeType 消费类型
+     */
+    void updateBalance(Long memberId, Long orderNum, BigDecimal money, BigDecimal giftMoney, ConsumeTypeEnum consumeType);
 }

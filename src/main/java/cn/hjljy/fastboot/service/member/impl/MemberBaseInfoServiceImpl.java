@@ -3,8 +3,8 @@ package cn.hjljy.fastboot.service.member.impl;
 import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.enums.SexEnum;
+import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import cn.hjljy.fastboot.common.enums.member.MemberSourceEnum;
-import cn.hjljy.fastboot.common.enums.member.OrderTypeEnum;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.LocalDateTimeUtil;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
@@ -12,15 +12,13 @@ import cn.hjljy.fastboot.mapper.member.MemberBaseInfoMapper;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
-import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
-import cn.hjljy.fastboot.pojo.member.po.MemberOrderInfo;
+import cn.hjljy.fastboot.pojo.member.po.MemberMoneyRecord;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import cn.hjljy.fastboot.service.member.IMemberLevelService;
 import cn.hjljy.fastboot.service.member.IMemberMoneyRecordService;
-import cn.hjljy.fastboot.service.member.IMemberOrderInfoService;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
@@ -42,11 +40,9 @@ import java.time.LocalDateTime;
 @Service
 @Slf4j
 public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper, MemberBaseInfo> implements IMemberBaseInfoService {
-    @Autowired
-    private IMemberLevelService memberLevelService;
 
     @Autowired
-    private IMemberOrderInfoService orderInfoService;
+    private IMemberLevelService memberLevelService;
 
     @Autowired
     private IMemberMoneyRecordService moneyRecordService;
@@ -107,7 +103,6 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         //如果会员账上金额不为0 无法删除
         if (baseInfo.getBalance().equals(BigDecimal.ZERO) && baseInfo.getGenBalance().equals(BigDecimal.ZERO)) {
             baseInfo.setUpdateTime(LocalDateTime.now());
-            baseInfo.setUpdateUser(SecurityUtils.getUserId());
             baseInfo.setRemark(SecurityUtils.getUsername() + "手动删除该会员,操作时间：" + LocalDateTimeUtil.formatToString(LocalDateTime.now()));
             baseInfo.setStatus(1);
             return this.updateById(baseInfo);
@@ -170,11 +165,23 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     }
 
     @Override
-    public MemberDto memberRecharge(RechargeParam param) {
-        MemberBaseInfo baseInfo = this.memberExist(param.getMemberId());
-        MemberOrderInfo orderInfo = orderInfoService.createOrder(baseInfo.getMemberId(), param.getOrderSource(), param.getPayType(), param.getMoney(), OrderTypeEnum.NORMAL);
-        orderInfoService.success(orderInfo.getOrderNum(),param.getMoney(),param.getPayType(),"消费类型");
-        return null;
+    public void updateBalance(Long memberId, Long orderNum, BigDecimal money, BigDecimal giftMoney, ConsumeTypeEnum consumeType) {
+        MemberBaseInfo baseInfo = this.memberExist(memberId);
+        log.info("会员：{}更新前，充值金额：{}，赠送金额：{}", baseInfo.getMemberName(), baseInfo.getBalance(), baseInfo.getGenBalance());
+        if (ConsumeTypeEnum.isRecharge(consumeType)) {
+            baseInfo.setBalance(baseInfo.getBalance().add(money));
+            baseInfo.setGenBalance(baseInfo.getGenBalance().add(giftMoney));
+        } else {
+            baseInfo.setBalance(baseInfo.getBalance().subtract(money));
+            baseInfo.setGenBalance(baseInfo.getGenBalance().subtract(giftMoney));
+        }
+        baseInfo.setUpdateTime(LocalDateTime.now());
+        MemberMoneyRecord moneyRecord = new MemberMoneyRecord();
+        moneyRecord.setOrderNum(orderNum);
+        moneyRecord.setMoney(money);
+        moneyRecord.setGiveMoney(giftMoney);
+        moneyRecord.setType(consumeType.name());
+
     }
 
     @Override

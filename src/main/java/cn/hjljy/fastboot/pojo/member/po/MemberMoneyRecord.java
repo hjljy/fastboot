@@ -1,13 +1,10 @@
 package cn.hjljy.fastboot.pojo.member.po;
 
 import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -62,23 +59,14 @@ public class MemberMoneyRecord implements Serializable {
     private BigDecimal genBalance;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "创建人ID")
-    @TableField("create_user")
-    private Long createUser;
-
     @ApiModelProperty(value = "更新时间")
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "更新人ID")
-    @TableField("update_user")
-    private Long updateUser;
-
     @ApiModelProperty(value = "是否禁用 0否(默认) 1是")
-    @TableField(value = "status", fill = FieldFill.INSERT)
     @TableLogic
     private Boolean status;
 

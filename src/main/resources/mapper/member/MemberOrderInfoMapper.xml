@@ -9,7 +9,6 @@
         <result column="order_num" property="orderNum" />
         <result column="order_state" property="orderState" />
         <result column="pay_type" property="payType" />
-        <result column="pay_name" property="payName" />
         <result column="pay_uuid" property="payUuid" />
         <result column="pay_time" property="payTime" />
         <result column="money" property="money" />
@@ -25,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, member_id, order_num, order_state, pay_type, pay_name, pay_uuid, pay_time, money, pay_money, refund_money, error_msg, create_time, create_user, update_time, update_user, status
+        id, member_id, order_num, order_state, pay_type, pay_uuid, pay_time, money, pay_money, refund_money, error_msg, create_time, create_user, update_time, update_user, status
     </sql>
 
 </mapper>

@@ -13,15 +13,13 @@
         <result column="menu_channel" property="menuChannel"/>
         <result column="menu_path" property="menuPath"/>
         <result column="visiable" property="visiable"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
         <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , pid, menu_type, menu_name, perms, sort, menu_channle, menu_path, visiable, create_time, update_time, status
+        , pid, menu_type, menu_name, perms, sort, menu_channle, menu_path, visiable,  status
     </sql>
     <select id="getUserMenuListInfo" resultType="cn.hjljy.fastboot.pojo.sys.po.SysMenu">
         SELECT DISTINCT m.*

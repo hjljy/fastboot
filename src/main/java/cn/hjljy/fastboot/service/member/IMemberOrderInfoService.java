@@ -34,12 +34,12 @@ public interface IMemberOrderInfoService extends IService<MemberOrderInfo> {
     /**
      * 订单支付成功
      *
-     * @param orderNum    订单编号
-     * @param payMoney    支付金额
-     * @param payType     支付方式
-     * @param consumeType 消费类型
+     * @param orderNum 订单编号
+     * @param payMoney 支付金额
+     * @param payType  支付方式
+     * @param payUuid  支付订单号
      */
-    void success(Long orderNum, BigDecimal payMoney, PayTypeEnum payType, ConsumeTypeEnum consumeType);
+    void success(Long orderNum, BigDecimal payMoney, PayTypeEnum payType, Long payUuid);
 
     /**
      * 根据订单号获取订单

@@ -26,13 +26,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("v1/member/orderInfo")
 public class MemberOrderInfoController {
 
-    @Autowired
-    IMemberBaseInfoService memberBaseInfoService;
-
-    @PostMapping("/recharge/")
-    @ApiOperation(value = "会员充值")
-    public ResultInfo<MemberDto> memberRecharge(@RequestBody RechargeParam param) {
-        return ResultInfo.success(memberBaseInfoService.memberRecharge(param));
-    }
 }
 

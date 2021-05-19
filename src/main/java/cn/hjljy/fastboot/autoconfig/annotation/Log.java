@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig.aspect.log;
+package cn.hjljy.fastboot.autoconfig.annotation;
 
 import java.lang.annotation.*;
 

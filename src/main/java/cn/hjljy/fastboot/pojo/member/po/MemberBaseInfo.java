@@ -78,18 +78,16 @@ public class MemberBaseInfo implements Serializable {
     private String remark;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField(updateStrategy = FieldStrategy.NEVER)
+    @TableField(value = "create_time", updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "创建人")
-    @TableField(updateStrategy = FieldStrategy.NEVER)
+    @ApiModelProperty(value = "创建人ID")
+    @TableField(value = "create_user",updateStrategy = FieldStrategy.NEVER, fill = FieldFill.INSERT)
     private Long createUser;
 
     @ApiModelProperty(value = "更新时间")
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
-
-    @ApiModelProperty(value = "更新人")
-    private Long updateUser;
 
     @ApiModelProperty(value = "是否禁用 0否(默认) 1是")
     @TableLogic

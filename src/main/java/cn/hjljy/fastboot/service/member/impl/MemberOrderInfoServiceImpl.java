@@ -39,22 +39,24 @@ public class MemberOrderInfoServiceImpl extends BaseService<MemberOrderInfoMappe
         orderInfo.setRefundMoney(BigDecimal.ZERO);
         orderInfo.setOrderNum(SnowFlakeUtil.OrderNum());
         orderInfo.setPayUuid(Constant.LONG_NOT_EXIST);
-        orderInfo.setCreateTime(LocalDateTime.now());
-        orderInfo.setUpdateTime(LocalDateTime.now());
-        if(OrderSourceEnum.isSelf(orderSource)){
-            orderInfo.setCreateUser(Constant.LONG_NOT_EXIST);
-            orderInfo.setUpdateUser(Constant.LONG_NOT_EXIST);
-        }else {
-            orderInfo.setCreateUser(SecurityUtils.getUserId());
-            orderInfo.setUpdateUser(SecurityUtils.getUserId());
-        }
         this.save(orderInfo);
         return orderInfo;
     }
 
     @Override
-    public void success(Long orderNum, BigDecimal payMoney, PayTypeEnum payType, ConsumeTypeEnum consumeType) {
+    public void success(Long orderNum, BigDecimal payMoney, PayTypeEnum payType, Long payUuid) {
         MemberOrderInfo orderInfo = this.getByOrderNum(orderNum);
+        orderInfo.setOrderState(OrderStateEnum.COMPLETE_PAY);
+        orderInfo.setPayMoney(payMoney);
+        orderInfo.setPayType(payType);
+        orderInfo.setPayTime(LocalDateTime.now());
+        orderInfo.setPayUuid(payUuid);
+        if(OrderSourceEnum.isSelf(orderInfo.getOrderSource())){
+            orderInfo.setUpdateUser(Constant.LONG_NOT_EXIST);
+        }else {
+            orderInfo.setUpdateUser(SecurityUtils.getUserId());
+        }
+        this.updateById(orderInfo);
     }
 
     @Override

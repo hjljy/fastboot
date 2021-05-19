@@ -42,7 +42,7 @@ public class CorsFilterConfig {
         config.addAllowedHeader("*");
 
         // 可以设置只支持部分请求方式
-        List<String> methods = Arrays.asList("GET", "POST", "HEAD", "OPTIONS", "PUT");
+        List<String> methods = Arrays.asList("GET", "POST", "DELETE","HEAD", "OPTIONS", "PUT");
         config.setAllowedMethods(methods);
         // 设置为支持所有请求方式
         config.addAllowedMethod("*");

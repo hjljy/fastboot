@@ -23,15 +23,15 @@ public class TaskExecutorConfig {
 
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         // 设置线程池核心线程
-        taskExecutor.setCorePoolSize(8);
+        taskExecutor.setCorePoolSize(12);
         // 设置线程池最大线程
-        taskExecutor.setMaxPoolSize(16);
+        taskExecutor.setMaxPoolSize(20);
         // 设置等待队列
         taskExecutor.setQueueCapacity(40);
         // 设置线程存活时间
         taskExecutor.setKeepAliveSeconds(100);
         // 设置线程名称
-        taskExecutor.setThreadNamePrefix("taskExecutor-");
+        taskExecutor.setThreadNamePrefix("fastboot-thread-");
         // 设置线程拒绝策略为由调用者线程执行
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         // 设置线程池如果没有任务正在执行就关闭

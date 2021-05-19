@@ -69,19 +69,19 @@ public class SysUser implements Serializable {
     private String description;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
+    @TableField(value = "create_time", updateStrategy = FieldStrategy.NEVER, fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "创建时间")
-    @TableField(updateStrategy = FieldStrategy.NEVER,fill = FieldFill.INSERT)
+    @ApiModelProperty(value = "创建人ID")
+    @TableField(value = "create_user", updateStrategy = FieldStrategy.NEVER, fill = FieldFill.INSERT)
     private Long createUser;
 
     @ApiModelProperty(value = "更新时间")
-    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.UPDATE)
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "更新时间")
-    @TableField(insertStrategy = FieldStrategy.NEVER,fill = FieldFill.UPDATE)
+    @ApiModelProperty(value = "更新人ID")
+    @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
     @ApiModelProperty(value = "是否启用  0是(默认) 1否")

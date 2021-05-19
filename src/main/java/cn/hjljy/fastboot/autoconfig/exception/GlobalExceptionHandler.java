@@ -41,38 +41,15 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResultInfo<Object> requestMethodNoSuch(HttpRequestMethodNotSupportedException ex) {
-        ex.printStackTrace();
         return ResultInfo.error(ResultCode.REQUEST_METHOD_EXCEPTION, ex.getMessage());
-    }
-
-    /**
-     * 处理security登录验证异常
-     */
-    @ExceptionHandler(value = BadCredentialsException.class)
-    public ResultInfo<Object> errorHandler(BadCredentialsException ex) {
-        ex.printStackTrace();
-        return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG, ex.getMessage());
     }
 
     /**
      * 处理oauth2登录验证异常
      */
-    @ExceptionHandler(value = AuthenticationException.class)
-    public ResultInfo<Object> errorHandler(HttpServletResponse response, AuthenticationException ex) {
-        ex.printStackTrace();
-        //默认是用户密码不正确
-        ResultInfo<Object> resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG, ex.getMessage());
-        Throwable cause = ex.getCause();
-        //token 过期处理
-        if (cause instanceof InvalidTokenException) {
-            resultInfo = ResultInfo.error(ResultCode.TOKEN_EXPIRED);
-        }
-        // 其余非法请求 未携带Token
-        if (ex instanceof InsufficientAuthenticationException) {
-            resultInfo = ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
-        }
-
-        return resultInfo;
+    @ExceptionHandler(value = InsufficientAuthenticationException.class)
+    public ResultInfo<Object> errorHandler(InsufficientAuthenticationException ex) {
+        return ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
     }
 
     /**
