@@ -7,6 +7,7 @@ import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
+import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/v1/member/baseInfo")
-@Api(value = "会员列表", tags = "会员列表信息")
+@Api(value = "会员基础信息", tags = "会员基础信息")
 public class MemberBaseInfoController {
 
     @Autowired
@@ -37,6 +38,13 @@ public class MemberBaseInfoController {
     @ApiOperation(value = "分页查询会员信息")
     public ResultInfo<IPage<MemberBaseInfoDto>> getMemberBaseInfoPageList(@Validated MemberBaseInfoParam param) {
         return ResultInfo.success(memberBaseInfoService.getMemberBaseInfoPageList(param));
+    }
+
+    @GetMapping("/info/{memberId}")
+    @PreAuthorize("hasAnyAuthority('{authority=member:info:list}')")
+    @ApiOperation(value = "查询会员基础信息")
+    public ResultInfo<MemberBaseInfo> getMemberBaseInfoPageList(@PathVariable Long memberId) {
+        return ResultInfo.success(memberBaseInfoService.memberExist(memberId));
     }
 
     @PostMapping("/add")

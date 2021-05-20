@@ -14,6 +14,9 @@ import lombok.Data;
 @Data
 public class BaseDto {
 
+    @ApiModelProperty(value = "所属机构ID")
+    private Long orgId;
+
     @ApiModelProperty(value = "多少页")
     @JsonIgnore
     Integer pageNo = 1;

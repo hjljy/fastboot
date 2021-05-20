@@ -101,7 +101,7 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
     Integer updateGrowthValue(MemberBaseInfo memberBaseInfo, BigDecimal money, ConsumeTypeEnum consumeType);
 
     /**
-     * 更新会员水平
+     * 更新会员等级
      *
      * @param baseInfo 基础信息
      */

@@ -1,7 +1,10 @@
 package cn.hjljy.fastboot.service.member.impl;
 
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
+import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import cn.hjljy.fastboot.common.enums.member.OrderTypeEnum;
+import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
@@ -47,6 +50,9 @@ public class MemberServiceImpl implements IMemberService {
         MemberDto dto = new MemberDto();
         // 1 验证会员是否存在
         MemberBaseInfo baseInfo = baseInfoService.memberExist(rechargeParam.getMemberId());
+        if (!baseInfo.getOrgId().equals(SecurityUtils.getOrgId())) {
+            throw new BusinessException(ResultCode.DEFAULT);
+        }
         // 2 创建支付订单
         MemberOrderInfo order = orderInfoService.createOrder(baseInfo.getMemberId(), rechargeParam.getOrderSource(), rechargeParam.getPayType(), rechargeParam.getMoney(), OrderTypeEnum.NORMAL);
         Long payUuid = SnowFlakeUtil.orderNum();
@@ -55,7 +61,7 @@ public class MemberServiceImpl implements IMemberService {
         // 4 更新会员账号金额
         this.updateMemberBalance(baseInfo.getMemberId(), order.getOrderNum(), rechargeParam.getMoney(), BigDecimal.ZERO, ConsumeTypeEnum.RECHARGE);
         // 5 更新会员成长值
-        this.updateMemberGrowthValueAndLevel(baseInfo.getMemberId(), rechargeParam.getMoney(), ConsumeTypeEnum.RECHARGE,"管理后台-会员充值");
+        this.updateMemberGrowthValueAndLevel(baseInfo.getMemberId(), rechargeParam.getMoney(), ConsumeTypeEnum.RECHARGE, "管理后台-会员充值");
         BeanUtils.copyProperties(baseInfo, dto);
         return dto;
     }
@@ -70,14 +76,14 @@ public class MemberServiceImpl implements IMemberService {
     }
 
     @Override
-    public void updateMemberGrowthValueAndLevel(Long memberId, BigDecimal money, ConsumeTypeEnum consumeType,String remark) {
+    public void updateMemberGrowthValueAndLevel(Long memberId, BigDecimal money, ConsumeTypeEnum consumeType, String remark) {
         MemberBaseInfo baseInfo = baseInfoService.memberExist(memberId);
         // 1 更新基础会员成长值
         Integer growthValue = baseInfoService.updateGrowthValue(baseInfo, money, consumeType);
         if (growthValue != 0) {
             int type = ConsumeTypeEnum.isDeduct(consumeType) ? 1 : 0;
             // 1.1 如果成长值有变化，记录成长值变化情况
-            upvRecordService.saveGrowthValueRecord(memberId, growthValue, consumeType, type,remark);
+            upvRecordService.saveGrowthValueRecord(memberId, growthValue, consumeType, type, remark);
         }
         // 2 更新会员等级
         baseInfoService.updateMemberLevel(baseInfo);
