@@ -102,7 +102,6 @@ public class MemberOrderInfo implements Serializable {
     private Long updateUser;
 
     @ApiModelProperty(value = "是否禁用 0否(默认) 1是")
-    @TableField(value = "status", fill = FieldFill.INSERT)
     @TableLogic
     private Boolean status;
 

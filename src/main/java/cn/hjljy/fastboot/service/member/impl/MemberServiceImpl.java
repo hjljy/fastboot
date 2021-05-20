@@ -57,7 +57,7 @@ public class MemberServiceImpl implements IMemberService {
         // 3 支付订单支付成功
         orderInfoService.success(order.getOrderNum(), rechargeParam.getMoney(), rechargeParam.getPayType(), payUuid);
         // 4 更新会员账号金额
-        baseInfo = baseInfoService.updateBalance(baseInfo.getMemberId(), rechargeParam.getMoney(), BigDecimal.ZERO, ConsumeTypeEnum.RECHARGE);
+        baseInfo = this.updateMemberBalance(baseInfo.getMemberId(),order.getOrderNum(), rechargeParam.getMoney(), BigDecimal.ZERO, ConsumeTypeEnum.RECHARGE);
         // 5 更新会员成长值
         baseInfo = this.updateMemberGrowthValueAndLevel(baseInfo.getMemberId(), rechargeParam.getMoney(), ConsumeTypeEnum.RECHARGE, "管理后台-会员充值");
         BeanUtils.copyProperties(baseInfo, dto);
