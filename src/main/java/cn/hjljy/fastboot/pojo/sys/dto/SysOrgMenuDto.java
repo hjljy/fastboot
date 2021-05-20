@@ -26,7 +26,7 @@ public class SysOrgMenuDto extends BaseDto implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "机构ID")
-    private Integer orgId;
+    private Long orgId;
 
     @ApiModelProperty(value = "菜单ID")
     private Integer menuId;

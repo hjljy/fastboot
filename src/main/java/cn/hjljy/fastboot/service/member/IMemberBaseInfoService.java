@@ -96,14 +96,17 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * @param memberBaseInfo 会员基础信息
      * @param money          金额
      * @param consumeType    消费类型
+     * @param remark 备注
      * @return {@link Integer}
      */
-    Integer updateGrowthValue(MemberBaseInfo memberBaseInfo, BigDecimal money, ConsumeTypeEnum consumeType);
+    Integer updateGrowthValue(MemberBaseInfo memberBaseInfo, BigDecimal money, ConsumeTypeEnum consumeType,String remark);
 
     /**
      * 更新会员等级
      *
      * @param baseInfo 基础信息
+     * @param remark   备注
+     * @return {@link Long}
      */
-    void updateMemberLevel(MemberBaseInfo baseInfo);
+    Long updateMemberLevel(MemberBaseInfo baseInfo,String remark);
 }

@@ -14,10 +14,9 @@ import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberUpvDto;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
+import cn.hjljy.fastboot.pojo.member.po.MemberLevelChangeRecord;
 import cn.hjljy.fastboot.service.BaseService;
-import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
-import cn.hjljy.fastboot.service.member.IMemberLevelService;
-import cn.hjljy.fastboot.service.member.IMemberUpvService;
+import cn.hjljy.fastboot.service.member.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -45,8 +44,16 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     private IMemberLevelService memberLevelService;
 
     @Autowired
+    private IMemberLevelChangeRecordService changeRecordService;
+
+    @Autowired
     private IMemberUpvService memberUpvService;
 
+    @Autowired
+    private IMemberUpvRecordService upvRecordService;
+
+    @Autowired
+    private IMemberMoneyRecordService moneyRecordService;
 
     @Override
     public IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(MemberBaseInfoParam param) {
@@ -148,7 +155,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
 
     @Override
     public MemberBaseInfo updateBalance(Long memberId, BigDecimal money, BigDecimal giftMoney, ConsumeTypeEnum consumeType) {
-        // 更新会员金额
+        // 1 更新会员金额
         MemberBaseInfo baseInfo = this.memberExist(memberId);
         log.info("会员：{}更新前，充值金额：{}，赠送金额：{}", baseInfo.getMemberName(), baseInfo.getBalance(), baseInfo.getGenBalance());
         if (ConsumeTypeEnum.isRecharge(consumeType)) {
@@ -165,7 +172,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     }
 
     @Override
-    public Integer updateGrowthValue(MemberBaseInfo baseInfo, BigDecimal money, ConsumeTypeEnum consumeType) {
+    public Integer updateGrowthValue(MemberBaseInfo baseInfo, BigDecimal money, ConsumeTypeEnum consumeType, String remark) {
         MemberUpvDto dto = memberUpvService.getByOrgId(baseInfo.getOrgId());
         int growthValue = 0;
         if (null != dto) {
@@ -183,15 +190,37 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         }
         log.info("会员ID:{},金额：{},消费类型：{}，获取的成长值:{}", baseInfo.getMemberId(), money, consumeType, growthValue);
         this.updateById(baseInfo);
+        //如果成长值有变化，记录成长值变化情况
+        if (growthValue != 0) {
+            int type = ConsumeTypeEnum.isDeduct(consumeType) ? 1 : 0;
+            upvRecordService.saveGrowthValueRecord(baseInfo.getMemberId(), growthValue, consumeType, type, remark);
+        }
         return growthValue;
     }
 
     @Override
-    public void updateMemberLevel(MemberBaseInfo baseInfo) {
+    public Long updateMemberLevel(MemberBaseInfo baseInfo, String remark) {
         MemberLevel level = memberLevelService.selectOrgLevelByGrowthValue(baseInfo.getGrowthValue(), baseInfo.getOrgId());
         if (null != level && !level.getLevelId().equals(baseInfo.getLevelId())) {
+            //保存变更记录
+            MemberLevelChangeRecord record = new MemberLevelChangeRecord();
+            record.setMemberId(baseInfo.getMemberId());
+            record.setChangeTime(LocalDateTime.now());
+            record.setOldLevelId(baseInfo.getLevelId());
+            record.setOldLevelName("会员（系统默认）");
+            record.setNewLevelName(level.getLevelName());
+            record.setNewLevelId(level.getLevelId());
+            record.setRemark(remark);
+            MemberLevel oldLevel = memberLevelService.getById(baseInfo.getLevelId());
+            if (null != oldLevel) {
+                record.setOldLevelName(oldLevel.getLevelName());
+            }
+            changeRecordService.save(record);
+            //更新会员等级
             baseInfo.setLevelId(level.getLevelId());
+            this.updateById(baseInfo);
         }
+        return baseInfo.getLevelId();
     }
 
     @Override

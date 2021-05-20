@@ -28,7 +28,6 @@ public class CodeGenerator {
     public static void main(String[] args) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
-
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
@@ -39,7 +38,6 @@ public class CodeGenerator {
         gc.setBaseColumnList(true);
         gc.setBaseResultMap(true);
         mpg.setGlobalConfig(gc);
-
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setUrl("jdbc:mysql://localhost:3306/springboot?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true");
@@ -47,14 +45,12 @@ public class CodeGenerator {
         dsc.setUsername("root");
         dsc.setPassword("root");
         mpg.setDataSource(dsc);
-
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(null);
         String scanner = scanner("请输入整体业务包名");
         String modelName = StringUtils.isBlank(scanner) ? "" : "." + scanner;
         //moduleName是整体分模块
-
         pc.setParent("cn.hjljy.fastboot");
         pc.setMapper("mapper" + modelName);
         pc.setService("service" + modelName);
@@ -62,15 +58,12 @@ public class CodeGenerator {
         pc.setEntity("pojo" + modelName + ".po");
         pc.setController("controller" + modelName);
         mpg.setPackageInfo(pc);
-
-
         String dtoPath = pc.getParent() + ".pojo" + modelName + ".dto";
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         // 不输出默认的XML 默认生成的xml在mapper层里面
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
-
         //配置自定义输出的文件   xml和dto
         //模板引擎是 velocity
         String xmlTemplatePath = "/templates/mapper.xml.vm";
@@ -85,7 +78,6 @@ public class CodeGenerator {
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
-
         String dtoTemplatePath = "/dto.java.vm";
         // 自定义配置会被优先输出
         focList.add(new FileOutConfig(dtoTemplatePath) {
@@ -96,7 +88,6 @@ public class CodeGenerator {
                         tableInfo.getEntityName() + "Dto" + StringPool.DOT_JAVA;
             }
         });
-
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
 

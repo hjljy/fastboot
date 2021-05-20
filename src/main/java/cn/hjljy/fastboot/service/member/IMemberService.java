@@ -44,6 +44,7 @@ public interface IMemberService {
      * @param money       金额
      * @param consumeType 消费类型
      * @param remark      备注
+     * @return {@link MemberBaseInfo}
      */
-    void updateMemberGrowthValueAndLevel(Long memberId, BigDecimal money, ConsumeTypeEnum consumeType,String remark);
+    MemberBaseInfo updateMemberGrowthValueAndLevel(Long memberId, BigDecimal money, ConsumeTypeEnum consumeType,String remark);
 }

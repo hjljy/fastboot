@@ -10,7 +10,10 @@ import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberOrderInfo;
-import cn.hjljy.fastboot.service.member.*;
+import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
+import cn.hjljy.fastboot.service.member.IMemberMoneyRecordService;
+import cn.hjljy.fastboot.service.member.IMemberOrderInfoService;
+import cn.hjljy.fastboot.service.member.IMemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +36,11 @@ public class MemberServiceImpl implements IMemberService {
     private IMemberBaseInfoService baseInfoService;
 
     @Autowired
-    private IMemberLevelService levelService;
-
-    @Autowired
     private IMemberOrderInfoService orderInfoService;
 
     @Autowired
     private IMemberMoneyRecordService moneyRecordService;
 
-    @Autowired
-    private IMemberUpvRecordService upvRecordService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -59,9 +57,9 @@ public class MemberServiceImpl implements IMemberService {
         // 3 支付订单支付成功
         orderInfoService.success(order.getOrderNum(), rechargeParam.getMoney(), rechargeParam.getPayType(), payUuid);
         // 4 更新会员账号金额
-        this.updateMemberBalance(baseInfo.getMemberId(), order.getOrderNum(), rechargeParam.getMoney(), BigDecimal.ZERO, ConsumeTypeEnum.RECHARGE);
+        baseInfo = baseInfoService.updateBalance(baseInfo.getMemberId(), rechargeParam.getMoney(), BigDecimal.ZERO, ConsumeTypeEnum.RECHARGE);
         // 5 更新会员成长值
-        this.updateMemberGrowthValueAndLevel(baseInfo.getMemberId(), rechargeParam.getMoney(), ConsumeTypeEnum.RECHARGE, "管理后台-会员充值");
+        baseInfo = this.updateMemberGrowthValueAndLevel(baseInfo.getMemberId(), rechargeParam.getMoney(), ConsumeTypeEnum.RECHARGE, "管理后台-会员充值");
         BeanUtils.copyProperties(baseInfo, dto);
         return dto;
     }
@@ -75,17 +73,14 @@ public class MemberServiceImpl implements IMemberService {
         return baseInfo;
     }
 
+
     @Override
-    public void updateMemberGrowthValueAndLevel(Long memberId, BigDecimal money, ConsumeTypeEnum consumeType, String remark) {
+    public MemberBaseInfo updateMemberGrowthValueAndLevel(Long memberId, BigDecimal money, ConsumeTypeEnum consumeType, String remark) {
         MemberBaseInfo baseInfo = baseInfoService.memberExist(memberId);
         // 1 更新基础会员成长值
-        Integer growthValue = baseInfoService.updateGrowthValue(baseInfo, money, consumeType);
-        if (growthValue != 0) {
-            int type = ConsumeTypeEnum.isDeduct(consumeType) ? 1 : 0;
-            // 1.1 如果成长值有变化，记录成长值变化情况
-            upvRecordService.saveGrowthValueRecord(memberId, growthValue, consumeType, type, remark);
-        }
+        baseInfoService.updateGrowthValue(baseInfo, money, consumeType, remark);
         // 2 更新会员等级
-        baseInfoService.updateMemberLevel(baseInfo);
+        baseInfoService.updateMemberLevel(baseInfo, remark);
+        return baseInfo;
     }
 }
