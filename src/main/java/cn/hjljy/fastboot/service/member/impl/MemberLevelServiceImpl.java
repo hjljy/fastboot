@@ -194,7 +194,7 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
         QueryWrapper<MemberLevel> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MemberLevel::getOrgId, orgId)
                 .le(MemberLevel::getUpgradeGrowthValue, growthValue)
-                .orderByDesc(MemberLevel::getUpgradeGrowthValue);
+                .orderByDesc(MemberLevel::getUpgradeGrowthValue).last("limit 1");
         return this.baseMapper.selectOne(queryWrapper);
     }
 }
