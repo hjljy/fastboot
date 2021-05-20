@@ -24,7 +24,7 @@ public class MemberUpvServiceImpl extends BaseService<MemberUpvMapper, MemberUpv
     @Override
     public MemberUpvDto getByOrgId(Long orgId) {
         MemberUpvDto dto = null;
-        MemberUpv upv = baseMapper.selectById(orgId);
+        MemberUpv upv = this.getById(orgId);
         //如果存在就直接返回
         if (null != upv) {
             dto = new MemberUpvDto();
@@ -36,7 +36,7 @@ public class MemberUpvServiceImpl extends BaseService<MemberUpvMapper, MemberUpv
 
     @Override
     public Boolean editUpv(MemberUpvDto dto) {
-        MemberUpv memberUpv = baseMapper.selectById(dto.getOrgId());
+        MemberUpv memberUpv = this.getById(dto.getOrgId());
         //如果存在规则就更新
         if (null != memberUpv) {
             BeanUtil.copyProperties(dto, memberUpv);

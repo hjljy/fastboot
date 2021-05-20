@@ -19,28 +19,45 @@
         <result column="remark" property="remark"/>
         <result column="create_time" property="createTime"/>
         <result column="create_user" property="createUser"/>
+        <result column="source" property="source"/>
         <result column="update_time" property="updateTime"/>
-
         <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         member_id
-        , org_id, member_sex, member_name, member_phone, member_birth, level_id, balance, gen_balance, member_card,
-                member_Integral, growth_value, remark, create_time, create_user, update_time, status
+        , org_id, member_sex, member_name,source, member_phone, member_birth, level_id, balance, gen_balance, member_card,
+        member_Integral, growth_value, remark, create_time, create_user, update_time, status
     </sql>
     <select id="getMemberBaseInfoPageList" resultType="cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto">
         select
-        <include refid="Base_Column_List"/>
-        from member_base_info
-        where org_id=#{orgId}
+        m.member_id,
+        m.org_id,
+        m.member_card,
+        m.member_name,
+        m.member_phone,
+        m.member_birth,
+        m.level_id,
+        m.balance,
+        m.gen_balance,
+        m.member_Integral,
+        m.growth_value,
+        m.remark,
+        m.source,
+        m.create_time,
+        m.create_user,
+        m.update_time,
+        ml.level_name
+        from member_base_info m
+        left join member_level ml on m.level_id = ml.level_id
+        where m.org_id=#{orgId} and m.status = 0 and ml.status = 0
         <if test="levelId !=null">
-            and level_id =#{levelId}
+            and m.level_id =#{levelId}
         </if>
         <if test="keywords !=null and keywords !=''">
-            and member_name like CONCAT("%",#{keywords},"%")
-            or member_phone like CONCAT("%",#{keywords},"%")
+            and m.member_name like CONCAT("%",#{keywords},"%")
+            or m.member_phone like CONCAT("%",#{keywords},"%")
         </if>
 
     </select>

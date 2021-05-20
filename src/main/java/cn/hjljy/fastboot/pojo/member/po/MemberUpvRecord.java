@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.pojo.member.po;
 
+import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
@@ -24,7 +25,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "MemberUpvRecord对象", description = "member_upv_record:会员成长值变化表")
+@ApiModel(value = "MemberUpvRecord对象", description = "member_upv_record:会员等级成长值变化表")
 public class MemberUpvRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,11 +37,11 @@ public class MemberUpvRecord implements Serializable {
     @ApiModelProperty(value = "会员ID")
     private Long memberId;
 
-    @ApiModelProperty(value = "成长值类型：0获取 1扣减")
+    @ApiModelProperty(value = "成长值类型：0充值消费获取成长值 1退费扣减成长值  ")
     private Integer type;
 
     @ApiModelProperty(value = "操作类型")
-    private String operationType;
+    private ConsumeTypeEnum operationType;
 
     @ApiModelProperty(value = "成长值")
     private Integer growthValue;

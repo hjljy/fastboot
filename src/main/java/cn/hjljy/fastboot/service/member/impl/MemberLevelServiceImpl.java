@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.service.member.impl;
 
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
+import cn.hjljy.fastboot.common.constant.Constant;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.mapper.member.MemberLevelMapper;
@@ -76,6 +77,22 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
         queryWrapper.select("max(level_order) as level_order","org_id", "level_id", "level_name", "upgrade_growth_value");
         queryWrapper.eq("org_id",orgId);
         return this.baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public MemberLevel getInitLevel(Long orgId) {
+        MemberLevel level = this.selectOrgDefaultLevelId(orgId);
+        if (null == level) {
+            level = this.selectOrgLevelByLevelOrder(orgId, 1);
+            if (null == level) {
+                level =new MemberLevel();
+                log.warn("机构id:{} 未设置默认会员等级并且不存在最低为1的会员等级", orgId);
+                level.setLevelId(Constant.LONG_NOT_EXIST);
+                level.setLevelName("会员（系统默认）");
+                level.setUpgradeGrowthValue(0);
+            }
+        }
+        return level;
     }
 
     @Override

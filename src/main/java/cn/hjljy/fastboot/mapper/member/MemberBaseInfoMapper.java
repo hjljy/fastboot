@@ -16,11 +16,13 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface MemberBaseInfoMapper extends BaseMapper<MemberBaseInfo> {
     /**
+     * 获取会员基础信息页面列表
      * 分页查询数据
      *
      * @param orgId    机构ID
      * @param keywords 关键字
      * @param levelId  等级ID
+     * @param page     页面
      * @return 会员列表信息
      */
     IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(IPage<MemberBaseInfoDto> page, @Param("orgId") Long orgId, @Param("keywords") String keywords, @Param("levelId") Long levelId);

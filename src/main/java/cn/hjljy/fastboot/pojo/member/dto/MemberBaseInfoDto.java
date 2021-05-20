@@ -57,6 +57,9 @@ public class MemberBaseInfoDto extends BaseDto implements Serializable {
     @ApiModelProperty(value = "会员等级Id -1非会员(默认)")
     private Long levelId;
 
+    @ApiModelProperty(value = "会员等级名称")
+    private String levelName;
+
     @ApiModelProperty(value = "账户余额")
     private Long balance;
 

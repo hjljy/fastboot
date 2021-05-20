@@ -14,16 +14,14 @@ import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberUpvDto;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import cn.hjljy.fastboot.pojo.member.po.MemberLevel;
-import cn.hjljy.fastboot.pojo.member.po.MemberMoneyRecord;
 import cn.hjljy.fastboot.service.BaseService;
 import cn.hjljy.fastboot.service.member.IMemberBaseInfoService;
 import cn.hjljy.fastboot.service.member.IMemberLevelService;
-import cn.hjljy.fastboot.service.member.IMemberMoneyRecordService;
 import cn.hjljy.fastboot.service.member.IMemberUpvService;
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +47,6 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     @Autowired
     private IMemberUpvService memberUpvService;
 
-    @Autowired
-    private IMemberMoneyRecordService moneyRecordService;
 
     @Override
     public IPage<MemberBaseInfoDto> getMemberBaseInfoPageList(MemberBaseInfoParam param) {
@@ -59,29 +55,16 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     }
 
     @Override
-    public int addMember(MemberBaseInfoDto dto) {
+    public Boolean addMember(MemberBaseInfoDto dto) {
         MemberBaseInfo info = new MemberBaseInfo();
-        BeanUtil.copyProperties(dto, info);
+        BeanUtils.copyProperties(dto, info);
         Long memberId = SnowFlakeUtil.createId();
         //判断是否重复注册
         checkMemberBaseInfo(dto.getOrgId(), dto.getMemberPhone(), dto.getMemberCard(), memberId);
         //设置默认等级以及当前会员成长值
-        MemberLevel level = memberLevelService.selectOrgDefaultLevelId(dto.getOrgId());
-        if (null == level) {
-            info.setGrowthValue(0);
-            MemberLevel order = memberLevelService.selectOrgLevelByLevelOrder(dto.getOrgId(), 1);
-            if (null != order) {
-                info.setGrowthValue(order.getUpgradeGrowthValue());
-                info.setLevelId(order.getLevelId());
-            } else {
-                log.warn("机构id:{} 未设置新会员默认等级并且最低会员等级所需成长值大于0", dto.getOrgId());
-                info.setGrowthValue(0);
-                info.setLevelId(-1L);
-            }
-        } else {
-            info.setGrowthValue(level.getUpgradeGrowthValue());
-            info.setLevelId(level.getLevelId());
-        }
+        MemberLevel level = memberLevelService.getInitLevel(dto.getOrgId());
+        info.setGrowthValue(level.getUpgradeGrowthValue());
+        info.setLevelId(level.getLevelId());
         //未设置性别，默认为保密
         if (null == info.getMemberSex()) {
             info.setMemberSex(SexEnum.DEFAULT);
@@ -95,7 +78,7 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         info.setBalance(BigDecimal.ZERO);
         info.setGenBalance(BigDecimal.ZERO);
         info.setMemberIntegral(0L);
-        return this.baseMapper.insert(info);
+        return this.save(info);
     }
 
     @Override
@@ -164,8 +147,8 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
     }
 
     @Override
-    public void updateBalance(Long memberId, Long orderNum, BigDecimal money, BigDecimal giftMoney, ConsumeTypeEnum consumeType) {
-        // 1 更新会员金额
+    public MemberBaseInfo updateBalance(Long memberId, BigDecimal money, BigDecimal giftMoney, ConsumeTypeEnum consumeType) {
+        // 更新会员金额
         MemberBaseInfo baseInfo = this.memberExist(memberId);
         log.info("会员：{}更新前，充值金额：{}，赠送金额：{}", baseInfo.getMemberName(), baseInfo.getBalance(), baseInfo.getGenBalance());
         if (ConsumeTypeEnum.isRecharge(consumeType)) {
@@ -178,25 +161,15 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
         baseInfo.setUpdateTime(LocalDateTime.now());
         this.updateById(baseInfo);
         log.info("会员：{}更新后，充值金额：{}，赠送金额：{}", baseInfo.getMemberName(), baseInfo.getBalance(), baseInfo.getGenBalance());
-        // 2 记录会员金额变动情况
-        MemberMoneyRecord moneyRecord = new MemberMoneyRecord();
-        moneyRecord.setMemberId(memberId);
-        moneyRecord.setOrderNum(orderNum);
-        moneyRecord.setMoney(money);
-        moneyRecord.setGiveMoney(giftMoney);
-        moneyRecord.setType(consumeType);
-        moneyRecord.setBalance(baseInfo.getBalance());
-        moneyRecord.setGenBalance(baseInfo.getGenBalance());
-        moneyRecordService.save(moneyRecord);
+        return baseInfo;
     }
 
     @Override
-    public void updateGrowthValue(Long memberId, Long orgId, BigDecimal money, ConsumeTypeEnum consumeType) {
-        MemberBaseInfo baseInfo = this.memberExist(memberId);
+    public Integer updateGrowthValue(MemberBaseInfo baseInfo, BigDecimal money, ConsumeTypeEnum consumeType) {
         MemberUpvDto dto = memberUpvService.getByOrgId(baseInfo.getOrgId());
+        int growthValue = 0;
         if (null != dto) {
-            Integer value = baseInfo.getGrowthValue();
-            int growthValue = money.divide(new BigDecimal(dto.getMoney()), RoundingMode.FLOOR).multiply(new BigDecimal(dto.getGrowthValue())).intValue();
+            growthValue = money.divide(new BigDecimal(dto.getMoney()), RoundingMode.FLOOR).multiply(new BigDecimal(dto.getGrowthValue())).intValue();
             if (ConsumeTypeEnum.isRecharge(consumeType) && dto.getMemberRecharge()) {
                 baseInfo.setGrowthValue(baseInfo.getGrowthValue() + growthValue);
             } else if (ConsumeTypeEnum.isNormalConsume(consumeType) && dto.getNormalConsume()) {
@@ -204,15 +177,21 @@ public class MemberBaseInfoServiceImpl extends BaseService<MemberBaseInfoMapper,
             } else if (ConsumeTypeEnum.isBalanceConsume(consumeType) && dto.getStoredConsume()) {
                 baseInfo.setGrowthValue(baseInfo.getGrowthValue() + growthValue);
             } else if (ConsumeTypeEnum.isRefund(consumeType) && dto.getRefund()) {
-                baseInfo.setGrowthValue(baseInfo.getGrowthValue() - growthValue);
-            }
-            if (value > baseInfo.getGrowthValue()) {
-                log.info("会员ID:{},金额：{},消费类型：{}，获取的成长值:{}", memberId, money, consumeType.name(), growthValue);
+                growthValue = growthValue * -1;
+                baseInfo.setGrowthValue(baseInfo.getGrowthValue() + growthValue);
             }
         }
-        MemberLevel memberLevel = memberLevelService.selectOrgLevelByGrowthValue(baseInfo.getGrowthValue(), baseInfo.getOrgId());
-        baseInfo.setLevelId(memberLevel.getLevelId() != null ? memberLevel.getLevelId() : -1L);
+        log.info("会员ID:{},金额：{},消费类型：{}，获取的成长值:{}", baseInfo.getMemberId(), money, consumeType, growthValue);
         this.updateById(baseInfo);
+        return growthValue;
+    }
+
+    @Override
+    public void updateMemberLevel(MemberBaseInfo baseInfo) {
+        MemberLevel level = memberLevelService.selectOrgLevelByGrowthValue(baseInfo.getGrowthValue(), baseInfo.getOrgId());
+        if (null != level && !level.getLevelId().equals(baseInfo.getLevelId())) {
+            baseInfo.setLevelId(level.getLevelId());
+        }
     }
 
     @Override

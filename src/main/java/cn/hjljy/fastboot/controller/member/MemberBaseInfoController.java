@@ -42,7 +42,7 @@ public class MemberBaseInfoController {
     @PostMapping("/add")
     @PreAuthorize("hasAnyAuthority('{authority=member:info:add}')")
     @ApiOperation(value = "新增会员信息")
-    public ResultInfo<Integer> addMember(@RequestBody @Validated MemberBaseInfoDto dto) {
+    public ResultInfo<Boolean> addMember(@RequestBody @Validated MemberBaseInfoDto dto) {
         return ResultInfo.success(memberBaseInfoService.addMember(dto));
     }
 

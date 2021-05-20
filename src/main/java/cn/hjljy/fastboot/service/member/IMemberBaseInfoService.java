@@ -3,7 +3,6 @@ package cn.hjljy.fastboot.service.member;
 import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoDto;
 import cn.hjljy.fastboot.pojo.member.dto.MemberBaseInfoParam;
-import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -32,9 +31,9 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * 新增会员信息
      *
      * @param dto 会员信息
-     * @return int 结果
+     * @return Boolean 结果
      */
-    int addMember(MemberBaseInfoDto dto);
+    Boolean addMember(MemberBaseInfoDto dto);
 
     /**
      * 根据会员ID删除会员信息
@@ -83,20 +82,28 @@ public interface IMemberBaseInfoService extends IService<MemberBaseInfo> {
      * 更新余额
      *
      * @param memberId    会员id
-     * @param orderNum    订单num
      * @param money       金额
      * @param giftMoney   赠送金额
      * @param consumeType 消费类型
+     * @return {@link MemberBaseInfo}
      */
-    void updateBalance(Long memberId, Long orderNum, BigDecimal money, BigDecimal giftMoney, ConsumeTypeEnum consumeType);
+    MemberBaseInfo updateBalance(Long memberId, BigDecimal money, BigDecimal giftMoney, ConsumeTypeEnum consumeType);
+
 
     /**
-     * 更新成长值
+     * 更新成长价值
      *
-     * @param memberId    会员id
-     * @param orgId       机构ID
-     * @param money       金额
-     * @param consumeType 消费类型
+     * @param memberBaseInfo 会员基础信息
+     * @param money          金额
+     * @param consumeType    消费类型
+     * @return {@link Integer}
      */
-    void updateGrowthValue(Long memberId, Long orgId, BigDecimal money, ConsumeTypeEnum consumeType);
+    Integer updateGrowthValue(MemberBaseInfo memberBaseInfo, BigDecimal money, ConsumeTypeEnum consumeType);
+
+    /**
+     * 更新会员水平
+     *
+     * @param baseInfo 基础信息
+     */
+    void updateMemberLevel(MemberBaseInfo baseInfo);
 }

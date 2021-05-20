@@ -99,4 +99,13 @@ public interface IMemberLevelService extends IService<MemberLevel> {
      * @return {@link MemberLevel}
      */
     MemberLevel selectOrgLevelByGrowthValue(Integer growthValue,Long orgId);
+
+
+    /**
+     * 获取会员初始化的等级
+     *
+     * @param orgId 机构id
+     * @return {@link MemberLevel}
+     */
+    MemberLevel getInitLevel(Long orgId);
 }
