@@ -74,8 +74,8 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
     @Override
     public MemberLevel selectOrgMaxMemberLevel(Long orgId) {
         QueryWrapper<MemberLevel> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("max(level_order) as level_order","org_id", "level_id", "level_name", "upgrade_growth_value");
-        queryWrapper.eq("org_id",orgId);
+        queryWrapper.select("max(level_order) as level_order", "org_id", "level_id", "level_name", "upgrade_growth_value");
+        queryWrapper.eq("org_id", orgId);
         return this.baseMapper.selectOne(queryWrapper);
     }
 
@@ -85,7 +85,7 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
         if (null == level) {
             level = this.selectOrgLevelByLevelOrder(orgId, 1);
             if (null == level) {
-                level =new MemberLevel();
+                level = new MemberLevel();
                 log.warn("机构id:{} 未设置默认会员等级并且不存在最低为1的会员等级", orgId);
                 level.setLevelId(Constant.LONG_NOT_EXIST);
                 level.setLevelName("会员（系统默认）");
@@ -190,11 +190,11 @@ public class MemberLevelServiceImpl extends BaseService<MemberLevelMapper, Membe
     }
 
     @Override
-    public MemberLevel selectOrgLevelByGrowthValue(Integer growthValue,Long orgId) {
+    public MemberLevel selectOrgLevelByGrowthValue(Integer growthValue, Long orgId) {
         QueryWrapper<MemberLevel> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("max(upgrade_growth_value) as upgrade_growth_value","org_id", "level_id", "level_name", "upgrade_growth_value");
-        queryWrapper.le("upgrade_growth_value",growthValue);
-        queryWrapper.eq("org_id",orgId);
+        queryWrapper.lambda().eq(MemberLevel::getOrgId, orgId)
+                .le(MemberLevel::getUpgradeGrowthValue, growthValue)
+                .orderByDesc(MemberLevel::getUpgradeGrowthValue);
         return this.baseMapper.selectOne(queryWrapper);
     }
 }
