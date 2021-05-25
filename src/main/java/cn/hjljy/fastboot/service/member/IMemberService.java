@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.service.member;
 
 import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
+import cn.hjljy.fastboot.pojo.member.dto.ConsumeParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
@@ -23,6 +24,13 @@ public interface IMemberService {
      */
     MemberDto recharge(RechargeParam rechargeParam);
 
+    /**
+     * 消费
+     *
+     * @param param 参数
+     * @return {@link MemberDto}
+     */
+    MemberDto consume(ConsumeParam param);
 
     /**
      * 更新会员余额
@@ -46,5 +54,6 @@ public interface IMemberService {
      * @param remark      备注
      * @return {@link MemberBaseInfo}
      */
-    MemberBaseInfo updateMemberGrowthValueAndLevel(Long memberId, BigDecimal money, ConsumeTypeEnum consumeType,String remark);
+    MemberBaseInfo updateMemberGrowthValueAndLevel(Long memberId, BigDecimal money, ConsumeTypeEnum consumeType, String remark);
+
 }

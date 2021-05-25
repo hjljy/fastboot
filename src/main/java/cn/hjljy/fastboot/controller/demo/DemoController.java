@@ -37,9 +37,9 @@ public class DemoController {
         return userInfo.toString();
     }
 
-    @PostMapping("/t2")
-    public String getT2(@RequestBody SysUser user) {
-        return user.getUserName();
+    @GetMapping(value = "test",params = {"version=1"},headers = {"version=1"},consumes = {"Content-Type=application/v1.json"})
+    public String getT2() {
+        return "123456";
     }
 }
 

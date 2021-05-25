@@ -4,8 +4,10 @@ import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.enums.member.ConsumeTypeEnum;
 import cn.hjljy.fastboot.common.enums.member.OrderTypeEnum;
+import cn.hjljy.fastboot.common.enums.member.PayTypeEnum;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
+import cn.hjljy.fastboot.pojo.member.dto.ConsumeParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.pojo.member.po.MemberBaseInfo;
@@ -57,9 +59,50 @@ public class MemberServiceImpl implements IMemberService {
         // 3 支付订单支付成功
         orderInfoService.success(order.getOrderNum(), rechargeParam.getMoney(), rechargeParam.getPayType(), payUuid);
         // 4 更新会员账号金额
-        baseInfo = this.updateMemberBalance(baseInfo.getMemberId(),order.getOrderNum(), rechargeParam.getMoney(), BigDecimal.ZERO, ConsumeTypeEnum.RECHARGE);
+        baseInfo = this.updateMemberBalance(baseInfo.getMemberId(), order.getOrderNum(), rechargeParam.getMoney(), BigDecimal.ZERO, ConsumeTypeEnum.RECHARGE);
         // 5 更新会员成长值
         baseInfo = this.updateMemberGrowthValueAndLevel(baseInfo.getMemberId(), rechargeParam.getMoney(), ConsumeTypeEnum.RECHARGE, "管理后台-会员充值");
+        BeanUtils.copyProperties(baseInfo, dto);
+        return dto;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public MemberDto consume(ConsumeParam param) {
+        // 1 验证会员是否存在
+        MemberBaseInfo baseInfo = baseInfoService.memberExist(param.getMemberId());
+        if (!baseInfo.getOrgId().equals(SecurityUtils.getOrgId())) {
+            throw new BusinessException(ResultCode.DEFAULT);
+        }
+        BigDecimal money = param.getMoney();
+        BigDecimal balance = baseInfo.getBalance();
+        BigDecimal genBalance = baseInfo.getGenBalance();
+        // 2 如果是会员支付，判断会员剩余金额是否足够
+        ConsumeTypeEnum consumeType = ConsumeTypeEnum.NORMAL_CONSUME;
+        if (PayTypeEnum.isMemberPay(param.getPayType())) {
+            consumeType = ConsumeTypeEnum.BALANCE_CONSUME;
+            if (balance.add(genBalance).compareTo(money) < 0) {
+                throw new BusinessException(ResultCode.MEMBER_MONEY_LESS);
+            }
+        }
+        // 3 创建消费订单
+        MemberOrderInfo order = orderInfoService.createOrder(baseInfo.getMemberId(), param.getOrderSource(), param.getPayType(), param.getMoney(), OrderTypeEnum.NORMAL);
+        Long payUuid = SnowFlakeUtil.orderNum();
+        // 4 支付订单支付成功
+        orderInfoService.success(order.getOrderNum(), param.getMoney(), param.getPayType(), payUuid);
+        // 5 如果是会员余额支付，判断会员剩余金额是否足够
+        if (PayTypeEnum.isMemberPay(param.getPayType())) {
+            BigDecimal giftMoney = BigDecimal.ZERO;
+            BigDecimal subMoney = money;
+            if (balance.compareTo(money) < 0) {
+                giftMoney = money.subtract(balance);
+                subMoney = balance;
+            }
+            baseInfo = this.updateMemberBalance(baseInfo.getMemberId(), order.getOrderNum(), subMoney, giftMoney, consumeType);
+        }
+        // 6 更新会员成长值
+        baseInfo = this.updateMemberGrowthValueAndLevel(baseInfo.getMemberId(), param.getMoney(), consumeType, "管理后台-会员消费");
+        MemberDto dto = new MemberDto();
         BeanUtils.copyProperties(baseInfo, dto);
         return dto;
     }
@@ -83,4 +126,6 @@ public class MemberServiceImpl implements IMemberService {
         baseInfoService.updateMemberLevel(baseInfo, remark);
         return baseInfo;
     }
+
+
 }

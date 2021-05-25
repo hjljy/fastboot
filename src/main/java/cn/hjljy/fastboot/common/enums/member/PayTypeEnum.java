@@ -69,4 +69,8 @@ public enum PayTypeEnum {
         this.description = desc;
         this.payCode = payCode;
     }
+
+    public static boolean isMemberPay(PayTypeEnum payType) {
+        return MEMBER_PAY == payType;
+    }
 }

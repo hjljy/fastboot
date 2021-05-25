@@ -37,8 +37,10 @@ public enum ResultCode {
     MEMBER_NOT_FOUND(40001, "未找到对应的会员信息"),
     MEMBER_EXIST(40002, "会员已存在"),
     MEMBER_CARD_NUM_EXIST(40003, "会员卡号重复"),
+    MEMBER_MONEY_LESS(40004, "会员金额不足"),
     MEMBER_LEVEL_EXIST(41001, "会员等级已存在"),
     MEMBER_LEVEL_NOT_EXIST(41002, "会员等级不存在"),
+
     //服务端代码异常
     SQL_EXCEPTION(90000, "服务器异常,请联系管理员"),
     NPE_EXCEPTION(90001, "服务器异常,请联系管理员");

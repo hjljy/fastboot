@@ -12,12 +12,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
+ * 消费参数
+ *
  * @author hjljy
- * @description: 会员充值参数
+ * @description: 会员消费参数
+ * @date 2021/05/24
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RechargeParam extends BaseDto implements Serializable {
+public class ConsumeParam extends BaseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,11 +32,14 @@ public class RechargeParam extends BaseDto implements Serializable {
     @NotNull(message = "支付方式")
     private PayTypeEnum payType;
 
-    @ApiModelProperty(value = "订单来源")
-    @NotNull(message = "订单来源")
+    @ApiModelProperty(value = "金额")
+    @NotNull(message = "消费金额不能为空")
+    private BigDecimal money;
+
+    @ApiModelProperty(value = "消费订单来源")
+    @NotNull(message = "消费订单来源")
     private OrderSourceEnum orderSource;
 
-    @ApiModelProperty(value = "金额")
-    @NotNull(message = "金额不能为空")
-    private BigDecimal money;
+    @ApiModelProperty(value = "消费备注")
+    private String remark;
 }

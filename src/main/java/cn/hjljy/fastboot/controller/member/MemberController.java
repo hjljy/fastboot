@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.controller.member;
 
 import cn.hjljy.fastboot.common.result.ResultInfo;
+import cn.hjljy.fastboot.pojo.member.dto.ConsumeParam;
 import cn.hjljy.fastboot.pojo.member.dto.MemberDto;
 import cn.hjljy.fastboot.pojo.member.dto.RechargeParam;
 import cn.hjljy.fastboot.service.member.IMemberService;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/v1/member")
-@Api(value = "会员操作相关接口", tags = "会员操作相关接口")
+@Api(value = "会员充值、消费、订单、金额相关接口", tags = "会员充值、消费、订单、金额相关接口")
 public class MemberController {
 
     @Autowired
@@ -30,8 +31,15 @@ public class MemberController {
 
     @PostMapping("/recharge")
     @PreAuthorize("hasAnyAuthority('{authority=member:money:recharge}')")
-    @ApiOperation(value = "会员充值（内部使用）")
+    @ApiOperation(value = "会员充值")
     public ResultInfo<MemberDto> memberRecharge(@Validated @RequestBody RechargeParam param) {
         return ResultInfo.success(memberService.recharge(param));
+    }
+
+    @PostMapping("/consume")
+    @PreAuthorize("hasAnyAuthority('{authority=member:money:consume}')")
+    @ApiOperation(value = "会员消费")
+    public ResultInfo<MemberDto> memberConsume(@Validated @RequestBody ConsumeParam param) {
+        return ResultInfo.success(memberService.consume(param));
     }
 }
