@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author 海加尔金鹰
  * @apiNote 读取项目自定义的配置信息
- * @since 2020/9/9 0:48
+ * @date  2021-06-23
  **/
 @Configuration
 @ConfigurationProperties(prefix = "fastboot")

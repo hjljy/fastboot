@@ -7,6 +7,10 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * @description: 和RequestReaderHttpServletRequestWrapper一起共同处理request对象当中流数据只能读取一次的问题
+ * @author hjljy
+ */
 public class RequestBodyFilter implements Filter {
     @Override
     public void destroy() {
@@ -17,8 +21,6 @@ public class RequestBodyFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         ServletRequest requestWrapper = null;
-
-
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpServletRequest = (HttpServletRequest)request;
             String method = httpServletRequest.getMethod();
@@ -26,7 +28,6 @@ public class RequestBodyFilter implements Filter {
             if(HttpMethod.POST.name().equals(method)&&!contentType.equals(MediaType.MULTIPART_FORM_DATA_VALUE)){
                 requestWrapper = new RequestReaderHttpServletRequestWrapper((HttpServletRequest) request);
             }
-
         }
         //获取请求中的流如何，将取出来的字符串，再次转换成流，然后把它放入到新request对象中。
         // 在chain.doFiler方法中传递新的request对象
