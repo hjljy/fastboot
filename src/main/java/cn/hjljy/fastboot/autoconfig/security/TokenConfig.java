@@ -22,8 +22,6 @@ import java.util.*;
  */
 @Configuration
 public class TokenConfig {
-    /** JWT密钥 */
-    private String signingKey = "fastboot";
 
     /**
      * JWT 令牌转换器
@@ -38,7 +36,6 @@ public class TokenConfig {
             @Override
             protected String encode(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
                 DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-
                 UserInfo user = (UserInfo) authentication.getUserAuthentication().getPrincipal();
                 Set<String> tokenScope = token.getScope();
                 String scopeTemp = " ";
@@ -51,7 +48,6 @@ public class TokenConfig {
                     put("userId", user.getUserId());
                     put("username", user.getUsername());
                     put("email", user.getEmail());
-                    put("roleDtos",user.getRoleDtos());
                     put("nickName", user.getNickName());
                     put("authorities", user.getAuthorities());
                     put("scope",scope);
@@ -95,6 +91,8 @@ public class TokenConfig {
             }
         };
 
+        /** JWT密钥 */
+        String signingKey = "fastboot";
         jwt.setSigningKey(signingKey);
         return jwt;
     }

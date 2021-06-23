@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import java.util.List;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @apiNote OAuth2 资源服务器
  * @since 2020/11/17 17:53
  */

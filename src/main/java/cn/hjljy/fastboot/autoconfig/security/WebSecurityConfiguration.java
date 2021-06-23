@@ -18,8 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.List;
 
 /**
- * @author 海加尔金鹰 www.hjljy.cn
- * @apiNote websecurtiy权限校验处理
+ * @author hjljy
+ * @apiNote webSecurity权限校验处理
  * @since 2020/9/9 0:20
  **/
 @Configuration
@@ -60,20 +60,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();
         // 使用自定义的认证过滤器
         // http.addFilterBefore(new  MyLoginFilter(authenticationManager()),UsernamePasswordAuthenticationFilter.class);
-    }
-
-    /**
-     * 描述: 静态资源放行，这里的放行，是不走 Spring Security 过滤器链
-     **/
-    @Override
-    public void configure(WebSecurity web) {
-        // 可以直接访问的静态数据
-        web.ignoring()
-                .antMatchers("/css/**")
-                .antMatchers("/404.html")
-                .antMatchers("/500.html")
-                .antMatchers("/html/**")
-                .antMatchers("/js/**");
     }
 
     /**

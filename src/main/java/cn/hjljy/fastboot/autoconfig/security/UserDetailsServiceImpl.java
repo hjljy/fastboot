@@ -60,7 +60,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserInfo user =new UserInfo(username,password,authorityList);
         user.setEmail(userInfo.getEmail());
         user.setNickName(userInfo.getNickName());
-        user.setRoleDtos(roleInfo);
         user.setUserId(userInfo.getId());
         return user;
     }

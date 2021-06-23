@@ -5,7 +5,7 @@ package cn.hjljy.fastboot.common.constant;
  * @apiNote Oauth常量类
  * @since 2020/11/17 17:19
  */
-public class OAuth2Constant {
+public class Oauth2Constant {
     /** 客户端 */
     public static final String CLIENT_ID = "client";
     /** secret客户端安全码 */

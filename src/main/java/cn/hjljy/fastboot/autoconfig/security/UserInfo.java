@@ -23,7 +23,6 @@ public class UserInfo extends User {
      * 描述: 可以添加自定义的用户属性
      * 用户邮箱
      **/
-    @ApiModelProperty(value = "用户邮箱")
     private String email;
     /**
      * 描述: 用户ID
@@ -37,15 +36,12 @@ public class UserInfo extends User {
     /**
      * 描述: 用户昵称
      **/
-    private String NickName;
+    private String nickName;
     /**
      * 描述: 用户scope
      **/
     private String scope;
-    /**
-     * 描述：用户角色信息
-     */
-    private List<SysRole> roleDtos;
+
 
     public UserInfo(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
@@ -80,11 +76,11 @@ public class UserInfo extends User {
     }
 
     public String getNickName() {
-        return NickName;
+        return nickName;
     }
 
     public void setNickName(String nickName) {
-        NickName = nickName;
+        this.nickName = nickName;
     }
 
     public String getScope() {
@@ -95,11 +91,4 @@ public class UserInfo extends User {
         this.scope = scope;
     }
 
-    public List<SysRole> getRoleDtos() {
-        return roleDtos;
-    }
-
-    public void setRoleDtos(List<SysRole> roleDtos) {
-        this.roleDtos = roleDtos;
-    }
 }
