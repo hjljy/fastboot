@@ -71,12 +71,22 @@ public class TokenConfig {
                 String scope = (String)decode.get("scope");
                 List<GrantedAuthority> grantedAuthorityList=new ArrayList<>();
                 //注意这里获取到的权限 虽然数据库存的权限是 "sys:menu:add"  但是这里就变成了"{authority=sys:menu:add}" 所以使用@PreAuthorize("hasAuthority('{authority=sys:menu:add}')")
-                Object object = decode.get("authorities");
-                if (object instanceof ArrayList<?>) {
-                    for (Object o : (List<?>) object) {
-                        LinkedHashMap<String,String> authority = LinkedHashMap.class.cast(o);
-                        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getOrDefault("authority", "N/A"));
-                        grantedAuthorityList.add(grantedAuthority);
+                Object authorities = decode.get("authorities");
+                if (authorities instanceof List<?>) {
+                    List<?> list = (List<?>) authorities;
+                    for (Object o : list) {
+                        if (o instanceof LinkedHashMap<?, ?>) {
+                            LinkedHashMap<?, ?> map = (LinkedHashMap<?, ?>) o;
+                            Class<?> keyClass = map.entrySet().stream().findFirst().map(entry -> entry.getKey().getClass()).orElse(null);
+                            if (String.class.equals(keyClass)) {
+                                Object authority = map.get("authority");
+                                if (authority instanceof String) {
+                                    String auth = (String) authority;
+                                    SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(auth);
+                                    grantedAuthorityList.add(grantedAuthority);
+                                }
+                            }
+                        }
                     }
                 }
                 UserInfo userInfo =new UserInfo(username,"N/A",userId, grantedAuthorityList);
