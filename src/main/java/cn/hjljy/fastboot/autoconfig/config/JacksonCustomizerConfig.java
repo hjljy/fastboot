@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ import java.util.Date;
  * 描述：jackson全局配置
  * 1 将Long类型转换成string类型返回，避免大整数导致前端精度丢失的问题
  * 2 将LocalDateTime全局返回时间戳（方便前端处理）并且将参数里面的时间戳转换成LocalDateTime
+ * @author hjljy
  */
 @Configuration
 public class JacksonCustomizerConfig {
@@ -78,12 +80,9 @@ public class JacksonCustomizerConfig {
      */
     @Bean
     public Converter<String, LocalDateTime> localDateTimeConverter() {
-        return new Converter<String, LocalDateTime>() {
-            @Override
-            public LocalDateTime convert(String source) {
-                //毫秒级时间戳转LocalDateTime
-                return LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(source)), ZoneOffset.of("+8"));
-            }
+        return source -> {
+            //毫秒级时间戳转LocalDateTime
+            return LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(source)), ZoneOffset.of("+8"));
         };
     }
 
@@ -93,12 +92,9 @@ public class JacksonCustomizerConfig {
      */
     @Bean
     public Converter<String, Date> dateConverter() {
-        return new Converter<String, Date>() {
-            @Override
-            public Date convert(String source) {
-                long longTimeStamp = new Long(source);
-                return new Date(longTimeStamp);
-            }
+        return source -> {
+            long longTimeStamp = new Long(source);
+            return new Date(longTimeStamp);
         };
     }
 
