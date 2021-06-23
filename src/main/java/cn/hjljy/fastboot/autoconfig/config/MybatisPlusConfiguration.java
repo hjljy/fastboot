@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastboot.autoconfig.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @apiNote mybatis-plus配置
  * @since 2020年06月29日 23:08:00
  * TODO 需要替换mapper所在位置

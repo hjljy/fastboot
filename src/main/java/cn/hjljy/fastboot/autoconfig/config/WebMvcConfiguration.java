@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastboot.autoconfig.config;
 
 import cn.hjljy.fastboot.autoconfig.filter.RequestBodyFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -8,6 +8,9 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.Filter;
 
+/**
+ * @author hjljy
+ */
 @Configuration
 public class WebMvcConfiguration {
 

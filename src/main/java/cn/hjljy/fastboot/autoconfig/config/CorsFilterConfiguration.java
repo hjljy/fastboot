@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastboot.autoconfig.config;
 
 import cn.hjljy.fastboot.autoconfig.annotation.EnableCors;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @since  2020/6/4 11:12
  * @apiNote 支持跨域CORS请求  如果需要开启需要在启动类上添加注解 {@link cn.hjljy.fastboot.autoconfig.annotation.EnableCors}
  * @see EnableCors
@@ -35,21 +35,12 @@ public class CorsFilterConfiguration {
         // 设置所有地址的请求都可以
         config.addAllowedOrigin("*");
 
-        // 可以设置允许部分请求头信息
-//        List<String> headers = Arrays.asList("Authorization",  "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Content-Type", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers");
-//        config.setAllowedHeaders(headers);
         // 设置为允许所有请求头信息
         config.addAllowedHeader("*");
 
-        // 可以设置只支持部分请求方式
-//        List<String> methods =  Arrays.asList("GET","POST","HEAD","OPTIONS","PUT");
-//        config.setAllowedMethods(methods);
         // 设置为支持所有请求方式
         config.addAllowedMethod("*");
 
-
-        // 可以设置部分请求路径才可以进行访问
-//        source.registerCorsConfiguration("/cors/**",config);
         // 设置所有的请求路径都可以访问
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));

@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastboot.autoconfig.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @date 2020/6/4 9:58
  * @apiNote 线程池配置
  */

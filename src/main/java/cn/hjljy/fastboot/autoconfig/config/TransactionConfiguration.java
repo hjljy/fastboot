@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.autoconfig;
+package cn.hjljy.fastboot.autoconfig.config;
 
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @date 2020/6/21 19:45
  * @apiNote service层全局事务管理器  通过切面的方式进行事务的处理。这个指定了具体的方法名称
  */

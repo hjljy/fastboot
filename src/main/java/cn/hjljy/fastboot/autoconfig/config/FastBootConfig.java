@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author 海加尔金鹰
+ * @author hjljy
  * @apiNote 读取项目自定义的配置信息
  * @date  2021-06-23
  **/
