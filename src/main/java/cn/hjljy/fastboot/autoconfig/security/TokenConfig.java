@@ -116,6 +116,6 @@ public class TokenConfig {
      */
     @Bean
     public TokenStore tokenStore() {
-        return new JwtTokenStore(jwtAccessTokenConverter());
+        return new MyJwtTokenStore(jwtAccessTokenConverter());
     }
 }
