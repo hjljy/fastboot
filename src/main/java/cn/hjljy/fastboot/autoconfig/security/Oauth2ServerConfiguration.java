@@ -22,7 +22,7 @@ import java.util.Collections;
  */
 @Configuration
 @EnableAuthorizationServer
-public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdapter {
+public class Oauth2ServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     private static final String CLIENT_ID = "client";  //客户端
     private static final String CLIENT_SECRET = "123456";   //secret客户端安全码
