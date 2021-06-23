@@ -3,7 +3,7 @@ package cn.hjljy.fastboot.common.aspect.log;
 import java.lang.annotation.*;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @since  2020/6/4 17:47
  * @apiNote 项目操作日志注解
  */

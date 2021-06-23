@@ -6,6 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
+/**
+ * @author 海加尔金鹰
+ */
 public class RequestUtil {
 
     public static String inputStream2String(InputStream inputStream){

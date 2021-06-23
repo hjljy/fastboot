@@ -1,7 +1,11 @@
 package cn.hjljy.fastboot.common.enums;
 
+
 /**
  * 状态枚举
+ *
+ * @author hjljy
+ * @date 2021/06/23
  */
 public enum StatusEnum {
     ENABLE(0, "启用"),

@@ -3,6 +3,7 @@ package cn.hjljy.fastboot.common.aspect.log;
 import cn.hjljy.fastboot.common.utils.JacksonUtil;
 import cn.hjljy.fastboot.common.utils.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import java.util.Objects;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @apiNote 统一打印请求参数和返回参数日志
  * @since 2020/11/20 17:47
  */
@@ -37,9 +38,9 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
      * @return the body that was passed in or a modified (possibly new) instance
      */
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType,
-                                  MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request,
-                                  ServerHttpResponse response) {
+    public Object beforeBodyWrite(Object body, @NotNull MethodParameter returnType,
+                                  @NotNull MediaType selectedContentType, @NotNull Class selectedConverterType, @NotNull ServerHttpRequest request,
+                                  @NotNull ServerHttpResponse response) {
         try {
             StringBuilder sb = new StringBuilder();
             sb.append("\n请求访问地址：{}");
@@ -71,7 +72,7 @@ public class ResponseBodyAnalysis implements ResponseBodyAdvice<Object> {
      * 如果要beforeBodyWrite方法生效，必须返回true
      */
     @Override
-    public boolean supports(MethodParameter arg0, Class arg1) {
+    public boolean supports(@NotNull MethodParameter arg0, @NotNull Class arg1) {
         return true;
     }
 }

@@ -2,13 +2,9 @@ package cn.hjljy.fastboot.common.exception;
 
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
@@ -25,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @date 2020/6/5 18:04
  * @apiNote 全局异常处理器
  */
@@ -38,25 +34,15 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResultInfo requestMethodNoSuch(HttpRequestMethodNotSupportedException ex) {
-        ex.printStackTrace();
         return ResultInfo.error(ResultCode.REQUEST_METHOD_EXCEPTION.getCode(), ex.getMessage());
     }
 
-    /**
-     * 处理security登录验证异常
-     */
-    @ExceptionHandler(value = BadCredentialsException.class)
-    public ResultInfo errorHandler(BadCredentialsException ex) {
-        ex.printStackTrace();
-        return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
-    }
 
     /**
      * 处理oauth2登录验证异常
      */
     @ExceptionHandler(value = AuthenticationException.class)
     public ResultInfo errorHandler(HttpServletResponse response, AuthenticationException ex) {
-        ex.printStackTrace();
         //默认是用户密码不正确
         ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
         Throwable cause = ex.getCause();
@@ -81,9 +67,17 @@ public class GlobalExceptionHandler {
     public ResultInfo errorHandler(IllegalArgumentException ex) {
         return ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION.getCode(), ex.getMessage());
     }
+    /**
+     * 处理权限不足异常
+     */
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResultInfo errorHandler(AccessDeniedException ex) {
+        ex.printStackTrace();
+        return ResultInfo.error(ResultCode.PERMISSION_DENIED);
+    }
 
     /**
-     * 处理参数数据格式异常信息
+     * 处理方法参数数据不符合要求异常信息
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResultInfo errorHandler(MethodArgumentNotValidException ex) {
@@ -113,21 +107,10 @@ public class GlobalExceptionHandler {
     public ResultInfo errorHandler(Exception ex) {
         ex.printStackTrace();
         ResultInfo resultInfo = ResultInfo.error(ResultCode.ERROR);
-        if (ex instanceof AccessDeniedException) {
-            resultInfo = ResultInfo.error(ResultCode.PERMISSION_DENIED);
-        } else if (ex instanceof SQLException) {
+        if (ex instanceof SQLException) {
             resultInfo.setCode(ResultCode.SQL_EXCEPTION.getCode());
         } else if (ex instanceof NullPointerException) {
             resultInfo.setCode(ResultCode.NPE_EXCEPTION.getCode());
-        }else if(ex instanceof InvalidFormatException){
-            resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
-            resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
-        }else if(ex instanceof MismatchedInputException){
-            resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
-            resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
-        }else if(ex instanceof HttpMessageNotReadableException){
-            resultInfo.setCode(ResultCode.PARAMETERS_EXCEPTION.getCode());
-            resultInfo.setMsg(ResultCode.PARAMETERS_EXCEPTION.getMsg());
         }
         return resultInfo;
     }

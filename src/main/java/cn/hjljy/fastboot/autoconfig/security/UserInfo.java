@@ -1,13 +1,10 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
-import cn.hjljy.fastboot.pojo.sys.po.SysRole;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author 海加尔金鹰

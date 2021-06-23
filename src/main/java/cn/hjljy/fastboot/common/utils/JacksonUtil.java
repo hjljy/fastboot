@@ -23,23 +23,25 @@ import java.util.Map;
  **/
 @Slf4j
 public class JacksonUtil {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-    // 日起格式化
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    /**
+     * 默认格式化模式
+     */
     private static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     static {
         //忽略对象的空值
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         //取消默认转换timestamps形式
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false);
+        OBJECT_MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false);
         //忽略空Bean转json的错误
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
+        OBJECT_MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
         //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
-        objectMapper.setDateFormat(new SimpleDateFormat(STANDARD_FORMAT));
+        OBJECT_MAPPER.setDateFormat(new SimpleDateFormat(STANDARD_FORMAT));
         //忽略 在json字符串中存在，但是在java对象中不存在对应属性的情况。防止错误
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+        OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
         //反序列化LIST集合数组
-        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        OBJECT_MAPPER.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
     }
     /**
      * 对象转Json格式字符串
@@ -51,7 +53,7 @@ public class JacksonUtil {
             return null;
         }
         try {
-            return obj instanceof String ? (String) obj : objectMapper.writeValueAsString(obj);
+            return obj instanceof String ? (String) obj : OBJECT_MAPPER.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             log.warn("Parse Object to String error : {}", e.getMessage());
             return null;
@@ -68,7 +70,7 @@ public class JacksonUtil {
             return null;
         }
         try {
-            return obj instanceof String ? (String) obj : objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+            return obj instanceof String ? (String) obj : OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             log.warn("Parse Object to String error : {}", e.getMessage());
             return null;
@@ -86,7 +88,7 @@ public class JacksonUtil {
             return null;
         }
         try {
-            return clazz.equals(String.class) ? clazz.cast(str) : objectMapper.readValue(str, clazz);
+            return clazz.equals(String.class) ? clazz.cast(str) : OBJECT_MAPPER.readValue(str, clazz);
         } catch (Exception e) {
             log.warn("Parse String to Object error : {}", e.getMessage());
             return null;
@@ -95,19 +97,18 @@ public class JacksonUtil {
 
     /**
      * json字符串转换为map
+     * @return  Map<String, String>
      */
-    public static <T> Map json2map(String jsonString) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        return mapper.readValue(jsonString, Map.class);
+    public static Map<String, String> json2map(String jsonString) throws Exception {
+        return OBJECT_MAPPER.readValue(jsonString, new TypeReference<Map<String, String>>() {});
     }
 
     /**
      * json字符串转换为map
      */
     public static <T> Map<String, T> json2map(String jsonString, Class<T> clazz) throws Exception {
-        Map<String, Map<String, T>> map = objectMapper.readValue(jsonString, new TypeReference<Map<String, Map<String, T>>>() {});
-        Map<String, T> result = new HashMap<>();
+        Map<String, Map<String, T>> map = OBJECT_MAPPER.readValue(jsonString, new TypeReference<Map<String, Map<String, T>>>() {});
+        Map<String, T> result = new HashMap<>(16);
         for (Map.Entry<String, Map<String, T>> entry : map.entrySet()) {
             result.put(entry.getKey(), map2pojo(entry.getValue(), clazz));
         }
@@ -118,7 +119,7 @@ public class JacksonUtil {
      * 深度转换json成map
      */
     public static Map<String, Object> json2mapDeeply(String json) throws Exception {
-        return json2MapRecursion(json, objectMapper);
+        return json2MapRecursion(json, OBJECT_MAPPER);
     }
 
     /**
@@ -126,12 +127,12 @@ public class JacksonUtil {
      *
      * @param mapper 解析工具
      */
-    private static List json2ListRecursion(String json, ObjectMapper mapper) throws Exception {
+    private static <T> List<T> json2ListRecursion(String json, ObjectMapper mapper) throws Exception {
         if (json == null) {
             return null;
         }
 
-        List list = mapper.readValue(json, List.class);
+        List<T> list = mapper.readValue(json, new TypeReference<List<T>>() {});
 
         for (Object obj : list) {
             if (obj instanceof String) {
@@ -155,7 +156,7 @@ public class JacksonUtil {
             return null;
         }
 
-        Map<String, Object> map = mapper.readValue(json, Map.class);
+        Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {});
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Object obj = entry.getValue();
@@ -180,7 +181,7 @@ public class JacksonUtil {
      */
     public static <T> List<T> json2list(String jsonArrayStr, Class<T> clazz) throws Exception {
         JavaType javaType = getCollectionType(ArrayList.class, clazz);
-        return (List<T>) objectMapper.readValue(jsonArrayStr, javaType);
+        return OBJECT_MAPPER.readValue(jsonArrayStr, javaType);
     }
     /**
      * 获取泛型的Collection Type
@@ -191,7 +192,7 @@ public class JacksonUtil {
      * @since 1.0
      */
     public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
-        return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
+        return OBJECT_MAPPER.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
     /**
      * map  转JavaBean
@@ -199,7 +200,7 @@ public class JacksonUtil {
      * @param clazz 自定义对象的class对象
      * @return 自定义对象
      */
-    public static <T> T map2pojo(Map map, Class<T> clazz) {
-        return objectMapper.convertValue(map, clazz);
+    public static <T> T map2pojo(Map<String,T> map, Class<T> clazz) {
+        return OBJECT_MAPPER.convertValue(map, clazz);
     }
 }

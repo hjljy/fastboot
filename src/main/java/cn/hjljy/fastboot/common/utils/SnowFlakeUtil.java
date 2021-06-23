@@ -11,31 +11,51 @@ public class SnowFlakeUtil {
      */
     private final static long START_STMP = 1480166465631L;
 
+
+
     /**
-     * 每一部分占用的位数
+     * 序列号占用的位数
      */
-    private final static long SEQUENCE_BIT = 12; //序列号占用的位数
-    private final static long MACHINE_BIT = 5;   //机器标识占用的位数
-    private final static long DATACENTER_BIT = 5;//数据中心占用的位数
+    private final static long SEQUENCE_BIT = 12;
+    /**
+     * 机器标识占用的位数
+     */
+    private final static long MACHINE_BIT = 5;
+    /**
+     * 数据中心占用的位数
+     */
+    private final static long DATACENTER_BIT = 5;
 
     /**
      * 每一部分的最大值
      */
-    private final static long MAX_DATACENTER_NUM = -1L ^ (-1L << DATACENTER_BIT);
-    private final static long MAX_MACHINE_NUM = -1L ^ (-1L << MACHINE_BIT);
-    private final static long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
+    private final static long MAX_DATACENTER_NUM = ~(-1L << DATACENTER_BIT);
+    private final static long MAX_MACHINE_NUM = ~(-1L << MACHINE_BIT);
+    private final static long MAX_SEQUENCE = ~(-1L << SEQUENCE_BIT);
 
     /**
      * 每一部分向左的位移
      */
     private final static long MACHINE_LEFT = SEQUENCE_BIT;
     private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
-    private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
+    private final static long TIMESTAMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
 
-    private long datacenterId;  //数据中心
-    private long machineId;     //机器标识
-    private long sequence = 0L; //序列号
-    private long lastStmp = -1L;//上一次时间戳
+    /**
+     * 数据中心
+     */
+    private final long datacenterId;
+    /**
+     * 机器标识
+     */
+    private final long machineId;
+    /**
+     * 序列号
+     */
+    private long sequence = 0L;
+    /**
+     * 上一次时间戳
+     */
+    private long lastStmp = -1L;
 
     /**
      *
@@ -56,10 +76,10 @@ public class SnowFlakeUtil {
     /**
      * 产生下一个ID
      *
-     * @return
+     * @return Long
      */
     public synchronized long nextId() {
-        long currStmp = getNewstmp();
+        long currStmp = getNewStamp();
         if (currStmp < lastStmp) {
             throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
         }
@@ -78,21 +98,21 @@ public class SnowFlakeUtil {
 
         lastStmp = currStmp;
 
-        return (currStmp - START_STMP) << TIMESTMP_LEFT //时间戳部分
-                | datacenterId << DATACENTER_LEFT       //数据中心部分
-                | machineId << MACHINE_LEFT             //机器标识部分
-                | sequence;                             //序列号部分
+        return (currStmp - START_STMP) << TIMESTAMP_LEFT
+                | datacenterId << DATACENTER_LEFT
+                | machineId << MACHINE_LEFT
+                | sequence;
     }
 
     private long getNextMill() {
-        long mill = getNewstmp();
+        long mill = getNewStamp();
         while (mill <= lastStmp) {
-            mill = getNewstmp();
+            mill = getNewStamp();
         }
         return mill;
     }
 
-    private long getNewstmp() {
+    private long getNewStamp() {
         return System.currentTimeMillis();
     }
 

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @since  2020/6/4 17:47
  * @apiNote 项目操作日志切面
  */
@@ -62,7 +62,7 @@ public class LogAspect {
      * @return String
      */
     private String handlerParameter(ProceedingJoinPoint point) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(8);
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         Log log = methodSignature.getMethod().getAnnotation(Log.class);
         String[] parameterNames = methodSignature.getParameterNames();

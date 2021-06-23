@@ -3,6 +3,7 @@ package cn.hjljy.fastboot.autoconfig.security;
 
 import cn.hjljy.fastboot.common.constant.Oauth2Constant;
 import cn.hjljy.fastboot.common.constant.RedisPrefixConstant;
+import cn.hjljy.fastboot.common.exception.BusinessException;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
@@ -46,7 +47,7 @@ public class MyJwtTokenStore extends JwtTokenStore {
         long userId = Long.parseLong(token.getAdditionalInformation().get("userId").toString());
         RMap<String, String> map = redissonClient.getMap(RedisPrefixConstant.LOGIN_USER_TOKEN + userId);
         if (!map.containsKey(scope)) {
-//            throw new InvalidTokenException(ResultCode.TOKEN_NOT_CREATE.getMsg());
+            throw new BusinessException(ResultCode.TOKEN_INVALID);
         }
         return token;
     }

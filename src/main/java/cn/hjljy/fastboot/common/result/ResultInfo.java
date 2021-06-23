@@ -4,12 +4,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @date 2020/6/4 16:57
  * @apiNote 前端AJAX请求返回实体
  */
 @ApiModel(value = "前端AJAX请求返回实体")
-public class ResultInfo {
+public class ResultInfo<T> {
     @ApiModelProperty(value = "状态码，非0表示失败")
     private int code;
 
@@ -17,13 +17,9 @@ public class ResultInfo {
     private String msg;
 
     @ApiModelProperty(value = "请求返回数据")
-    private Object data;
+    private T data;
 
-
-    public ResultInfo() {
-    }
-
-    public ResultInfo(Object data) {
+    public ResultInfo(T data) {
         this.code = ResultCode.SUCCESS.getCode();
         this.msg = ResultCode.SUCCESS.getMsg();
         this.data = data;
@@ -35,26 +31,26 @@ public class ResultInfo {
 
     }
 
-    public static ResultInfo error(String msg) {
-        ResultInfo resultInfo = error(ResultCode.DEFAULT);
+    public static <T> ResultInfo<T> error(String msg) {
+        ResultInfo<T> resultInfo = error(ResultCode.DEFAULT);
         resultInfo.setMsg(msg);
         return resultInfo;
     }
 
-    public static ResultInfo error(ResultCode code) {
-        return new ResultInfo(code.getCode(), code.getMsg());
+    public static <T> ResultInfo<T> error(ResultCode code) {
+        return new ResultInfo<>(code.getCode(), code.getMsg());
     }
 
-    public static ResultInfo success(Object data) {
-        return new ResultInfo(data);
+    public static <T> ResultInfo<T> success(T data) {
+        return new ResultInfo<>(data);
     }
 
-    public static ResultInfo success() {
-        return new ResultInfo(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
+    public static <T> ResultInfo<T> success() {
+        return new ResultInfo<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
     }
 
-    public static ResultInfo error(int code, String message) {
-        return new ResultInfo(code, message);
+    public static <T> ResultInfo<T> error(int code, String message) {
+        return new ResultInfo<>(code, message);
     }
 
     public int getCode() {
@@ -73,11 +69,11 @@ public class ResultInfo {
         this.msg = msg;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

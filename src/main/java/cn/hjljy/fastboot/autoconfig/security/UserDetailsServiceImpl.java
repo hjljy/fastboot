@@ -1,15 +1,5 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
-import cn.hjljy.fastboot.common.enums.StatusEnum;
-import cn.hjljy.fastboot.common.exception.BusinessException;
-import cn.hjljy.fastboot.common.result.ResultCode;
-import cn.hjljy.fastboot.pojo.sys.po.SysMenu;
-import cn.hjljy.fastboot.pojo.sys.po.SysRole;
-import cn.hjljy.fastboot.pojo.sys.po.SysUser;
-import cn.hjljy.fastboot.service.sys.ISysMenuService;
-import cn.hjljy.fastboot.service.sys.ISysRoleService;
-import cn.hjljy.fastboot.service.sys.ISysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,18 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author 海加尔金鹰
+ * @author hjljy
  * @apiNote 用户具体验证类
  * @since 2020/9/11
  **/
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
-    ISysUserService userService;
-    @Autowired
-    ISysRoleService roleService;
-    @Autowired
-    ISysMenuService menuService;
     /**
      * 这里根据传进来的用户账号进行用户信息的构建
      * 通常的做法是
@@ -44,31 +28,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * 最后在WebSecurityConfiguration里面添加自己的过滤器即可
      * @param username 用户账号
      * @return UserInfo
-     * @throws UsernameNotFoundException
+     * @throws UsernameNotFoundException 用户不存在异常
      */
     @Override
     public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
-        //获取用户信息
-        SysUser userInfo= userService.selectByUserName(username);
-        checkUserInfo(userInfo,username);
-        //获取角色权限信息
-        List<SysRole> roleInfo = roleService.getUserRoleInfo(userInfo.getId());
-        List<SysMenu> menuListInfo = menuService.getUserMenuListInfo(userInfo.getId());
-        String[] perms =  menuListInfo.stream().map(SysMenu::getPerms).toArray(String[]::new);
-        List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(perms);
-        String password = SecurityUtils.encryptPassword(userInfo.getPassword());
+        //TODO 根据账号获取数据库里面的用户信息,权限信息
+        List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList("sys:user:add","sys:user:del");
+        String password = SecurityUtils.encryptPassword("123456");
         UserInfo user =new UserInfo(username,password,authorityList);
-        user.setEmail(userInfo.getEmail());
-        user.setNickName(userInfo.getNickName());
-        user.setUserId(userInfo.getId());
+        user.setEmail("hjljy@outlook.com");
+        user.setNickName("海加尔金鹰");
+        user.setUserId(-1L);
         return user;
-    }
-
-    private void checkUserInfo(SysUser userInfo, String username) {
-        if(null==userInfo){
-            throw new BusinessException(ResultCode.USER_NOT_FOUND,username+ResultCode.USER_NOT_FOUND.getMsg());
-        }else if(StatusEnum.DISABLE.getCode().equals(userInfo.getEnable())){
-            throw new BusinessException(ResultCode.USER_DISABLE,ResultCode.USER_DISABLE.getMsg());
-        }
     }
 }

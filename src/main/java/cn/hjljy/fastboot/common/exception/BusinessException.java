@@ -3,7 +3,7 @@ package cn.hjljy.fastboot.common.exception;
 import cn.hjljy.fastboot.common.result.ResultCode;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @date 2020/6/5 17:55
  * @apiNote 自定义异常
  */

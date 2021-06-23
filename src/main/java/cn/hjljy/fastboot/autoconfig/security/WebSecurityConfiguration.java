@@ -9,7 +9,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -58,8 +57,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().httpBasic()
                 //禁用跨站伪造
                 .and().csrf().disable();
-        // 使用自定义的认证过滤器
-        // http.addFilterBefore(new  MyLoginFilter(authenticationManager()),UsernamePasswordAuthenticationFilter.class);
     }
 
     /**

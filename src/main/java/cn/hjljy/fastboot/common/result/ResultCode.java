@@ -1,7 +1,7 @@
 package cn.hjljy.fastboot.common.result;
 
 /**
- * @author yichaofan
+ * @author hjljy
  * @date 2020/6/4 16:57
  * @apiNote 前端AJAX请求返回码以及含义
  */
@@ -24,18 +24,16 @@ public enum ResultCode {
     USER_PASSWORD_WRONG(20004,"用户名或密码错误"),
 
     PERMISSION_DENIED(21001,"权限不足，请联系管理员"),
-    TOKEN_EXPIRED(21002,"会话已过期, 请重新登录"),
-    TOKEN_NOT_FOUND(21003,"未携带TOKEN,非法请求！"),
 
-    //会员系统异常码
-    MEMBER_NOT_FOUND(40001,"未找到对应的会员信息"),
-    MEMBER_EXIST(40002,"会员已存在"),
-    MEMBER_CARD_NUM_EXIST(40003,"会员卡号重复"),
-    MEMBER_LEVEL_EXIST(41001,"会员等级已存在"),
-    MEMBER_LEVEL_NOT_EXIST(41002,"会员等级不存在"),
+
+    TOKEN_EXPIRED(22001,"会话已过期, 请重新登录"),
+    TOKEN_NOT_FOUND(22002,"未携带TOKEN,非法请求！"),
+    TOKEN_INVALID(22003,"无效token,请重新登录"),
+
     //服务端代码异常
     SQL_EXCEPTION(90000,"服务器异常,请联系管理员"),
     NPE_EXCEPTION(90001,"服务器异常,请联系管理员");
+
 
     private int code;
 
