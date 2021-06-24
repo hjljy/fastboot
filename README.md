@@ -25,8 +25,19 @@
         --CodeGenerator 代码生成器
 
         --FastbootApplication
-## master分支：基础版本 无任何业务数据
 
+## 使用说明
+1 下载代码
+
+    git clone https://github.com/hjljy/fastboot.git/
+
+2 修改application.yml当中的数据库连接
+
+3 查看项目当中的TODO 按提示进行修改（可选）
+
+4 启动项目即可
+    
+## master分支：基础版本 无任何业务数据
 
 ### 已整合基础配置
 
@@ -50,18 +61,19 @@ JacksonCustomizerConfig：全局返回时间戳并且将参数里面的时间戳
 
 SnowFlakeUtil: 雪花算法分布式全局随机ID生成器
 
-### 已整合开发工具
+### 已整合开发工具或框架
+Springboot:2.5.0
 
 Lombok：getter,setter注解生成器
 
-Swagger2: api接口管理工具，dev环境默认开启swagger prod环境不开启  未采用原始swagger ui 采用国产UI https://gitee.com/xiaoym/knife4j 
+Swagger3: api接口管理工具，dev环境默认开启swagger prod环境不开启  未采用原始swagger ui 采用国产UI https://gitee.com/xiaoym/knife4j 
 
-Druid: 阿里druid数据库连接池，默认开启各项统计，访问路径：127.0.0.1:{port}/druid  账号admin 密码123456
+Druid 1.1.22: 阿里druid数据库连接池，默认开启各项统计，访问路径：127.0.0.1:{port}/druid  账号admin 密码123456
 
-Mybatis-plus: 基于mybatis的数据库ORM框架，CodeGenerator: 基于mybatis-plus的代码生成器 一键生成controller，service,dao，xml，entity类
+Mybatis-plus 3.4.0: 基于mybatis的数据库ORM框架，CodeGenerator: 基于mybatis-plus的代码生成器 一键生成controller，service,dao，xml，entity类
 
 HuTool: 糊涂工具包，一个包含众多工具类的jar包
 
-Security: 一个功能强大且高度可定制的身份验证和访问控制权限框架。
+Security 2.1.3.RELEASE: 一个功能强大且高度可定制的身份验证和访问控制权限框架。
 
 Redisson: redis操作工具包
