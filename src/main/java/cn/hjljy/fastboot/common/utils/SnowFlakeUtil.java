@@ -6,6 +6,7 @@ package cn.hjljy.fastboot.common.utils;
  * @since 2020/11/9 21:20
  */
 public class SnowFlakeUtil {
+    private final static SnowFlakeUtil INSTANCE = new SnowFlakeUtil(1,1);
     /**
      * 起始的时间戳
      */
@@ -62,7 +63,7 @@ public class SnowFlakeUtil {
      * @param datacenterId 数据中心
      * @param machineId 机器标识
      */
-    public SnowFlakeUtil(long datacenterId, long machineId) {
+    private SnowFlakeUtil(long datacenterId, long machineId) {
         if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
             throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
         }
@@ -116,6 +117,9 @@ public class SnowFlakeUtil {
         return System.currentTimeMillis();
     }
 
+    public static Long createId() {
+        return INSTANCE.nextId();
+    }
     public static void main(String[] args) {
         //如果分布式部署项目，这里的参数建议设置独立的
         SnowFlakeUtil snowFlake = new SnowFlakeUtil(2, 3);
