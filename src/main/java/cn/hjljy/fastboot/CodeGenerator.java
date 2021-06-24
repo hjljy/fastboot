@@ -48,7 +48,7 @@ public class CodeGenerator {
         dsc.setUrl("jdbc:mysql://localhost:3306/springboot?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("123456");
+        dsc.setPassword("root");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -66,8 +66,6 @@ public class CodeGenerator {
         pc.setController("controller"+modelName);
         mpg.setPackageInfo(pc);
 
-
-        String dtoPath = pc.getParent() + ".pojo"+modelName+".dto";
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
         // 不输出默认的XML 默认生成的xml在mapper层里面
@@ -89,24 +87,12 @@ public class CodeGenerator {
             }
         });
 
-        String dtoTemplatePath = "/dto.java.vm";
-        // 自定义配置会被优先输出
-        focList.add(new FileOutConfig(dtoTemplatePath) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/java/cn/hjljy/fastboot/pojo/"+scanner+"/dto/" +
-                        tableInfo.getEntityName() + "Dto" + StringPool.DOT_JAVA;
-            }
-        });
-
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
 
             @Override
             public void initMap() {
                 Map<String, Object> map = new HashMap<>();
-                map.put("dtoPackage", dtoPath);
                 this.setMap(map);
             }
         };
@@ -122,7 +108,7 @@ public class CodeGenerator {
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setSuperServiceImplClass(BaseService.class);
         //设置逻辑删除字段
-        strategy.setLogicDeleteFieldName("status");
+        strategy.setLogicDeleteFieldName("delFlag");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new VelocityTemplateEngine());
         mpg.execute();

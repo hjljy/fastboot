@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.common.aspect.log;
+package cn.hjljy.fastboot.autoconfig.aspect.log;
 
 import cn.hjljy.fastboot.common.utils.JacksonUtil;
 import cn.hjljy.fastboot.common.utils.RequestUtil;

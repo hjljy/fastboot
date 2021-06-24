@@ -1,5 +1,6 @@
-package cn.hjljy.fastboot.common.aspect.log;
+package cn.hjljy.fastboot.autoconfig.aspect.log;
 
+import cn.hjljy.fastboot.autoconfig.annotation.Log;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,7 +28,7 @@ public class LogAspect {
      * 这里可以使用注解 @Log 如果某个方法上面有这个注解就会记录操作日志
      * TODO 需要将包名换成项目包名
      **/
-    @Pointcut("@annotation(cn.hjljy.fastboot.common.aspect.log.Log)")
+    @Pointcut("@annotation(cn.hjljy.fastboot.autoconfig.annotation.Log)")
     public void serviceLog() {
     }
 

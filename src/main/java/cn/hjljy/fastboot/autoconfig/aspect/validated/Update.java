@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.common.aspect.validated;
+package cn.hjljy.fastboot.autoconfig.aspect.validated;
 
 import javax.validation.groups.Default;
 

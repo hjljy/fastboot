@@ -1,4 +1,4 @@
-package cn.hjljy.fastboot.common.exception;
+package cn.hjljy.fastboot.autoconfig.exception;
 
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;

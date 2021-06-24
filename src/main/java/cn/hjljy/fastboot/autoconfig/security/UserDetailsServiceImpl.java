@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
         //TODO 根据账号获取数据库里面的用户信息,权限信息
-        List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList("sys:user:add","sys:user:del");
+        List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList("sys:user:info","sys:user:add","sys:user:del");
         String password = SecurityUtils.encryptPassword("123456");
         UserInfo user =new UserInfo(username,password,authorityList);
         user.setEmail("hjljy@outlook.com");

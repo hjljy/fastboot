@@ -1,17 +1,13 @@
 package cn.hjljy.fastboot.controller;
 
-import cn.hjljy.fastboot.common.enums.StatusEnum;
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
-import cn.hjljy.fastboot.pojo.sys.po.SysUser;
-import cn.hjljy.fastboot.service.sys.ISysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
-import org.springframework.security.oauth2.provider.endpoint.CheckTokenEndpoint;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +26,7 @@ public class OauthController {
     TokenEndpoint tokenEndpoint;
 
     @Autowired
-    CheckTokenEndpoint checkTokenEndpoint;
-
-    @Autowired
     TokenStore tokenStore;
-
-    @Autowired
-    ISysUserService userService;
 
     /**
      * 登录接口
@@ -46,11 +36,11 @@ public class OauthController {
      * @throws Exception 登录异常
      */
     @PostMapping(value = "/token")
-    public ResultInfo token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
+    public ResultInfo<String> token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
-        // TODO 可以考虑将返回的TOKEN信息存入redis或者数据库
-        return ResultInfo.success(token);
+        assert token != null;
+        return ResultInfo.success(token.getValue());
     }
 
     /**
@@ -59,8 +49,8 @@ public class OauthController {
      * @return 操作结果
      */
     @RequestMapping("/logout")
-    public ResultInfo logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token)  {
-        ResultInfo success = ResultInfo.success();
+    public ResultInfo<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token)  {
+        ResultInfo<Boolean> success = ResultInfo.success();
         if (StringUtils.isEmpty(token)) {
             return success;
         }
@@ -75,21 +65,11 @@ public class OauthController {
     }
 
     @RequestMapping("/check_token")
-    public ResultInfo customCheckToken(@RequestParam("token") String value){
-        ResultInfo success = ResultInfo.success();
+    public ResultInfo<Boolean> customCheckToken(@RequestParam("token") String value){
+        ResultInfo<Boolean> success = ResultInfo.success();
         try {
-            // 校验信息
-            checkTokenEndpoint.checkToken(value);
-            // 自定义校验TOKEN
-            OAuth2AccessToken accessToken = tokenStore.readAccessToken(value);
-            Long userId = (Long)accessToken.getAdditionalInformation().get("userId");
-            SysUser user = userService.getById(userId);
-            if(null==user){
-                success=ResultInfo.error(ResultCode.USER_NOT_FOUND);
-            }else if(StatusEnum.DISABLE.getCode().equals(user.getEnable())){
-                success=ResultInfo.error(ResultCode.USER_DISABLE);
-            }
-            //TODO 由于JWT生成的token是无法主动过期的，需要自己设置token过期策略（例如生成的token存进redis ,判断token是否一致）
+            // 校验TOKEN
+             tokenStore.readAccessToken(value);
         } catch (InvalidTokenException e) {
             success=ResultInfo.error(ResultCode.TOKEN_EXPIRED);
         }
