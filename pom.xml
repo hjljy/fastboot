@@ -91,7 +91,7 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>3.14.0</version>
+            <version>3.15.6</version>
         </dependency>
         <!--swagger 国产UI https://gitee.com/xiaoym/knife4j -->
         <dependency>

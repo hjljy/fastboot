@@ -31,11 +31,13 @@
 
     git clone https://github.com/hjljy/fastboot.git/
 
-2 修改application.yml当中的数据库连接
+2 修改application.yml当中的mysql数据库连接为自己的数据库
 
-3 查看项目当中的TODO 按提示进行修改（可选）
+3 修改application.yml当中redis数据库连接信息
 
-4 启动项目即可
+4 查看项目当中的TODO 按提示进行修改（可选）
+
+5 启动项目即可
     
 ## master分支：基础版本 无任何业务数据
 
