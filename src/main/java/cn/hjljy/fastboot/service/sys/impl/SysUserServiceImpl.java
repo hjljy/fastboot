@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.service.sys.impl;
 
+import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import cn.hjljy.fastboot.mapper.sys.SysUserMapper;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
@@ -17,4 +18,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> implements ISysUserService {
 
+    @Override
+    public SysUser getByUsername(String username) {
+        SysUser user =new SysUser();
+        user.setUserName(username);
+        return this.selectOne(user);
+    }
+
+    @Override
+    public Boolean addUser(SysUser sysUser) {
+        sysUser.setId(1L);
+        return null;
+    }
+
+    @Override
+    public Boolean updateUser(SysUser sysUser) {
+        return null;
+    }
 }

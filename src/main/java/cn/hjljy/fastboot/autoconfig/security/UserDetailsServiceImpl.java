@@ -1,5 +1,8 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.pojo.sys.po.SysUser;
+import cn.hjljy.fastboot.service.sys.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +18,9 @@ import java.util.List;
  **/
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+    @Autowired
+    ISysUserService userService;
     /**
      * 这里根据传进来的用户账号进行用户信息的构建
      * 通常的做法是
@@ -33,12 +39,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
         //TODO 根据账号获取数据库里面的用户信息,权限信息
+        SysUser sysUser= userService.getByUsername(username);
         List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList("sys:user:info","sys:user:add","sys:user:del");
-        String password = SecurityUtils.encryptPassword("123456");
-        UserInfo user =new UserInfo(username,password,authorityList);
-        user.setEmail("hjljy@outlook.com");
-        user.setNickName("海加尔金鹰");
-        user.setUserId(-1L);
+        UserInfo user =new UserInfo(username,sysUser.getPassword(),authorityList);
+        user.setEmail(sysUser.getEmail());
+        user.setNickName(sysUser.getNickName());
+        user.setUserId(sysUser.getId());
         return user;
     }
 }
