@@ -33,7 +33,7 @@ public class CorsFilterConfiguration {
         List<String> origins = Arrays.asList("http://www.hjljy.cn", "http://api.hjljy.cn");
         config.setAllowedOrigins(origins);
         // 设置所有地址的请求都可以
-        config.addAllowedOrigin("*");
+        config.addAllowedOriginPattern("*");
 
         // 设置为允许所有请求头信息
         config.addAllowedHeader("*");
