@@ -16,7 +16,7 @@
 
         --controller    接口层
 
-        --mapper        数据库层
+        --dao           数据库层
 
         --pojo          实体类
 
