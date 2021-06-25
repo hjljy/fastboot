@@ -1,5 +1,6 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.autoconfig.filter.CustomClientCredentialsTokenEndpointFilter;
 import cn.hjljy.fastboot.common.constant.Oauth2Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.util.Collections;
 
@@ -51,6 +53,12 @@ public class Oauth2ServerConfiguration extends AuthorizationServerConfigurerAdap
     @Autowired
     JwtAccessTokenConverter jwtAccessTokenConverter;
 
+    /**
+     * 描述：注入客户端授权处理
+     */
+    @Autowired
+    private CustomAuthenticationEntryPoint authenticationEntryPoint;
+
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -78,9 +86,14 @@ public class Oauth2ServerConfiguration extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
+//        CustomClientCredentialsTokenEndpointFilter endpointFilter =new CustomClientCredentialsTokenEndpointFilter(security);
+//        endpointFilter.afterPropertiesSet();
+//        endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint);
+//        security.addTokenEndpointAuthenticationFilter(endpointFilter);
         security
                 // 允许表单登录
                 .allowFormAuthenticationForClients()
+                .authenticationEntryPoint(authenticationEntryPoint)
                 // 密码加密编码器
                 .passwordEncoder(passwordEncoder)
                 // 允许所有的checkToken请求

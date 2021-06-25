@@ -38,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserInfo user =new UserInfo(username,password,authorityList);
         user.setEmail("hjljy@outlook.com");
         user.setNickName("海加尔金鹰");
-        user.setUserId(-1L);
+        user.setUserId(10000000000000L);
         return user;
     }
 }

@@ -36,11 +36,10 @@ public class OauthController {
      * @throws Exception 登录异常
      */
     @PostMapping(value = "/token")
-    public ResultInfo<String> token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
+    public ResultInfo<OAuth2AccessToken> token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
-        assert token != null;
-        return ResultInfo.success(token.getValue());
+        return ResultInfo.success(token);
     }
 
     /**

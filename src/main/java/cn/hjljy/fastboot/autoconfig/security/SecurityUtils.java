@@ -1,7 +1,5 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
-import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
-import cn.hjljy.fastboot.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -38,7 +36,7 @@ public class SecurityUtils {
                 return (UserInfo)principal;
             }
         }
-        throw new BusinessException(ResultCode.USER_NOT_FOUND);
+        return null;
     }
 
     /**

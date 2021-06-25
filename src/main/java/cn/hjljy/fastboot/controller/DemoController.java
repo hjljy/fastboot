@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     @PostMapping("/user/info")
-    @PreAuthorize("hasAuthority('{authority=sys:user:info}')")
+    @PreAuthorize("hasAuthority('sys:user:info')")
     public ResultInfo<UserInfo> getUserInfo(){
         UserInfo userInfo = SecurityUtils.getUserInfo();
         return ResultInfo.success(userInfo);

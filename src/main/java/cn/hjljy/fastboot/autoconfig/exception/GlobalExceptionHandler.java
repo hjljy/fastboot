@@ -5,9 +5,10 @@ import cn.hjljy.fastboot.common.result.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
+import org.springframework.security.oauth2.common.exceptions.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -33,31 +34,23 @@ public class GlobalExceptionHandler {
      * 处理请求方法不匹配异常
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResultInfo requestMethodNoSuch(HttpRequestMethodNotSupportedException ex) {
+    public ResultInfo errorHandler(HttpRequestMethodNotSupportedException ex) {
         return ResultInfo.error(ResultCode.REQUEST_METHOD_EXCEPTION.getCode(), ex.getMessage());
     }
-
 
     /**
      * 处理oauth2登录验证异常
      */
-    @ExceptionHandler(value = AuthenticationException.class)
-    public ResultInfo errorHandler(HttpServletResponse response, AuthenticationException ex) {
-        //默认是用户密码不正确
-        ResultInfo resultInfo = ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
-        Throwable cause = ex.getCause();
-        //token 过期处理
-        if (cause instanceof InvalidTokenException) {
-            resultInfo = ResultInfo.error(ResultCode.TOKEN_EXPIRED);
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+    @ExceptionHandler(value = OAuth2Exception.class)
+    public ResultInfo errorHandler(OAuth2Exception ex) {
+        if(ex instanceof UnsupportedGrantTypeException){
+            return ResultInfo.error(ResultCode.UNSUPPORTED_GRANT_TYPE);
+        }else if(ex instanceof InvalidScopeException){
+            return ResultInfo.error(ResultCode.INVALID_SCOPE);
+        }else if(ex instanceof InvalidGrantException){
+            return ResultInfo.error(ResultCode.USER_PASSWORD_WRONG.getCode(), ex.getMessage());
         }
-        // 其余非法请求 未携带Token
-        if (ex instanceof InsufficientAuthenticationException) {
-            resultInfo = ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        }
-
-        return resultInfo;
+        return ResultInfo.error(ResultCode.UNSUPPORTED_GRANT_TYPE);
     }
 
     /**
