@@ -30,8 +30,6 @@ public class CorsFilterConfiguration {
         config.setAllowCredentials(true);
 
         // TODO 可以设置部分地址可以进行访问
-        List<String> origins = Arrays.asList("http://www.hjljy.cn", "http://api.hjljy.cn");
-        config.setAllowedOrigins(origins);
         // 设置所有地址的请求都可以
         config.addAllowedOriginPattern("*");
 
