@@ -1,8 +1,8 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
-import cn.hjljy.fastboot.autoconfig.filter.CustomClientCredentialsTokenEndpointFilter;
 import cn.hjljy.fastboot.common.constant.Oauth2Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,11 +11,16 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
+import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.web.AuthenticationEntryPoint;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -31,34 +36,27 @@ public class Oauth2ServerConfiguration extends AuthorizationServerConfigurerAdap
      * 描述：注入密码加密编码器 进行密码加密
      */
     @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+   private BCryptPasswordEncoder passwordEncoder;
     /**
      * 描述：注入用户信息处理类 处理用户账号信息
      */
     @Autowired
-    UserDetailsServiceImpl userDetailService;
+    private  UserDetailsServiceImpl userDetailService;
     /**
      * 描述：注入token生成器  处理token的生成方式
      */
     @Autowired
-    TokenStore tokenStore;
+    private TokenStore tokenStore;
     /**
      * 描述: 注入AuthenticationManager管理器
      */
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
     /**
      * 描述: 注入jwtAccessTokenConverter 增强token
      */
     @Autowired
-    JwtAccessTokenConverter jwtAccessTokenConverter;
-
-    /**
-     * 描述：注入客户端授权处理
-     */
-    @Autowired
-    private CustomAuthenticationEntryPoint authenticationEntryPoint;
-
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -86,14 +84,15 @@ public class Oauth2ServerConfiguration extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-//        CustomClientCredentialsTokenEndpointFilter endpointFilter =new CustomClientCredentialsTokenEndpointFilter(security);
-//        endpointFilter.afterPropertiesSet();
-//        endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint);
-//        security.addTokenEndpointAuthenticationFilter(endpointFilter);
+        CustomAuthenticationEntryPoint authenticationEntryPoint = new CustomAuthenticationEntryPoint();
+        ClientCredentialsTokenEndpointFilter filter = new ClientCredentialsTokenEndpointFilter();
+        filter.setAuthenticationManager(authenticationManager);
+        filter.setAuthenticationEntryPoint(authenticationEntryPoint);
+        filter.afterPropertiesSet();
+        security.addTokenEndpointAuthenticationFilter(filter);
         security
                 // 允许表单登录
-                .allowFormAuthenticationForClients()
-                .authenticationEntryPoint(authenticationEntryPoint)
+//                .allowFormAuthenticationForClients()
                 // 密码加密编码器
                 .passwordEncoder(passwordEncoder)
                 // 允许所有的checkToken请求
