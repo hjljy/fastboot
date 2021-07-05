@@ -42,6 +42,7 @@ fastboot:
       - /webjars/**
       - /swagger-resources/**
       - /druid/**
+      - /error
       - /css/**
       - /404.html
       - /doc.html

@@ -23,12 +23,17 @@ public enum ResultCode {
     USER_EXIST(20003,"用户账号已存在"),
     USER_PASSWORD_WRONG(20004,"用户名或密码错误"),
 
+    OAUTH2_INVALID(21000,"权限或登录异常，请联系管理员"),
     PERMISSION_DENIED(21001,"权限不足，请联系管理员"),
 
-
     TOKEN_EXPIRED(22001,"会话已过期, 请重新登录"),
-    TOKEN_NOT_FOUND(22002,"未携带TOKEN,非法请求！"),
+    TOKEN_NOT_FOUND(22002,"未携带合法TOKEN,非法请求！"),
     TOKEN_INVALID(22003,"无效token,请重新登录"),
+
+
+    INVALID_CLIENT(22011,"无效客户端, 请检查客户端参数"),
+    INVALID_SCOPE(22012,"无效SCOPE值, 请检查授权范围是否正确"),
+    UNSUPPORTED_GRANT_TYPE(22013,"不支持的授权模式"),
 
     //服务端代码异常
     SQL_EXCEPTION(90000,"服务器异常,请联系管理员"),

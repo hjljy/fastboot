@@ -5,10 +5,7 @@ import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.autoconfig.security.UserInfo;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -31,8 +28,15 @@ public class DemoController {
     }
     @PostMapping("/user")
     @PreAuthorize("hasAuthority('{authority=sys:user:add}')")
-    public ResultInfo<Boolean> getT2(@RequestBody UserInfo user){
-        System.out.println("保存用户："+user.getNickName());
+    public ResultInfo<Boolean> getT2(){
+        System.out.println("保存用户：");
+        return ResultInfo.success();
+    }
+
+    @PostMapping("/user/{userId}")
+    @PreAuthorize("hasAuthority('{authority=sys:user:del2}')")
+    public ResultInfo<Boolean> delT2(@PathVariable Long userId){
+        System.out.println("保存用户："+userId);
         return ResultInfo.success();
     }
 }
