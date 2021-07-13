@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
@@ -44,6 +45,13 @@ public class CustomAuthenticationEntryPoint extends OAuth2AuthenticationEntryPoi
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setHeader("Content-Type", "application/json;charset=UTF-8");
             ResultInfo<Boolean> result = ResultInfo.error(ResultCode.TOKEN_NOT_FOUND);
+            result.setData(false);
+            response.getWriter().write(JacksonUtil.obj2String(result));
+        }else if(e instanceof InternalAuthenticationServiceException){
+            //如果是client_id和client_secret相关异常 返回自定义的数据格式
+            response.setStatus(HttpStatus.OK.value());
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            ResultInfo<Boolean> result = ResultInfo.error(ResultCode.INVALID_CLIENT);
             result.setData(false);
             response.getWriter().write(JacksonUtil.obj2String(result));
         }else {

@@ -1,6 +1,8 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.autoconfig.exception.BusinessException;
 import cn.hjljy.fastboot.common.constant.Oauth2Constant;
+import cn.hjljy.fastboot.common.result.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
