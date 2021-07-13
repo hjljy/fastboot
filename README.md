@@ -63,6 +63,8 @@ JacksonCustomizerConfig：全局返回时间戳并且将参数里面的时间戳
 
 SnowFlakeUtil: 雪花算法分布式全局随机ID生成器
 
+SecurityUtil: security工具类（获取当前登录用户信息）
+
 ### 已整合开发工具或框架
 Springboot:2.5.0
 
@@ -79,3 +81,4 @@ HuTool: 糊涂工具包，一个包含众多工具类的jar包
 Security 2.1.3.RELEASE: 一个功能强大且高度可定制的身份验证和访问控制权限框架。
 
 Redisson: redis操作工具包
+
