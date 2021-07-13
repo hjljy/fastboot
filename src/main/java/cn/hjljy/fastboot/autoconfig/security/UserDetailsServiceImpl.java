@@ -1,9 +1,13 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.common.constant.Oauth2Constant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +19,8 @@ import java.util.List;
  **/
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+    @Autowired
+    ClientDetailsService clientDetailsService;
     /**
      * 这里根据传进来的用户账号进行用户信息的构建
      * 通常的做法是
@@ -32,6 +38,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
+        //由于关闭了allowFormAuthenticationForClients 这个选项，所以需要判断传进来的是否是clientName
+        if(username.equals(Oauth2Constant.CLIENT_ID)){
+            ClientDetails details = clientDetailsService.loadClientByClientId(username);
+            return new UserInfo(details.getClientId(), details.getClientSecret(),details.getAuthorities());
+        }
         //TODO 根据账号获取数据库里面的用户信息,权限信息
         List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList("sys:user:info","sys:user:add");
         String password = SecurityUtils.encryptPassword("123456");

@@ -1,12 +1,13 @@
 package cn.hjljy.fastboot;
 
 
+import org.apache.commons.codec.Charsets;
+import org.springframework.security.authentication.BadCredentialsException;
+
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * @author hjljy
@@ -18,10 +19,18 @@ import java.util.TimeZone;
 public class FastMainTest {
 
     public static void main(String[] args) {
-        Set<String> set =new HashSet<>();
-        set.add("{sys:menu:add}");
-        boolean contains = set.contains("sys:menu:add");
-        System.out.println(contains);
+       String header = "d2ViLWlvdDoxMjM0NTY3ODk";
+       byte[] base64Token = header.getBytes(StandardCharsets.UTF_8);
+
+        byte[] decoded;
+        try {
+            decoded = Base64.getDecoder().decode(base64Token);
+        } catch (IllegalArgumentException var7) {
+            throw new BadCredentialsException("Failed to decode basic authentication token");
+        }
+
+        String token = new String(decoded, StandardCharsets.UTF_8);
+        System.out.println(token);
     }
     public static Date str2Date(String date, String f) {
         SimpleDateFormat format = new SimpleDateFormat(f);
