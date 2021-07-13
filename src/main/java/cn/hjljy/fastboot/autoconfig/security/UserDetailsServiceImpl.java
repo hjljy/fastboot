@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Service;
@@ -53,11 +54,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         //TODO 根据账号获取数据库里面的用户信息,权限信息
         SysUser sysUser= userService.getByUsername(username);
+        checkUser(sysUser);
         List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList("sys:user:info","sys:user:add","sys:user:del");
         UserInfo user =new UserInfo(username,sysUser.getPassword(),authorityList);
         user.setEmail(sysUser.getEmail());
         user.setNickName(sysUser.getNickName());
         user.setUserId(sysUser.getId());
         return user;
+    }
+
+    private void checkUser(SysUser sysUser) {
+        if(null==sysUser){
+            throw  new UsernameNotFoundException(ResultCode.USER_NOT_FOUND.getMsg());
+        }
+        if(sysUser.getEnable()){
+            throw  new UsernameNotFoundException(ResultCode.USER_DISABLE.getMsg());
+        }
     }
 }
