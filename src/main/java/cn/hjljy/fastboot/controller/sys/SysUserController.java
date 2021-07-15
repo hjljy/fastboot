@@ -24,24 +24,48 @@ public class SysUserController {
     @Autowired
     private ISysUserService userService;
 
+    /**
+     * 获取用户通过id
+     *
+     * @param userId 用户id
+     * @return {@link ResultInfo<SysUser>}
+     */
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAuthority('{authority=sys:user:info}')")
-    public ResultInfo<SysUser> getUser(@PathVariable Long userId){
+    public ResultInfo<SysUser> getUserById(@PathVariable Long userId){
         return ResultInfo.success(userService.getById(userId));
     }
 
+    /**
+     * 添加用户
+     *
+     * @param sysUser 系统用户
+     * @return {@link ResultInfo<Boolean>}
+     */
     @PostMapping("/user")
     @PreAuthorize("hasAuthority('{authority=sys:user:add}')")
     public ResultInfo<Boolean> addUser(@RequestBody @Validated  SysUser sysUser){
         return ResultInfo.success(userService.addUser(sysUser));
     }
 
+    /**
+     * 删除用户
+     *
+     * @param userId 用户id
+     * @return {@link ResultInfo<Boolean>}
+     */
     @DeleteMapping("/user/{userId}")
     @PreAuthorize("hasAuthority('{authority=sys:user:del}')")
     public ResultInfo<Boolean> delUser(@PathVariable Long userId){
         return ResultInfo.success(userService.removeById(userId));
     }
 
+    /**
+     * 更新用户
+     *
+     * @param sysUser 系统用户
+     * @return {@link ResultInfo<Boolean>}
+     */
     @PutMapping("/user")
     @PreAuthorize("hasAuthority('{authority=sys:user:add}')")
     public ResultInfo<Boolean> updateUser(@RequestBody @Validated SysUser sysUser){
