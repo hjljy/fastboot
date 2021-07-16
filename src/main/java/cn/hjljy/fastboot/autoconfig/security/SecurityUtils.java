@@ -1,11 +1,14 @@
 package cn.hjljy.fastboot.autoconfig.security;
 
+import cn.hjljy.fastboot.common.constant.SystemConstant;
+import cn.hjljy.fastboot.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.Assert;
 
 /**
  * @author : hjljy
@@ -40,11 +43,24 @@ public class SecurityUtils {
     }
 
     /**
+     * 获取当前登录用户信息
+     * @return 返回用户信息
+     */
+    public static Long getUserId(){
+        UserInfo userInfo = getUserInfo();
+       if(null==userInfo){
+           return SystemConstant.DEFAULT_USER_ID;
+       }
+        return userInfo.getUserId();
+    }
+
+    /**
      * 获取当前登录用户账号
      * @return 返回用户账号
      */
     public static String getUsername(){
         User userInfo = getUserInfo();
+        Assert.notNull(userInfo,"当前未登录");
         return userInfo.getUsername();
     }
 
