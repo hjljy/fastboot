@@ -34,8 +34,7 @@ public class DemoController {
     }
 
     @PostMapping("/user/{userId}")
-    @PreAuthorize("hasAuthority('{authority=sys:user:del2}')")
-    public ResultInfo<Boolean> delT2(@PathVariable Long userId){
+    public ResultInfo<Boolean> delT2(@PathVariable Boolean userId){
         System.out.println("保存用户："+userId);
         return ResultInfo.success();
     }

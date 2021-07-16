@@ -1,6 +1,7 @@
 package cn.hjljy.fastboot.service.sys;
 
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
+import cn.hjljy.fastboot.pojo.sys.vo.SysUserVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -36,4 +37,12 @@ public interface ISysUserService extends IService<SysUser> {
      * @return {@link Boolean}
      */
     Boolean updateUser(SysUser sysUser);
+
+    /**
+     * 获取用户细节通过id
+     *
+     * @param userId 用户id
+     * @return {@link SysUserVo}
+     */
+    SysUserVo getUserDetailsById(Long userId);
 }

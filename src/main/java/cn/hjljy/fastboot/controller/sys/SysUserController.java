@@ -1,8 +1,10 @@
 package cn.hjljy.fastboot.controller.sys;
 
 
+import cn.hjljy.fastboot.autoconfig.security.SecurityUtils;
 import cn.hjljy.fastboot.common.result.ResultInfo;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
+import cn.hjljy.fastboot.pojo.sys.vo.SysUserVo;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,6 +36,17 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('{authority=sys:user:info}')")
     public ResultInfo<SysUser> getUserById(@PathVariable Long userId){
         return ResultInfo.success(userService.getById(userId));
+    }
+
+
+    /**
+     * 获取用户通过令牌
+     *
+     * @return {@link ResultInfo<SysUserVo>}
+     */
+    @GetMapping("/user/info")
+    public ResultInfo<SysUserVo> getUserByToken(){
+        return ResultInfo.success(userService.getUserDetailsById(SecurityUtils.getUserInfo().getUserId()));
     }
 
     /**

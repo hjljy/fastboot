@@ -3,6 +3,7 @@ package cn.hjljy.fastboot.service.sys.impl;
 import cn.hjljy.fastboot.common.utils.SnowFlakeUtil;
 import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import cn.hjljy.fastboot.mapper.sys.SysUserMapper;
+import cn.hjljy.fastboot.pojo.sys.vo.SysUserVo;
 import cn.hjljy.fastboot.service.sys.ISysUserService;
 import cn.hjljy.fastboot.service.BaseService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,5 +39,13 @@ public class SysUserServiceImpl extends BaseService<SysUserMapper, SysUser> impl
     public Boolean updateUser(SysUser sysUser) {
         sysUser.setPassword(null);
         return this.updateById(sysUser);
+    }
+
+    @Override
+    public SysUserVo getUserDetailsById(Long userId) {
+        SysUserVo userVo = new SysUserVo();
+        SysUser user = this.getById(userId);
+        userVo.setUserInfo(user);
+        return userVo;
     }
 }
