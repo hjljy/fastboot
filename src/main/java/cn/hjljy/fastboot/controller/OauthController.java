@@ -2,6 +2,7 @@ package cn.hjljy.fastboot.controller;
 
 import cn.hjljy.fastboot.common.result.ResultCode;
 import cn.hjljy.fastboot.common.result.ResultInfo;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @author 海加尔金鹰
  * @since 2020/10/16 18:06
  */
+@Api(value = "登录相关接口",tags = "登录相关接口")
 @RestController
 @RequestMapping("/oauth")
 public class OauthController {
@@ -36,10 +38,10 @@ public class OauthController {
      * @throws Exception 登录异常
      */
     @PostMapping(value = "/token")
-    public ResultInfo<OAuth2AccessToken> token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
+    public OAuth2AccessToken token(Principal principal, @RequestParam Map<String, String> parameters) throws Exception {
         ResponseEntity<OAuth2AccessToken> accessToken = tokenEndpoint.postAccessToken(principal, parameters);
         OAuth2AccessToken token = accessToken.getBody();
-        return ResultInfo.success(token);
+        return token;
     }
 
     /**
@@ -47,7 +49,7 @@ public class OauthController {
      * @param token token
      * @return 操作结果
      */
-    @RequestMapping("/logout")
+    @PostMapping("/logout")
     public ResultInfo<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token)  {
         ResultInfo<Boolean> success = ResultInfo.success();
         if (StringUtils.isEmpty(token)) {
@@ -63,7 +65,7 @@ public class OauthController {
         return success;
     }
 
-    @RequestMapping("/check_token")
+    @PostMapping("/check_token")
     public ResultInfo<Boolean> customCheckToken(@RequestParam("token") String value){
         ResultInfo<Boolean> success = ResultInfo.success();
         try {

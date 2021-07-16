@@ -41,13 +41,15 @@ fastboot:
       - /favicon.ico
       - /webjars/**
       - /swagger-resources/**
+      - /swagger-ui/**
       - /druid/**
       - /error
       - /css/**
       - /404.html
       - /doc.html
       - /500.html
-      - /html/**
+      - /**/*.html
+      - /**/*.css
       - /js/**
 
 
