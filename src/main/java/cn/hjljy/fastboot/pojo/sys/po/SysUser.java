@@ -2,6 +2,8 @@ package cn.hjljy.fastboot.pojo.sys.po;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import cn.hjljy.fastboot.common.enums.UserTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -38,7 +40,7 @@ public class SysUser implements Serializable {
     private String password;
 
     @ApiModelProperty(value = "用户类型")
-    private String userType;
+    private UserTypeEnum userType;
 
     @ApiModelProperty(value = "用户邮箱")
     private String email;
@@ -64,5 +66,8 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "是否删除  0否(默认) 1是")
     private Integer delFlag;
 
+    public Boolean isSysAdmin(){
+        return UserTypeEnum.SYS_ADMIN.equals(this.getUserType());
+    }
 
 }

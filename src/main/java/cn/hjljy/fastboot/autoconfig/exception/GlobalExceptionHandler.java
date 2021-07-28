@@ -70,11 +70,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = AuthenticationException.class)
     public ResultInfo<Object> errorHandler(AuthenticationException ex) {
         if(ex instanceof InternalAuthenticationServiceException){
-            return ResultInfo.error(ResultCode.INVALID_CLIENT);
+            return ResultInfo.error(ResultCode.INVALID_CLIENT.getCode(), ex.getMessage());
         }else if(ex instanceof UsernameNotFoundException){
-            return ResultInfo.error(ResultCode.USER_NOT_FOUND);
+            return ResultInfo.error(ResultCode.USER_NOT_FOUND.getCode(),ex.getMessage());
         }
-        return ResultInfo.error(ResultCode.INVALID_CLIENT);
+        return ResultInfo.error(ResultCode.OAUTH2_INVALID);
     }
 
     /**
