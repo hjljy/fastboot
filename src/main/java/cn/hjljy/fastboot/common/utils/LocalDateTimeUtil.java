@@ -1,10 +1,12 @@
 package cn.hjljy.fastboot.common.utils;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * LocalDateTime 时间类常用方法
@@ -189,5 +191,106 @@ public class LocalDateTimeUtil {
     public static LocalDateTime stringToFormat(String localDateTime, String format) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
         return LocalDateTime.parse(localDateTime, dateTimeFormatter);
+    }
+
+    /**
+     * 一周的第一天
+     *
+     * @param localDate 当地日期
+     * @return {@link LocalDate}
+     */
+    public static LocalDate firstDayOfWeek(LocalDate localDate){
+        return localDate.with(DayOfWeek.MONDAY);
+    }
+
+    /**
+     * 一周的最后一天
+     *
+     * @param localDate 当地日期
+     * @return {@link LocalDate}
+     */
+    public static LocalDate lastDayOfWeek(LocalDate localDate){
+        return localDate.with(DayOfWeek.SUNDAY);
+    }
+
+    /**
+     * 月的第一天
+     *
+     * @param localDate 当地日期
+     * @return {@link LocalDate}
+     */
+    public static LocalDate firstDayOfMonth(LocalDate localDate){
+        return localDate.with(TemporalAdjusters.firstDayOfMonth());
+    }
+
+    /**
+     * 月的最后一天
+     *
+     * @param localDate 当地日期
+     * @return {@link LocalDate}
+     */
+    public static LocalDate lastDayOfMonth(LocalDate localDate){
+        return localDate.with(TemporalAdjusters.lastDayOfMonth());
+    }
+
+    /**
+     * 每年的第一天
+     *
+     * @param localDate 当地日期
+     * @return {@link LocalDate}
+     */
+    public static LocalDate firstDayOfYear(LocalDate localDate){
+        return localDate.with(TemporalAdjusters.firstDayOfYear());
+    }
+
+    /**
+     * 每年的最后一天
+     *
+     * @param localDate 当地日期
+     * @return {@link LocalDate}
+     */
+    public static LocalDate lastDayOfYear(LocalDate localDate){
+        return localDate.with(TemporalAdjusters.lastDayOfYear());
+    }
+
+
+    /**
+     * 每周的所有日期  即周一到周日
+     *
+     * @param localDate 当地日期
+     * @return {@link List<LocalDate>}
+     */
+    public static List<LocalDate> allDaysOfWeek(LocalDate localDate){
+        List<LocalDate> allDays=new ArrayList<>();
+        allDays.add(localDate.with(DayOfWeek.MONDAY));
+        allDays.add(localDate.with(DayOfWeek.TUESDAY));
+        allDays.add(localDate.with(DayOfWeek.WEDNESDAY));
+        allDays.add(localDate.with(DayOfWeek.THURSDAY));
+        allDays.add(localDate.with(DayOfWeek.FRIDAY));
+        allDays.add(localDate.with(DayOfWeek.SATURDAY));
+        allDays.add(localDate.with(DayOfWeek.SUNDAY));
+        return allDays;
+    }
+
+    /**
+     * 每月的所有日期  即1日到31日
+     *
+     * @param localDate 当地日期
+     * @return {@link List<LocalDate>}
+     */
+    public static List<LocalDate> allDaysOfMonth(LocalDate localDate){
+        List<LocalDate> allDays=new ArrayList<>();
+        LocalDate firstDayOfMonth = firstDayOfMonth(localDate);
+        LocalDate lastDayOfMonth = lastDayOfMonth(localDate);
+        allDays.add(firstDayOfMonth);
+        int i = 1;
+        LocalDate temp = firstDayOfMonth;
+        while (!temp.isEqual(lastDayOfMonth)){
+            LocalDate day = firstDayOfMonth.plusDays(i);
+            allDays.add(day);
+            temp=day;
+            i++;
+        }
+        return allDays;
     }
 }
