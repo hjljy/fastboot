@@ -93,6 +93,11 @@
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>3.15.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.9.9</version>
+        </dependency>
         <!--swagger 国产UI https://gitee.com/xiaoym/knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
