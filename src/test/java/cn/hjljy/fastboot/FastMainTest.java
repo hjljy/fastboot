@@ -1,7 +1,9 @@
 package cn.hjljy.fastboot;
 
 
+import cn.hjljy.fastboot.common.utils.JacksonUtil;
 import cn.hjljy.fastboot.common.utils.LocalDateTimeUtil;
+import cn.hjljy.fastboot.pojo.sys.po.SysUser;
 import org.apache.commons.codec.Charsets;
 import org.springframework.security.authentication.BadCredentialsException;
 
@@ -10,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -23,7 +26,10 @@ public class FastMainTest {
 
     public static void main(String[] args) {
         List<LocalDate> dates = LocalDateTimeUtil.allDaysOfMonth(LocalDate.now());
-        System.out.println(dates);
+        SysUser user = new SysUser();
+        user.setCreateTime(LocalDateTime.now());
+        String string = JacksonUtil.obj2String(dates);
+        JacksonUtil.obj2String(user);
     }
     public static Date str2Date(String date, String f) {
         SimpleDateFormat format = new SimpleDateFormat(f);

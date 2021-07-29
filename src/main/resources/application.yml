@@ -37,6 +37,7 @@ fastboot:
       - /login
       - /oauth/**
       - /actuator/**
+      - /holiday/**
       - /v2/api-docs/**
       - /favicon.ico
       - /webjars/**
